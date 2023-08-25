@@ -7,6 +7,7 @@ export function choose<T>(elements: Array<T>) {
 
 export function F(n: DecimalSource): string {
     const d = new Decimal(n);
+    if(d.lt(10)) return d.toFixed(2);
     if(d.lt(1000)) return d.toFixed(0);
     return d.toExponential(2);
 }

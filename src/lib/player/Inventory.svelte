@@ -13,7 +13,7 @@
             player.equipFromInventory(equipment);
         }
         else {
-            player.removeFromInventory(equipment)
+            player.scrapEquipment(equipment);
         }
     }
 </script>

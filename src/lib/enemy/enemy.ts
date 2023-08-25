@@ -1,6 +1,8 @@
 import Decimal from "break_infinity.js";
 import Equipment, { EquipmentType } from "../equipment/equipment";
 import { choose } from "../utils";
+import { get } from "svelte/store";
+import { game } from "../stores";
 
 export default class Enemy {
     hp: Decimal;
@@ -31,7 +33,9 @@ export default class Enemy {
     }
 
     generateDrop(): Equipment {
-        return new Equipment(10 + Math.random() * 10,
+        const player = get(game).player;
+        const base = player.magicFind.mul((10 + Math.random() * 10)); 
+        return new Equipment(base,
             choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),
             0
         );

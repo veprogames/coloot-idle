@@ -21,6 +21,10 @@ export default class Equipment {
     get stat() {
         return this.baseStat.mul(Decimal.pow(Math.E, this.tier));
     }
+
+    get scrap() {
+        return this.stat.mul(0.05);
+    }
 }
 
 export const INIT_WEAPON = new Equipment(10, EquipmentType.WEAPON);

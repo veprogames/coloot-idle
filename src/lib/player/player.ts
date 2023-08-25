@@ -19,6 +19,10 @@ export default class Player {
     private _inventory: Equipment[] = [];
 
     hp: Decimal;
+    /**
+     * Earned by destroying equipment that's not worth equipping. Yields Magic Find.
+     */
+    scrap: Decimal = new Decimal(0);
 
     constructor() {
         this.hp = new Decimal(this.maxHp);
@@ -59,8 +63,23 @@ export default class Player {
         return this.armor.stat.pow(0.25);
     }
 
+    /**
+     * Multiplies the base stats of equipment earned
+     */
+    get magicFind(): Decimal {
+        return this.scrap
+            .pow(0.2)
+            .add(1)
+            .mul(this.accessory.stat.pow(0.2));
+    }
+
     equip(equipment: Equipment): void {
         this.equipment[equipment.type] = equipment;
+    }
+
+    scrapEquipment(equipment: Equipment): void {
+        this.scrap = this.scrap.add(equipment.scrap);
+        this.removeFromInventory(equipment);
     }
 
     canEquip(equipment: Equipment): boolean {
