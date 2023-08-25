@@ -8,12 +8,18 @@ export enum EquipmentType {
 }
 
 export default class Equipment {
-    stat: Decimal;
+    baseStat: Decimal;
     type: EquipmentType;
+    tier: number;
 
-    constructor(stat: DecimalSource, type: EquipmentType) {
-        this.stat = new Decimal(stat);
+    constructor(stat: DecimalSource, type: EquipmentType, tier: number = 0) {
+        this.baseStat = new Decimal(stat);
         this.type = type;
+        this.tier = tier;
+    }
+
+    get stat() {
+        return this.baseStat.mul(Decimal.pow(Math.E, this.tier));
     }
 }
 

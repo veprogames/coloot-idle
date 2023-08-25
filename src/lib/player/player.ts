@@ -1,6 +1,7 @@
 import type Decimal from "break_infinity.js";
 import Equipment from "../equipment/equipment"
 import { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment"
+import type Arena from "../enemy/arena";
 
 export type PlayerEquipment = {
     [EquipmentType.WEAPON]: Equipment,
@@ -34,10 +35,13 @@ export default class Player {
     }
 
     get power(): Decimal {
-        return this.weapon.stat.mul(this.armor.stat).mul(this.accessory.stat).floor();
+        return this.weapon.stat
+            .mul(this.armor.stat.pow(0.5))
+            .mul(this.accessory.stat.pow(0.5))
+            .floor();
     }
 
-    get health(): Decimal {
+    get maxHealth(): Decimal {
         return this.accessory.stat.pow(0.5).mul(10).floor();
     }
 
@@ -57,11 +61,18 @@ export default class Player {
     * Inventory 
     */
 
+    static get INVENTORY_CAPACITY(): number {
+        return 32;
+    };
+
     get inventory(): Equipment[] {
         return this._inventory;
     }
 
     addToInventory(equipment: Equipment) {
+        if(this._inventory.length >= Player.INVENTORY_CAPACITY) {
+            return;
+        }
         this._inventory.push(equipment);
     }
 
@@ -73,6 +84,17 @@ export default class Player {
         if(this.canEquip(equipment)) {
             this.equip(equipment);
             this.removeFromInventory(equipment);
+        }
+    }
+
+    /*
+    * Arena
+    */
+
+    hitEnemy(arena: Arena){
+        const possibleLoot = arena.hitEnemy(this.power);
+        if(possibleLoot) {
+            this.addToInventory(possibleLoot);
         }
     }
 }

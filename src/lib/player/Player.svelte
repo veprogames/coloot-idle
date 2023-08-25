@@ -1,9 +1,10 @@
 <script lang="ts">
-    import type Player from "./player";
+    import { F } from "../utils";
+import type Player from "./player";
 
     export let player: Player;
 </script>
 
 <div>
-    {player.power}
+    {F(player.power)} - {player.inventory.length}
 </div>
