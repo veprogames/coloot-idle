@@ -1,3 +1,8 @@
+<script lang="ts">
+  import Player from "./lib/player/Player.svelte";
+  import { game } from "./lib/stores";
+</script>
+
 <main>
-  <p class="text-2xl">Hello World</p>
+  <Player player={$game.player} />
 </main>
