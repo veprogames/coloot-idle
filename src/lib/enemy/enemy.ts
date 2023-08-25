@@ -31,7 +31,7 @@ export default class Enemy {
     }
 
     generateDrop(): Equipment {
-        return new Equipment(10,
+        return new Equipment(10 + Math.random() * 10,
             choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),
             0
         );

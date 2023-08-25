@@ -1,4 +1,4 @@
-import type Decimal from "break_infinity.js";
+import Decimal from "break_infinity.js";
 import Equipment from "../equipment/equipment"
 import { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment"
 import type Arena from "../enemy/arena";
@@ -17,6 +17,12 @@ export default class Player {
     };
 
     private _inventory: Equipment[] = [];
+
+    hp: Decimal;
+
+    constructor() {
+        this.hp = new Decimal(this.maxHp);
+    }
 
     /* 
     * Stats 
@@ -41,8 +47,12 @@ export default class Player {
             .floor();
     }
 
-    get maxHealth(): Decimal {
+    get maxHp(): Decimal {
         return this.accessory.stat.pow(0.5).mul(10).floor();
+    }
+
+    get hpPercentage(): number {
+        return this.hp.div(this.maxHp).toNumber();
     }
 
     get incomingDamageMultiplier(): Decimal {
