@@ -8,6 +8,7 @@
 <div>
     <h2>Enemy!</h2>
     <p>(Image)</p>
-    <progress value={enemy.hpPercentage} max=1></progress> ({F(enemy.currentHp)} / {F(enemy.hp)})
+    <progress value={enemy.hpPercentage} max="1" />
+    ({F(enemy.currentHp)} / {F(enemy.hp)})
     <p>DEF - {F(enemy.def)}</p>
 </div>

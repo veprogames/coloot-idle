@@ -5,6 +5,10 @@ export function choose<T>(elements: Array<T>) {
     return elements[Math.floor(Math.random() * elements.length)];
 }
 
+export function clamp(v: number, min: number, max: number): number {
+    return Math.min(max, Math.max(min, v));
+}
+
 export function F(n: DecimalSource): string {
     const d = new Decimal(n);
     if(d.lt(10)) return d.toFixed(2);

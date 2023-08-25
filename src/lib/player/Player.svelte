@@ -2,7 +2,7 @@
     import { F } from "../utils";
     import EquipmentText from "./EquipmentText.svelte";
     import Inventory from "./Inventory.svelte";
-import type Player from "./player";
+    import type Player from "./player";
 
     export let player: Player;
 </script>

@@ -1,10 +1,12 @@
 import Decimal from "break_infinity.js";
 import Enemy from "./enemy";
 import type Equipment from "../equipment/equipment";
+import { clamp } from "../utils";
 
 export default class Arena {
     currentStage: number = 0;
     maxStage: number = 0;
+    killsOnHighestStage: number = 0;
 
     currentEnemy: Enemy;
 
@@ -22,6 +24,14 @@ export default class Arena {
         return new Enemy(hp, def);
     }
 
+    private increaseKillCounter(){
+        this.killsOnHighestStage++;
+        if(this.killsOnHighestStage >= this.requiredKills){
+            this.maxStage++;
+            this.killsOnHighestStage = 0;
+        }
+    }
+
     /**
      * Hit the Enemy in this Arena.
      * 
@@ -35,8 +45,35 @@ export default class Arena {
                 this.currentEnemy.generateDrop() :
                 null;
             this.currentEnemy = this.generateEnemy();
+            if(this.isOnHighestStage) {
+                this.increaseKillCounter();
+            }
             return drop;
         }
         return null;
+    }
+
+    get isOnHighestStage(): boolean {
+        return this.currentStage === this.maxStage;
+    }
+
+    get requiredKills(): number {
+        return 10;
+    }
+
+    /* Stage Navigation */
+
+    gotoStage(stage: number) {
+        const actualStage = clamp(stage, 0, this.maxStage);
+        this.currentStage = actualStage;
+        this.currentEnemy = this.generateEnemy();
+    }
+
+    nextStage() {
+        this.gotoStage(this.currentStage + 1);
+    }
+
+    prevStage() {
+        this.gotoStage(this.currentStage - 1);
     }
 }
