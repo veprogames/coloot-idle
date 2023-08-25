@@ -21,7 +21,15 @@ export default class Enemy {
      * @param damage Amount of Damage
      */
     hit(damage: Decimal) {
-        this.currentHp = this.currentHp.sub(damage);
+        this.currentHp = this.currentHp.sub(this.getEffectiveDamage(damage));
+    }
+
+    getEffectiveDamage(rawDamage: Decimal): Decimal {
+        return Decimal.max(0, rawDamage.sub(this.def));
+    }
+
+    get hpPercentage(): number {
+        return this.currentHp.div(this.hp).toNumber();
     }
 
     get dead(): boolean {
@@ -34,7 +42,8 @@ export default class Enemy {
 
     generateDrop(): Equipment {
         const player = get(game).player;
-        const base = player.magicFind.mul((10 + Math.random() * 10)); 
+        const base = this.hp.add(this.def.mul(100)).sqrt()
+            .mul(player.magicFind);
         return new Equipment(base,
             choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),
             0

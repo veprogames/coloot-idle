@@ -46,13 +46,13 @@ export default class Player {
 
     get power(): Decimal {
         return this.weapon.stat
-            .mul(this.armor.stat.pow(0.5))
-            .mul(this.accessory.stat.pow(0.5))
+            .mul(this.armor.stat.div(10).pow(0.5))
+            .mul(this.accessory.stat.div(10).pow(0.5))
             .floor();
     }
 
     get maxHp(): Decimal {
-        return this.accessory.stat.pow(0.5).mul(10).floor();
+        return this.accessory.stat.div(10).pow(0.5).mul(10).floor();
     }
 
     get hpPercentage(): number {
@@ -70,7 +70,7 @@ export default class Player {
         return this.scrap
             .pow(0.2)
             .add(1)
-            .mul(this.accessory.stat.pow(0.2));
+            .mul(this.accessory.stat.div(10).pow(0.2));
     }
 
     equip(equipment: Equipment): void {

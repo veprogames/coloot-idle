@@ -3,6 +3,7 @@
   import Player from "./lib/player/Player.svelte";
   import { game } from "./lib/stores";
   import tickGame from "./lib/tick";
+  import Arena from "./lib/enemy/Arena.svelte";
 
   let prev = Date.now();
 
@@ -20,5 +21,6 @@
 </script>
 
 <main>
+  <Arena arena={$game.arena} />
   <Player player={$game.player} />
 </main>

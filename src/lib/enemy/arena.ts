@@ -9,7 +9,17 @@ export default class Arena {
     currentEnemy: Enemy;
 
     constructor() {
-        this.currentEnemy = new Enemy(new Decimal(100), new Decimal(0));
+        this.currentEnemy = this.generateEnemy();
+    }
+
+    generateEnemy(): Enemy {
+        const PHI = 1.618;
+        const hp = new Decimal(0.75 + 0.5 * Math.random())
+            .mul(100)
+            .mul(Decimal.pow(PHI, this.currentStage));
+        const def = hp.mul(0.01 + 0.01 * Math.random()).floor();
+
+        return new Enemy(hp, def);
     }
 
     /**
@@ -24,7 +34,7 @@ export default class Arena {
             const drop = Math.random() < this.currentEnemy.dropChance ?
                 this.currentEnemy.generateDrop() :
                 null;
-            this.currentEnemy = new Enemy(new Decimal(100), new Decimal(0));
+            this.currentEnemy = this.generateEnemy();
             return drop;
         }
         return null;

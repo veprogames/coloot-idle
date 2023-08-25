@@ -23,7 +23,7 @@ export default class Equipment {
     }
 
     get scrap() {
-        return this.stat.mul(0.05);
+        return this.stat.mul(0.01);
     }
 }
 
