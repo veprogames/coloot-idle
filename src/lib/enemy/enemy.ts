@@ -80,6 +80,7 @@ export default class Enemy {
      * scales by (hp ** 0.5)
      */
     get damage(): Decimal{
-        return this.hp.div(100).pow(0.5).floor();
+        const mult = this.type === EnemyType.BOSS ? 0.4 : 1;
+        return this.hp.div(100).pow(0.5).mul(mult).floor();
     }
 }

@@ -15,8 +15,6 @@
         [EquipmentType.ACCESSORY]: "O",
     }[equipment.type];
 
-    $: color = ["#6b7280", "#88cc00"][equipment.tier];
-
     function dispatchEquip() {
         dispatch("equip", equipment);
     }
@@ -24,7 +22,7 @@
 
 <button on:click={dispatchEquip} 
     class="inline-flex flex-col justify-center align-middle text-center w-16 h-16"
-    style="background-color: {color};">
+    style="background-color: {equipment.color};">
     <span class="font-bold">{F(equipment.stat)}</span>
     <span>{typeName}</span>
 </button>
