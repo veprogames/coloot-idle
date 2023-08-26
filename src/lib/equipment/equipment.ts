@@ -19,7 +19,7 @@ export default class Equipment {
     }
 
     get stat() {
-        return this.baseStat.mul(Decimal.pow(Math.E, this.tier));
+        return this.baseStat.mul(Decimal.pow(2, this.tier));
     }
 
     get scrap() {

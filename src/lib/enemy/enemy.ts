@@ -51,7 +51,7 @@ export default class Enemy {
         const player = get(game).player;
         const base = this.hp.add(this.def.mul(100)).pow(1 / 2.3)
             .mul(player.magicFind)
-            .mul(1.1);
+            .mul(1.2);
         const tier = Math.random() < 0.1 ? 1 : 0;
         return new Equipment(base,
             choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),
