@@ -22,7 +22,7 @@
     });
 </script>
 
-<main>
+<main class="p-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
     <Arena arena={$game.arena} />
     <Player player={$game.player} />
 </main>
