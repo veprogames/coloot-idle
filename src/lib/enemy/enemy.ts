@@ -42,11 +42,23 @@ export default class Enemy {
 
     generateDrop(): Equipment {
         const player = get(game).player;
-        const base = this.hp.add(this.def.mul(100)).sqrt()
-            .mul(player.magicFind);
+        const base = this.hp.add(this.def.mul(100)).pow(1 / 2.3)
+            .mul(player.magicFind)
+            .mul(1.1);
+        const tier = Math.random() < 0.1 ? 1 : 0;
         return new Equipment(base,
             choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),
-            0
+            tier
         );
+    }
+
+    /**
+     * Damage dealt to the player
+     * 
+     * On Player, max hp and damage reduction together scale in (eqipment.stat ** 0.5), thus this
+     * scales by (hp ** 0.5)
+     */
+    get damage(): Decimal{
+        return this.hp.div(100).pow(0.5).floor();
     }
 }

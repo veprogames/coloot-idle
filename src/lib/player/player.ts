@@ -18,14 +18,14 @@ export default class Player {
 
     private _inventory: Equipment[] = [];
 
-    hp: Decimal;
+    currentHp: Decimal;
     /**
      * Earned by destroying equipment that's not worth equipping. Yields Magic Find.
      */
     scrap: Decimal = new Decimal(0);
 
     constructor() {
-        this.hp = new Decimal(this.maxHp);
+        this.currentHp = new Decimal(this.hp);
     }
 
     /* 
@@ -51,26 +51,31 @@ export default class Player {
             .floor();
     }
 
-    get maxHp(): Decimal {
-        return this.accessory.stat.div(10).pow(0.5).mul(10).floor();
+    get hp(): Decimal {
+        return this.accessory.stat.div(10).pow(0.25).mul(10).floor();
     }
 
     get hpPercentage(): number {
-        return this.hp.div(this.maxHp).toNumber();
+        return this.currentHp.div(this.hp).toNumber();
     }
 
     get incomingDamageMultiplier(): Decimal {
-        return this.armor.stat.pow(0.25);
+        return this.armor.stat
+            .div(10)
+            .max(1)
+            .pow(-0.25);
+    }
+
+    get dead(): boolean {
+        return this.currentHp.lte(0);
     }
 
     /**
      * Multiplies the base stats of equipment earned
      */
     get magicFind(): Decimal {
-        return this.scrap
-            .pow(0.2)
-            .add(1)
-            .mul(this.accessory.stat.div(10).pow(0.2));
+        return (this.scrap.add(1).pow(0.1))
+            .mul(this.accessory.stat.div(10).pow(0.1));
     }
 
     equip(equipment: Equipment): void {
@@ -125,5 +130,22 @@ export default class Player {
         if(possibleLoot) {
             this.addToInventory(possibleLoot);
         }
+    }
+
+    getEffectiveDamage(damage: Decimal): Decimal {
+        return damage.mul(this.incomingDamageMultiplier);
+    }
+
+    /**
+     * Hit the player, deducting HP
+     * 
+     * @param damage Amount of damage to deal
+     */
+    hit(damage: Decimal) {
+        this.currentHp = this.currentHp.sub(this.getEffectiveDamage(damage).round());
+    }
+
+    revive(): void {
+        this.currentHp = this.hp;
     }
 }

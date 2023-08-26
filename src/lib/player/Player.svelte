@@ -8,8 +8,8 @@
 </script>
 
 <div>
-    <progress value={player.hpPercentage} max=1></progress> <span>({F(player.hp)} / {F(player.maxHp)})</span>
-    <p>DMG - {F(player.power)} | MagicFind - {F(player.magicFind)}</p>
+    <progress value={player.hpPercentage} max=1></progress> <span>({F(player.currentHp)} / {F(player.hp)})</span>
+    <p>DMG - {F(player.power)} | MagicFind - {F(player.magicFind)} | Inc. Dmg. Mult.: x{F(player.incomingDamageMultiplier)}</p>
     <EquipmentText equipment={player.weapon}/>
     <EquipmentText equipment={player.armor}/>
     <EquipmentText equipment={player.accessory}/>

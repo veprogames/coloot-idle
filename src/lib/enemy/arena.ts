@@ -2,6 +2,7 @@ import Decimal from "break_infinity.js";
 import Enemy from "./enemy";
 import type Equipment from "../equipment/equipment";
 import { clamp } from "../utils";
+import type Player from "../player/player";
 
 export default class Arena {
     currentStage: number = 0;
@@ -51,6 +52,16 @@ export default class Arena {
             return drop;
         }
         return null;
+    }
+
+    hitPlayer(player: Player): void {
+        player.hit(this.currentEnemy.damage);
+        // When the player dies, kills are being reset
+        if(player.dead) {
+            player.revive();
+            this.killsOnHighestStage = 0;
+            this.currentEnemy = this.generateEnemy();
+        }
     }
 
     get isOnHighestStage(): boolean {

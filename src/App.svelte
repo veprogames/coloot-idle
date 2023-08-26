@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
     import Player from "./lib/player/Player.svelte";
     import { game } from "./lib/stores";
-    import tickGame from "./lib/tick";
+    import tickGame, { tickEnemy, tickPlayer } from "./lib/tick";
     import Arena from "./lib/enemy/Arena.svelte";
 
     let prev = Date.now();
@@ -17,6 +17,8 @@
 
     onMount(() => {
         tick();
+        tickPlayer();
+        tickEnemy();
     });
 </script>
 

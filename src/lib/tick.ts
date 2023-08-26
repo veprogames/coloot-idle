@@ -3,11 +3,27 @@ import { game } from "./stores";
 export default function tickGame(dt: number) {
     game.update(game => {
         // run every frame
-
-        if(Math.random() < 0.01) {
-            game.player.hitEnemy(game.arena);
-        }
         
         return game;
     });
+}
+
+export function tickPlayer() {
+    game.update(game => {
+        game.player.hitEnemy(game.arena);
+
+        return game;
+    });
+
+    setTimeout(tickPlayer, 1000);
+}
+
+export function tickEnemy() {
+    game.update(game => {
+        game.arena.hitPlayer(game.player);
+
+        return game;
+    });
+
+    setTimeout(tickEnemy, 3000);
 }
