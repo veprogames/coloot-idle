@@ -3,11 +3,14 @@ import Equipment, { EquipmentType } from "../equipment/equipment";
 import { choose } from "../utils";
 import { get } from "svelte/store";
 import { game } from "../stores";
+import Artifact, { Artifacts } from "../equipment/artifact";
 
 export enum EnemyType {
     NORMAL,
     BOSS,
 }
+
+export type EnemyDrop = Equipment|Artifact;
 
 export default class Enemy {
     hp: Decimal;
@@ -44,10 +47,10 @@ export default class Enemy {
     }
 
     get dropChance(): number {
-        return this.type === EnemyType.NORMAL ? 0.5 : 0;
+        return this.type === EnemyType.NORMAL ? 0.5 : 1;
     }
 
-    generateDrop(): Equipment {
+    generateEquipment(): Equipment {
         const player = get(game).player;
         const base = this.hp.add(this.def.mul(100)).pow(1 / 2.3)
             .mul(player.magicFind)
@@ -57,6 +60,17 @@ export default class Enemy {
             choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),
             tier
         );
+    }
+
+    generateArtifact(): Artifact {
+        return Artifact.from(Artifacts.test);
+    }
+
+    generateDrop(): EnemyDrop {
+        if(this.type == EnemyType.BOSS) {
+            return this.generateArtifact();
+        }
+        return this.generateEquipment();
     }
 
     /**

@@ -19,10 +19,16 @@
 </script>
 
 <div>
-    <h2>Inventory ({inventory.length} / {Player.INVENTORY_CAPACITY})</h2>
+    <h2>Inventory ({inventory.equipment.length} / {inventory.equipmentCapacity})</h2>
     <div class="flex flex-wrap">
-        {#each inventory as equipment}
+        {#each inventory.equipment as equipment}
             <EquipmentComponent on:equip={equip} {equipment} />
+        {/each}
+    </div>
+    <h2>Artifacts ({inventory.artifacts.length})</h2>
+    <div class="flex flex-wrap">
+        {#each inventory.artifacts as artifact}
+            <span class="font-bold">{artifact.data.id} x{artifact.count}</span>
         {/each}
     </div>
 </div>

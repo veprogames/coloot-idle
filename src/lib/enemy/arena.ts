@@ -1,5 +1,5 @@
 import Decimal from "break_infinity.js";
-import Enemy, { EnemyType } from "./enemy";
+import Enemy, { EnemyType, type EnemyDrop } from "./enemy";
 import type Equipment from "../equipment/equipment";
 import { clamp } from "../utils";
 import type Player from "../player/player";
@@ -56,7 +56,7 @@ export default class Arena {
      * @param damage Amount to damage to deal
      * @returns A piece of Equipment if it was dropped, null otherwise
      */
-    hitEnemy(damage: Decimal): Equipment|null {
+    hitEnemy(damage: Decimal): EnemyDrop|null {
         this.currentEnemy.hit(damage);
         if(this.currentEnemy.dead) {
             const drop = Math.random() < this.currentEnemy.dropChance ?

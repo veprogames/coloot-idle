@@ -2,6 +2,8 @@ import Decimal from "break_infinity.js";
 import Equipment from "../equipment/equipment"
 import { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment"
 import type Arena from "../enemy/arena";
+import PlayerInventory from "./player-inventory";
+import Artifact, { ArtifactEffectType, Artifacts } from "../equipment/artifact";
 
 export type PlayerEquipment = {
     [EquipmentType.WEAPON]: Equipment,
@@ -16,7 +18,7 @@ export default class Player {
         [EquipmentType.ACCESSORY]: INIT_ACCESSORY,
     };
 
-    private _inventory: Equipment[] = [];
+    private _inventory: PlayerInventory = new PlayerInventory();
 
     currentHp: Decimal;
     /**
@@ -74,8 +76,11 @@ export default class Player {
      * Multiplies the base stats of equipment earned
      */
     get magicFind(): Decimal {
+        const boostFromArtifacts = this._inventory.getArtifactEffects()[ArtifactEffectType.MAGIC_FIND];
+
         return (this.scrap.add(1).pow(0.1))
-            .mul(this.accessory.stat.div(10).pow(0.1));
+            .mul(this.accessory.stat.div(10).pow(0.1))
+            .mul(boostFromArtifacts);
     }
 
     equip(equipment: Equipment): void {
@@ -84,7 +89,7 @@ export default class Player {
 
     scrapEquipment(equipment: Equipment): void {
         this.scrap = this.scrap.add(equipment.scrap);
-        this.removeFromInventory(equipment);
+        this._inventory.removeEquipment(equipment);
     }
 
     canEquip(equipment: Equipment): boolean {
@@ -95,29 +100,14 @@ export default class Player {
     * Inventory 
     */
 
-    static get INVENTORY_CAPACITY(): number {
-        return 32;
-    };
-
-    get inventory(): Equipment[] {
+    get inventory(): PlayerInventory {
         return this._inventory;
-    }
-
-    addToInventory(equipment: Equipment) {
-        if(this._inventory.length >= Player.INVENTORY_CAPACITY) {
-            return;
-        }
-        this._inventory.push(equipment);
-    }
-
-    removeFromInventory(equipment: Equipment) {
-        this._inventory = this._inventory.filter((equip: Equipment) => equipment !== equip);
     }
 
     equipFromInventory(equipment: Equipment){
         if(this.canEquip(equipment)) {
             this.equip(equipment);
-            this.removeFromInventory(equipment);
+            this._inventory.removeEquipment(equipment);
         }
     }
 
@@ -127,8 +117,14 @@ export default class Player {
 
     hitEnemy(arena: Arena){
         const possibleLoot = arena.hitEnemy(this.power);
-        if(possibleLoot) {
-            this.addToInventory(possibleLoot);
+
+        if(!possibleLoot) return;
+
+        if(possibleLoot instanceof Equipment) {
+            this._inventory.addEquipment(possibleLoot);
+        }
+        else if(possibleLoot instanceof Artifact) {
+            this._inventory.addArtifact(possibleLoot);
         }
     }
 
