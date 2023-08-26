@@ -4,15 +4,22 @@ import { choose } from "../utils";
 import { get } from "svelte/store";
 import { game } from "../stores";
 
+export enum EnemyType {
+    NORMAL,
+    BOSS,
+}
+
 export default class Enemy {
     hp: Decimal;
     currentHp: Decimal;
     def: Decimal;
+    type: EnemyType;
 
-    constructor(hp: Decimal, def: Decimal) {
+    constructor(hp: Decimal, def: Decimal, type: EnemyType) {
         this.hp = hp;
         this.def = def;
         this.currentHp = new Decimal(hp);
+        this.type = type;
     }
 
     /**
@@ -37,7 +44,7 @@ export default class Enemy {
     }
 
     get dropChance(): number {
-        return 0.5;
+        return this.type === EnemyType.NORMAL ? 0.5 : 0;
     }
 
     generateDrop(): Equipment {

@@ -1,5 +1,5 @@
 import Decimal from "break_infinity.js";
-import Enemy from "./enemy";
+import Enemy, { EnemyType } from "./enemy";
 import type Equipment from "../equipment/equipment";
 import { clamp } from "../utils";
 import type Player from "../player/player";
@@ -12,7 +12,7 @@ export default class Arena {
     currentEnemy: Enemy;
 
     constructor() {
-        this.currentEnemy = this.generateEnemy();
+        this.currentEnemy = this.getNewEnemy();
     }
 
     generateEnemy(): Enemy {
@@ -22,7 +22,24 @@ export default class Arena {
             .mul(Decimal.pow(PHI, this.currentStage));
         const def = hp.mul(0.01 + 0.01 * Math.random()).floor();
 
-        return new Enemy(hp, def);
+        return new Enemy(hp, def, EnemyType.NORMAL);
+    }
+
+    generateBoss(): Enemy {
+        const PHI = 1.618;
+        const hp = new Decimal(1)
+            .mul(1000)
+            .mul(Decimal.pow(PHI, this.currentStage));
+        const def = hp.mul(0.005).floor();
+
+        return new Enemy(hp, def, EnemyType.BOSS);
+    }
+
+    getNewEnemy(): Enemy {
+        if(this.isOnHighestStage && this.isBossStage) {
+            return this.generateBoss();
+        }
+        return this.generateEnemy();
     }
 
     private increaseKillCounter(){
@@ -45,7 +62,7 @@ export default class Arena {
             const drop = Math.random() < this.currentEnemy.dropChance ?
                 this.currentEnemy.generateDrop() :
                 null;
-            this.currentEnemy = this.generateEnemy();
+            this.currentEnemy = this.getNewEnemy();
             if(this.isOnHighestStage) {
                 this.increaseKillCounter();
             }
@@ -60,7 +77,7 @@ export default class Arena {
         if(player.dead) {
             player.revive();
             this.killsOnHighestStage = 0;
-            this.currentEnemy = this.generateEnemy();
+            this.currentEnemy = this.getNewEnemy();
         }
     }
 
@@ -68,8 +85,12 @@ export default class Arena {
         return this.currentStage === this.maxStage;
     }
 
+    get isBossStage(): boolean {
+        return this.currentStage % 5 === 0 && this.currentStage > 0;
+    }
+
     get requiredKills(): number {
-        return 10;
+        return this.isBossStage ? 1 : 10;
     }
 
     /* Stage Navigation */
@@ -77,7 +98,7 @@ export default class Arena {
     gotoStage(stage: number) {
         const actualStage = clamp(stage, 0, this.maxStage);
         this.currentStage = actualStage;
-        this.currentEnemy = this.generateEnemy();
+        this.currentEnemy = this.getNewEnemy();
     }
 
     nextStage() {
