@@ -12,6 +12,8 @@ export enum EnemyType {
 
 export type EnemyDrop = Equipment|Artifact;
 
+const HP_TO_STAT_EXP = 1 / 2.6;
+
 export default class Enemy {
     hp: Decimal;
     currentHp: Decimal;
@@ -50,12 +52,16 @@ export default class Enemy {
         return this.type === EnemyType.NORMAL ? 0.5 : 1;
     }
 
-    generateEquipment(): Equipment {
+    private getEquipmentBaseStat() {
         const player = get(game).player;
-        const base = this.hp.add(this.def.mul(100)).pow(1 / 2.3)
+        return this.hp.add(this.def.mul(100)).pow(HP_TO_STAT_EXP)
             .mul(player.magicFind)
             .mul(1.2);
-        const tier = Math.random() < 0.1 ? 1 : 0;
+    }
+
+    generateEquipment(): Equipment {
+        const base = this.getEquipmentBaseStat();
+        const tier = Math.floor(-Math.log10(1 - Math.random()));
         return new Equipment(base,
             choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),
             tier
@@ -72,15 +78,8 @@ export default class Enemy {
         }
         return this.generateEquipment();
     }
-
-    /**
-     * Damage dealt to the player
-     * 
-     * On Player, max hp and damage reduction together scale in (eqipment.stat ** 0.5), thus this
-     * scales by (hp ** 0.5)
-     */
-    get damage(): Decimal{
-        const mult = this.type === EnemyType.BOSS ? 0.4 : 1;
-        return this.hp.div(100).pow(0.5).mul(mult).floor();
+    
+    get damage(): number{
+        return this.type == EnemyType.BOSS ? 2 : 1;
     }
 }

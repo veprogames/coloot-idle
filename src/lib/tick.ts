@@ -25,5 +25,5 @@ export function tickEnemy() {
         return game;
     });
 
-    setTimeout(tickEnemy, 3000);
+    setTimeout(tickEnemy, 5000);
 }

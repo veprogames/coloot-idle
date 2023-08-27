@@ -20,14 +20,14 @@ export default class Player {
 
     private _inventory: PlayerInventory = new PlayerInventory();
 
-    currentHp: Decimal;
+    currentHp: number;
     /**
      * Earned by destroying equipment that's not worth equipping. Yields Magic Find.
      */
     scrap: Decimal = new Decimal(0);
 
     constructor() {
-        this.currentHp = new Decimal(this.hp);
+        this.currentHp = this.hp;
     }
 
     /* 
@@ -53,23 +53,16 @@ export default class Player {
             .floor();
     }
 
-    get hp(): Decimal {
-        return this.accessory.stat.div(10).pow(0.25).mul(10).floor();
+    get hp(): number {
+        return 10;
     }
 
     get hpPercentage(): number {
-        return this.currentHp.div(this.hp).toNumber();
-    }
-
-    get incomingDamageMultiplier(): Decimal {
-        return this.armor.stat
-            .div(10)
-            .max(1)
-            .pow(-0.25);
+        return this.currentHp / this.hp;
     }
 
     get dead(): boolean {
-        return this.currentHp.lte(0);
+        return this.currentHp <= 0;
     }
 
     /**
@@ -128,17 +121,13 @@ export default class Player {
         }
     }
 
-    getEffectiveDamage(damage: Decimal): Decimal {
-        return damage.mul(this.incomingDamageMultiplier);
-    }
-
     /**
      * Hit the player, deducting HP
      * 
      * @param damage Amount of damage to deal
      */
-    hit(damage: Decimal) {
-        this.currentHp = this.currentHp.sub(this.getEffectiveDamage(damage).round());
+    hit(damage: number) {
+        this.currentHp -= damage;
     }
 
     revive(): void {

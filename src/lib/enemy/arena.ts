@@ -6,7 +6,7 @@ import type Player from "../player/player";
 
 export default class Arena {
     currentStage: number = 0;
-    maxStage: number = 0;
+    maxStage: number = 1000;
     killsOnHighestStage: number = 0;
 
     currentEnemy: Enemy;
