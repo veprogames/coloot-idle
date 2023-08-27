@@ -54,9 +54,9 @@ export default class Enemy {
 
     private getEquipmentBaseStat() {
         const player = get(game).player;
-        return this.hp.add(this.def.mul(100)).pow(HP_TO_STAT_EXP)
+        return this.hp.div(100).pow(HP_TO_STAT_EXP)
             .mul(player.magicFind)
-            .mul(1.2);
+            .mul(7 + 6 * Math.random());
     }
 
     generateEquipment(): Equipment {
@@ -78,7 +78,7 @@ export default class Enemy {
         }
         return this.generateEquipment();
     }
-    
+
     get damage(): number{
         return this.type == EnemyType.BOSS ? 2 : 1;
     }
