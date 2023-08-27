@@ -10,7 +10,7 @@ export function clamp(v: number, min: number, max: number): number {
     return Math.min(max, Math.max(min, v));
 }
 
-export function F(n: DecimalSource): string {
+export function F(n: DecimalSource, long: boolean = false): string {
     const scientific = false;
 
     const d = new Decimal(n);
@@ -18,8 +18,8 @@ export function F(n: DecimalSource): string {
     if(d.lt(0)) return `-${F(d.neg())}`;
     if(d.eq(0)) return "0";
 
-    if(d.lt(0.1)) return `1/${F(d.pow(-1))}`;
-    if(d.lt(10)) return d.toFixed(2);
+    if(d.lt(0.1)) return `${F(d.pow(-1))}⁻¹`;
+    if(d.lt(10)) return d.toFixed(long ? 2 : 0);
     if(d.lt(1000)) return d.toFixed(0);
 
     return scientific ? d.toExponential(2) : formatLetters(d);
