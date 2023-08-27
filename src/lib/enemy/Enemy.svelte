@@ -18,3 +18,22 @@
         {F(enemy.def)}
     </p>
 </div>
+
+<style lang="postcss">
+    @keyframes idle {
+        0% {
+            transform: scaleY(1);
+        }
+        50% {
+            transform: scaleY(0.95);
+        }
+        0% {
+            transform: scaleY(1);
+        }
+    }
+
+    img {
+        animation: idle 1.5s ease-in-out infinite;
+        transform-origin: bottom;
+    }
+</style>

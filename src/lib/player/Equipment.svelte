@@ -8,6 +8,9 @@
 
     export let equipment: Equipment;
 
+    const hueshift = Math.floor(Math.random() * 360);
+    const saturation = 0.5 + Math.random();
+
     const dispatch = createEventDispatcher<{equip: Equipment}>();
 
     // Temporary! This is supposed to be an image
@@ -37,7 +40,7 @@
     class:better={isBetter}
     style="background-color: {equipment.color};">
     <span class="font-bold text-sm">{F(equipment.stat)}</span>
-    <img class="w-10 h-10" src={image} alt={typeName}/>
+    <img style="filter: hue-rotate({hueshift}deg) saturate({saturation}) drop-shadow(0 4px 0 rgba(0, 0, 0, 0.5));" class="w-10 h-10" src={image} alt={typeName}/>
 </button>
 
 <style lang="postcss">

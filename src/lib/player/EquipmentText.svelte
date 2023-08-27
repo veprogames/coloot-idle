@@ -20,4 +20,4 @@ import type Equipment from "../equipment/equipment";
     }[equipment.type];
 </script>
 
-<span><Icon src={image} alt={typeName}/> {typeName} - {F(equipment.stat)}</span>
+<span title={typeName}><Icon src={image} alt={typeName}/> {F(equipment.stat)}</span>

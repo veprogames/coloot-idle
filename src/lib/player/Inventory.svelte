@@ -20,13 +20,13 @@
 
 <div>
     <h2>Inventory ({inventory.equipment.length} / {inventory.equipmentCapacity})</h2>
-    <div class="flex flex-wrap justify-start bg-slate-800">
+    <div class="flex flex-wrap justify-start bg-black bg-opacity-30">
         {#each inventory.equipment as equipment (equipment)}
             <EquipmentComponent on:equip={equip} {equipment} />
         {/each}
     </div>
     <h2>Artifacts ({inventory.artifacts.length})</h2>
-    <div class="flex flex-wrap bg-slate-800">
+    <div class="flex flex-wrap bg-black bg-opacity-30">
         {#each inventory.artifacts as artifact}
             <span class="font-bold">{artifact.data.id} x{artifact.count}</span>
         {/each}
