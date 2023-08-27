@@ -20,8 +20,8 @@
 
 <div>
     <h2>Inventory ({inventory.equipment.length} / {inventory.equipmentCapacity})</h2>
-    <div class="flex flex-wrap justify-center bg-slate-800">
-        {#each inventory.equipment as equipment}
+    <div class="flex flex-wrap justify-start bg-slate-800">
+        {#each inventory.equipment as equipment (equipment)}
             <EquipmentComponent on:equip={equip} {equipment} />
         {/each}
     </div>

@@ -1,5 +1,6 @@
 <script lang="ts">
-    import type Equipment from "../equipment/equipment";
+    import Icon from "../dom/Icon.svelte";
+import type Equipment from "../equipment/equipment";
     import { EquipmentType } from "../equipment/equipment";
     import { F } from "../utils";
 
@@ -11,6 +12,12 @@
         [EquipmentType.ARMOR]: "Armor",
         [EquipmentType.ACCESSORY]: "Accessory",
     }[equipment.type];
+
+    $: image = "./images/equipment/" + {
+        [EquipmentType.WEAPON]: "sword.png",
+        [EquipmentType.ARMOR]: "armor.png",
+        [EquipmentType.ACCESSORY]: "accessory.png",
+    }[equipment.type];
 </script>
 
-<span>{typeName} - {F(equipment.stat)}</span>
+<span><Icon src={image} alt={typeName}/> {typeName} - {F(equipment.stat)}</span>

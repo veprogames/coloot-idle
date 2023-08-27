@@ -62,10 +62,10 @@ export default class Arena {
             const drop = Math.random() < this.currentEnemy.dropChance ?
                 this.currentEnemy.generateDrop() :
                 null;
-            this.currentEnemy = this.getNewEnemy();
             if(this.isOnHighestStage) {
                 this.increaseKillCounter();
             }
+            this.currentEnemy = this.getNewEnemy();
             return drop;
         }
         return null;

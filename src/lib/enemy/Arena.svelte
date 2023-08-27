@@ -17,6 +17,6 @@
         </p>
     {/if}
     <Enemy enemy={arena.currentEnemy} />
-    <button on:click={() => arena.prevStage()}>prev</button>
-    <button on:click={() => arena.nextStage()}>next</button>
+    <button class="btn" on:click={() => arena.prevStage()}>prev</button>
+    <button class="btn" on:click={() => arena.nextStage()}>next</button>
 </section>

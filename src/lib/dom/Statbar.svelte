@@ -23,5 +23,6 @@
 
     progress[value] {
         @apply bg-slate-700;
+        box-shadow: 0 0.25rem theme(colors.slate.800);
     }
 </style>

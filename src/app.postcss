@@ -21,3 +21,22 @@ h2 {
 svg {
   @apply inline invert translate-y-[-0.15rem];
 }
+
+button.btn {
+  @apply bg-green-600 p-2 rounded-md;
+  box-shadow: 0 0.25rem theme(colors.green.800);
+}
+
+button.btn:hover {
+  @apply bg-green-500 p-2 rounded-md;
+  box-shadow: 0 0.25rem theme(colors.green.700);
+}
+
+button.btn:active {
+  @apply bg-green-400 p-2 rounded-md translate-y-[0.1rem];
+  box-shadow: 0 0.15rem theme(colors.green.600);
+}
+
+img {
+  image-rendering: pixelated;
+}
