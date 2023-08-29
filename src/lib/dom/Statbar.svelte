@@ -6,7 +6,7 @@
 </script>
 
 <div class="relative w-fit h-fit overflow-clip mx-auto">
-    <progress class="h-6 rounded-md" {value} max=1></progress>
+    <progress class="h-6 rounded-md w-full" {value} max=1></progress>
     <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[0.95rem] font-semibold whitespace-nowrap">
         <slot />
     </span>

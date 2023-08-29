@@ -9,7 +9,6 @@ import { F } from "../utils";
 </script>
 
 <section class="text-center">
-    <Statbar value={player.hpPercentage}>{F(player.currentHp)} / {F(player.hp)}</Statbar>
     <div class="flex flex-wrap justify-between text-lg">
         <div class="flex flex-col justify-evenly items-start">
             <span title="Damage">
@@ -27,5 +26,12 @@ import { F } from "../utils";
             <EquipmentText equipment={player.accessory}/>
         </div>
     </div>
+    <Statbar value={player.hpPercentage}>{F(player.currentHp)} / {F(player.hp)}</Statbar>
     <Inventory {player}/>
 </section>
+
+<style lang="postcss">
+    section :global(progress) {
+        @apply w-72 h-8;
+    }
+</style>
