@@ -1,4 +1,6 @@
+import type { DecimalSource } from "break_infinity.js";
 import { F, getTierColor } from "../utils";
+import Decimal from "break_infinity.js";
 
 export enum ArtifactEffectType {
     MAGIC_FIND,
@@ -13,12 +15,12 @@ export interface ArtifactData {
     id: string,
     title: string,
     effectType: ArtifactEffectType,
-    effectAmount: number,
+    effectAmount: DecimalSource,
     effectOperation: ArtifactEffectOperation,
 }
 
 export type ArtifactCalculatedEffects = {
-    [key in ArtifactEffectType]: number
+    [key in ArtifactEffectType]: Decimal
 }
 
 export default class Artifact {
@@ -41,12 +43,13 @@ export default class Artifact {
     }
 
     get description() {
-        return `Increases ${this.effectTypeName} by ${F(this.data.effectAmount * 100)} % per stack.`;
+        const amount = new Decimal(this.data.effectAmount)
+        return `Increases ${this.effectTypeName} by ${F(amount.mul(100))} % per stack.`;
     }
 
-    get effect(): number {
+    get effect(): Decimal {
         const base = this.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE ? 1 : 0;
-        return base + this.data.effectAmount * this.count;        
+        return new Decimal(base).add(this.data.effectAmount).mul(this.count);        
     }
 
     get color(): string {
@@ -74,7 +77,7 @@ export const Artifacts: {[key in "test"]: ArtifactData} = {
 
 export function calculateEffects(artifacts: Artifact[]){
     let result: ArtifactCalculatedEffects = {
-        [ArtifactEffectType.MAGIC_FIND]: 1
+        [ArtifactEffectType.MAGIC_FIND]: new Decimal(1)
     };
 
     const sorted = [...artifacts].sort((a1: Artifact, a2: Artifact) => {
@@ -85,10 +88,10 @@ export function calculateEffects(artifacts: Artifact[]){
     for(const artifact of sorted) {
         const type = artifact.data.effectType;
         if(artifact.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE) {
-            result[type] *= artifact.effect;
+            result[type] = result[type].mul(artifact.effect);
         }
         else {
-            result[type] += artifact.effect;
+            result[type] = result[type].add(artifact.effect);
         }
     }
 
