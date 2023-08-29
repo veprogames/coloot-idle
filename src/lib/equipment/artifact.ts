@@ -1,4 +1,4 @@
-import { F } from "../utils";
+import { F, getTierColor } from "../utils";
 
 export enum ArtifactEffectType {
     MAGIC_FIND,
@@ -31,15 +31,26 @@ export default class Artifact {
         this.tier = tier;
     }
 
+    private get effectTypeName(): string {
+        switch (this.data.effectType) {
+            case ArtifactEffectType.MAGIC_FIND:
+                return "Magic Find";
+            default:
+                return "Unknown Effect";
+        }
+    }
+
     get description() {
-        const type = "Magic Find"; // TODO
-        
-        return `Increases ${type} by ${F(this.data.effectAmount * 100)} % per stack.`;
+        return `Increases ${this.effectTypeName} by ${F(this.data.effectAmount * 100)} % per stack.`;
     }
 
     get effect(): number {
         const base = this.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE ? 1 : 0;
         return base + this.data.effectAmount * this.count;        
+    }
+
+    get color(): string {
+        return getTierColor(this.tier);
     }
 
     equals(artifact: Artifact) {
@@ -57,7 +68,7 @@ export const Artifacts: {[key in "test"]: ArtifactData} = {
         title: "Test Artifact",
         effectType: ArtifactEffectType.MAGIC_FIND,
         effectAmount: 0.5,
-        effectOperation: ArtifactEffectOperation.MULTIPLICATIVE
+        effectOperation: ArtifactEffectOperation.ADDITIVE
     }
 };
 
@@ -66,7 +77,7 @@ export function calculateEffects(artifacts: Artifact[]){
         [ArtifactEffectType.MAGIC_FIND]: 1
     };
 
-    const sorted = artifacts.sort((a1: Artifact, a2: Artifact) => {
+    const sorted = [...artifacts].sort((a1: Artifact, a2: Artifact) => {
         if(a1.data.effectOperation === ArtifactEffectOperation.ADDITIVE) return -1;
         return 1;
     });

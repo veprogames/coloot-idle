@@ -2,6 +2,18 @@ import type { DecimalSource } from "break_infinity.js";
 import Decimal from "break_infinity.js";
 import { formatLetters } from "./format";
 
+const rarityColors: string[] = [
+    "#6b7280",
+    "#88cc00",
+    "#4d88ff",
+    "#ff0055",
+    "#ff5500",
+    "#7300e6",
+    "#800000",
+    "#660066",
+    "#999900",
+]
+
 export function choose<T>(elements: Array<T>) {
     return elements[Math.floor(Math.random() * elements.length)];
 }
@@ -23,4 +35,13 @@ export function F(n: DecimalSource, long: boolean = false): string {
     if(d.lt(1000)) return d.toFixed(0);
 
     return scientific ? d.toExponential(2) : formatLetters(d);
+}
+
+export function getTierColor(tier: number): string{
+    const col = rarityColors[tier];
+    if(!col) {
+        const hex = ((0xbedead * tier) % 0xffffff).toString(16);
+        return `#${hex}`;
+    }
+    return col;
 }

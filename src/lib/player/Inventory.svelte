@@ -26,9 +26,9 @@
             <EquipmentComponent on:equip={equip} {equipment} />
         {/each}
     </div>
-    <h2>Artifacts ({inventory.artifacts.length})</h2>
+    <h2>Artifacts ({inventory.artifactCount})</h2>
     <div class="flex flex-wrap bg-black bg-opacity-30">
-        {#each inventory.artifacts as artifact}
+        {#each inventory.artifacts as artifact (artifact)}
             <Artifact {artifact}/>
         {/each}
     </div>

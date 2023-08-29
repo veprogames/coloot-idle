@@ -1,5 +1,5 @@
 import { calculateEffects, type ArtifactCalculatedEffects } from "../equipment/artifact";
-import type Artifact from "../equipment/artifact";
+import Artifact from "../equipment/artifact";
 import type Equipment from "../equipment/equipment";
 
 export default class PlayerInventory {
@@ -33,5 +33,11 @@ export default class PlayerInventory {
 
     getArtifactEffects(): ArtifactCalculatedEffects {
         return calculateEffects(this.artifacts);
+    }
+
+    get artifactCount(): number {
+        return this.artifacts
+            .map((artifact: Artifact) => artifact.count)
+            .reduce((prev: number, current: number) => prev + current);
     }
 }

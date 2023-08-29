@@ -1,19 +1,38 @@
 <script lang="ts">
     import type Artifact from "../equipment/artifact";
+    import { ArtifactEffectOperation } from "../equipment/artifact";
+    import { F } from "../utils";
 
     export let artifact: Artifact;
+
+    let dialog: HTMLDialogElement;
+
+    $: symbol = artifact.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE ? "x" : "+";
 </script>
 
-<div class="relative">
-    <img class="absolute left-0 top-0 h-16 w-auto" src="./images/equipment/sword.png" alt="Icon"/>
-    <span class="font-bold">{artifact.data.id} x{artifact.count} - {artifact.description}</span>
-</div>
+<dialog bind:this={dialog}>
+    <div>
+        <h2>{artifact.data.title}</h2>
+        <p>{artifact.description}</p>
+    </div>
+    <p class="font-semibold">Current: <span class="text-green-400">{symbol}{F(artifact.effect, true)}</span></p>
+    <button on:click={() => dialog.close()} class="btn">Close</button>
+</dialog>
+
+<button on:click={() => dialog.showModal()} class="relative">
+    <img 
+        class="h-16 w-auto" src="./images/equipment/sword.png" 
+        alt="Icon"
+        style:--artifact-color={artifact.color}
+    />
+    <span class="absolute -bottom-2 right-0 font-bold">x{artifact.count}</span>
+</button>
 
 <style lang="postcss">
     img {
-        filter: drop-shadow(0 0.25rem 0 lime) 
-            drop-shadow(0 -0.25rem 0 lime)
-            drop-shadow(0.25rem 0 0 lime)
-            drop-shadow(-0.25rem 0 0 lime);
+        filter: drop-shadow(0 0.25rem 0 var(--artifact-color)) 
+            drop-shadow(0 -0.25rem 0 var(--artifact-color))
+            drop-shadow(0.25rem 0 0 var(--artifact-color))
+            drop-shadow(-0.25rem 0 0 var(--artifact-color));
     }
 </style>

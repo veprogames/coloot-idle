@@ -40,3 +40,13 @@ button.btn:active {
 img {
   image-rendering: pixelated;
 }
+
+dialog {
+  @apply bg-slate-700 text-slate-50 rounded-lg shadow-md max-w-lg
+    flex-col gap-8
+    p-8;
+}
+
+dialog:modal {
+  @apply flex;
+}
