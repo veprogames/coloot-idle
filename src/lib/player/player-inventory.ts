@@ -36,6 +36,8 @@ export default class PlayerInventory {
     }
 
     get artifactCount(): number {
+        if(this.artifacts.length === 0) return 0;
+
         return this.artifacts
             .map((artifact: Artifact) => artifact.count)
             .reduce((prev: number, current: number) => prev + current);
