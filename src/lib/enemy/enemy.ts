@@ -69,7 +69,7 @@ export default class Enemy {
     }
 
     generateArtifact(): Artifact {
-        return Artifact.from(Artifacts.test);
+        return Artifact.from(Artifacts.test, 0);
     }
 
     generateDrop(): EnemyDrop {

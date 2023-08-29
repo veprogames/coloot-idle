@@ -28,6 +28,8 @@ export default class Player {
 
     constructor() {
         this.currentHp = this.hp;
+
+        this._inventory.addArtifact(Artifact.from(Artifacts.test, 0));
     }
 
     /* 

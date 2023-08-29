@@ -1,5 +1,6 @@
 <script lang="ts">
     import type Equipment from "../equipment/equipment";
+    import Artifact from "./Artifact.svelte";
     import EquipmentComponent from "./Equipment.svelte";
     import Player from "./player";
 
@@ -28,7 +29,7 @@
     <h2>Artifacts ({inventory.artifacts.length})</h2>
     <div class="flex flex-wrap bg-black bg-opacity-30">
         {#each inventory.artifacts as artifact}
-            <span class="font-bold">{artifact.data.id} x{artifact.count}</span>
+            <Artifact {artifact}/>
         {/each}
     </div>
 </div>
