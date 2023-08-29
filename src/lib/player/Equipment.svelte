@@ -36,15 +36,24 @@
 <button on:click={dispatchEquip} 
     in:fly={{y: "-4rem"}}
     out:fade={{duration: 50}}
-    class="inline-flex flex-col p-1 justify-center items-center text-center w-16 h-16 hover:brightness-125 transition-all"
+    class="inline-flex flex-col p-1 justify-center items-center text-center w-16 h-16 hover:brightness-125 transition-all overflow-clip"
     class:better={isBetter}
     style="background-color: {equipment.color};">
-    <span class="font-bold text-sm">{F(equipment.stat)}</span>
-    <img style="filter: hue-rotate({hueshift}deg) saturate({saturation}) drop-shadow(0 4px 0 rgba(0, 0, 0, 0.5));" class="w-10 h-10" src={image} alt={typeName}/>
+    <span class="font-bold text-sm whitespace-nowrap">{F(equipment.stat)}</span>
+    <img
+        style:filter="hue-rotate({hueshift}deg) saturate({saturation}) drop-shadow(0 4px 0 rgba(0, 0, 0, 0.5))"
+        class="w-10 h-10"
+        src={image}
+        alt={typeName}
+    />
 </button>
 
 <style lang="postcss">
     .better {
         box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.7);
+    }
+
+    span {
+        line-height: 1em;
     }
 </style>
