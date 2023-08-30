@@ -3,7 +3,7 @@ import Equipment, { EquipmentType } from "../equipment/equipment";
 import { choose } from "../utils";
 import { get } from "svelte/store";
 import { game } from "../stores";
-import Artifact, { Artifacts } from "../equipment/artifact";
+import Artifact, { ArtifactEffectType, Artifacts, calculateArtifactEffects, randomArtifact } from "../equipment/artifact";
 
 export enum EnemyType {
     NORMAL,
@@ -61,7 +61,9 @@ export default class Enemy {
 
     generateEquipment(): Equipment {
         const base = this.getEquipmentBaseStat();
-        const tier = Math.floor(-Math.log10(1 - Math.random()));
+        const inventory = get(game).player.inventory;
+        const artifactMult = inventory.getArtifactEffects()[ArtifactEffectType.EQUIPMENT_RARITY];
+        const tier = Math.floor(-Math.log10(1 - Math.random()) + Decimal.log10(artifactMult));
         return new Equipment(base,
             choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),
             tier
@@ -69,7 +71,9 @@ export default class Enemy {
     }
 
     generateArtifact(): Artifact {
-        return Artifact.from(Artifacts.test, 0);
+        const stage = get(game).arena.currentStage;
+        const tier = Math.floor(-Math.log10(1 - Math.random()) + stage / 200);
+        return randomArtifact(tier);
     }
 
     generateDrop(): EnemyDrop {

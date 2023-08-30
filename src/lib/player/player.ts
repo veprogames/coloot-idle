@@ -3,7 +3,7 @@ import Equipment from "../equipment/equipment"
 import { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment"
 import type Arena from "../enemy/arena";
 import PlayerInventory from "./player-inventory";
-import Artifact, { ArtifactEffectType, Artifacts } from "../equipment/artifact";
+import Artifact, { ArtifactEffectType, Artifacts, randomArtifact } from "../equipment/artifact";
 
 export type PlayerEquipment = {
     [EquipmentType.WEAPON]: Equipment,
@@ -47,14 +47,19 @@ export default class Player {
     }
 
     get power(): Decimal {
+        const artifactEffect = this._inventory.getArtifactEffects()[ArtifactEffectType.DAMAGE];
+
         return this.weapon.stat
             .mul(this.armor.stat.div(10).pow(0.5))
             .mul(this.accessory.stat.div(10).pow(0.5))
+            .mul(artifactEffect)
             .floor();
     }
 
     get hp(): number {
-        return 10;
+        const artifactEffect = this._inventory.getArtifactEffects()[ArtifactEffectType.MAX_HEALTH].toNumber();
+
+        return 10 + artifactEffect;
     }
 
     get hpPercentage(): number {

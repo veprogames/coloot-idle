@@ -1,9 +1,13 @@
 import type { DecimalSource } from "break_infinity.js";
-import { F, getTierColor } from "../utils";
+import { F, choose, getTierColor } from "../utils";
 import Decimal from "break_infinity.js";
 
 export enum ArtifactEffectType {
+    DAMAGE,
     MAGIC_FIND,
+    MAX_HEALTH,
+    REQUIRED_KILLS,
+    EQUIPMENT_RARITY,
 }
 
 export enum ArtifactEffectOperation {
@@ -37,19 +41,45 @@ export default class Artifact {
         switch (this.data.effectType) {
             case ArtifactEffectType.MAGIC_FIND:
                 return "Magic Find";
+            case ArtifactEffectType.DAMAGE:
+                return "Damage";
+            case ArtifactEffectType.EQUIPMENT_RARITY:
+                return "Equipment Rarity";
+            case ArtifactEffectType.MAX_HEALTH:
+                return "Max Health";
+            case ArtifactEffectType.REQUIRED_KILLS:
+                return "Required Kills per Stage";
             default:
                 return "Unknown Effect";
         }
     }
 
     get description() {
-        const amount = new Decimal(this.data.effectAmount)
-        return `Increases ${this.effectTypeName} by ${F(amount.mul(100))} % per stack.`;
+        const amount = this.effectEach;
+        const direction = amount.lt(0) ? "Decreases" : "Increases";
+        const increment = this.data.effectOperation === ArtifactEffectOperation.ADDITIVE ?
+            `${F(amount.abs(), true)}` :
+            `${F(amount.abs().mul(100))} %`;
+        return `${direction} ${this.effectTypeName} by ${increment} per stack.`;
+    }
+
+    private get effectEach(): Decimal {
+        return this.data.effectOperation === ArtifactEffectOperation.ADDITIVE ?
+            new Decimal(this.data.effectAmount).mul(1 + this.tier) :
+            new Decimal(this.data.effectAmount);
     }
 
     get effect(): Decimal {
         const base = this.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE ? 1 : 0;
-        return new Decimal(base).add(this.data.effectAmount).mul(this.count);        
+        return new Decimal(base).add(this.effectEach.mul(this.count));        
+    }
+
+    get effectString(): string {
+        if(this.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE) {
+            return `x${F(this.effect, true)}`;
+        }
+        const sign = this.effect.gt(0) ? "+" : ""; // minus sign is already there
+        return `${sign}${F(this.effect, true)}`;
     }
 
     get color(): string {
@@ -65,19 +95,51 @@ export default class Artifact {
     }
 }
 
-export const Artifacts: {[key in "test"]: ArtifactData} = {
-    "test": {
-        id: "test",
-        title: "Test Artifact",
+export const Artifacts: {[key: string]: ArtifactData} = {
+    "potion": {
+        id: "potion",
+        title: "Potion",
+        effectType: ArtifactEffectType.MAX_HEALTH,
+        effectAmount: 1,
+        effectOperation: ArtifactEffectOperation.ADDITIVE,
+    },
+    "ironfist": {
+        id: "ironfist",
+        title: "Iron Fist",
+        effectType: ArtifactEffectType.DAMAGE,
+        effectAmount: 0.7,
+        effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
+    },
+    "shinydiamond": {
+        id: "shinydiamond",
+        title: "Shiny Diamond",
         effectType: ArtifactEffectType.MAGIC_FIND,
-        effectAmount: 0.5,
+        effectAmount: 0.25,
+        effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
+    },
+    "compass": {
+        id: "compass",
+        title: "Compass",
+        effectType: ArtifactEffectType.REQUIRED_KILLS,
+        effectAmount: -1,
         effectOperation: ArtifactEffectOperation.ADDITIVE
-    }
+    },
+    "shovel": {
+        id: "shovel",
+        title: "Shovel",
+        effectType: ArtifactEffectType.EQUIPMENT_RARITY,
+        effectAmount: 1,
+        effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
+    },
 };
 
-export function calculateEffects(artifacts: Artifact[]){
+export function calculateArtifactEffects(artifacts: Artifact[]){
     let result: ArtifactCalculatedEffects = {
-        [ArtifactEffectType.MAGIC_FIND]: new Decimal(1)
+        [ArtifactEffectType.MAGIC_FIND]: new Decimal(1),
+        [ArtifactEffectType.DAMAGE]: new Decimal(1),
+        [ArtifactEffectType.EQUIPMENT_RARITY]: new Decimal(1),
+        [ArtifactEffectType.MAX_HEALTH]: new Decimal(0),
+        [ArtifactEffectType.REQUIRED_KILLS]: new Decimal(0),
     };
 
     const sorted = [...artifacts].sort((a1: Artifact, a2: Artifact) => {
@@ -96,4 +158,8 @@ export function calculateEffects(artifacts: Artifact[]){
     }
 
     return result;
+}
+
+export function randomArtifact(tier: number): Artifact {
+    return Artifact.from(choose(Object.values(Artifacts)), tier);
 }

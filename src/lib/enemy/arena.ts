@@ -3,6 +3,9 @@ import Enemy, { EnemyType, type EnemyDrop } from "./enemy";
 import type Equipment from "../equipment/equipment";
 import { clamp } from "../utils";
 import type Player from "../player/player";
+import { get } from "svelte/store";
+import { game } from "../stores";
+import { ArtifactEffectType } from "../equipment/artifact";
 
 export default class Arena {
     currentStage: number = 0;
@@ -94,7 +97,9 @@ export default class Arena {
     }
 
     get requiredKills(): number {
-        return this.isBossStage ? 1 : 10;
+        const artifactEffect = get(game).player.inventory.getArtifactEffects()[ArtifactEffectType.REQUIRED_KILLS];
+
+        return this.isBossStage ? 1 : Math.max(1, 10 + artifactEffect.toNumber());
     }
 
     /* Stage Navigation */

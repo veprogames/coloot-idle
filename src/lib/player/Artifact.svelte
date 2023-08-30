@@ -6,8 +6,6 @@
     export let artifact: Artifact;
 
     let dialog: HTMLDialogElement;
-
-    $: symbol = artifact.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE ? "x" : "+";
 </script>
 
 <dialog bind:this={dialog}>
@@ -15,7 +13,7 @@
         <h2>{artifact.data.title}</h2>
         <p>{artifact.description}</p>
     </div>
-    <p class="font-semibold">Current: <span class="text-green-400">{symbol}{F(artifact.effect, true)}</span></p>
+    <p class="font-semibold">Current: <span class="text-green-400">{artifact.effectString}</span></p>
     <button on:click={() => dialog.close()} class="btn">Close</button>
 </dialog>
 
