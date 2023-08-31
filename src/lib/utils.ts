@@ -12,6 +12,18 @@ const rarityColors: string[] = [
     "#800000",
     "#660066",
     "#999900",
+];
+
+const rarityNames: string[] = [
+    "common",
+    "uncommon",
+    "rare",
+    "epic",
+    "legendary",
+    "cosmic",
+    "divine",
+    "godly",
+    "omega",
 ]
 
 export function choose<T>(elements: Array<T>) {
@@ -37,6 +49,10 @@ export function F(n: DecimalSource, long: boolean = false): string {
     return scientific ? d.toExponential(2) : formatLetters(d);
 }
 
+export function capitalize(str: string) {
+    return `${str[0].toUpperCase()}${str.substring(1)}`;
+}
+
 export function getTierColor(tier: number): string{
     const col = rarityColors[tier];
     if(!col) {
@@ -44,4 +60,13 @@ export function getTierColor(tier: number): string{
         return `#${hex}`;
     }
     return col;
+}
+
+export function getTierName(tier: number): string {
+    const name = rarityNames[tier];
+    if(!name) {
+        const last = rarityNames.at(-1);
+        return `${last} +${tier - rarityNames.length}`;
+    }
+    return name;
 }

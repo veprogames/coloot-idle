@@ -1,17 +1,22 @@
 <script lang="ts">
     import type Artifact from "../equipment/artifact";
     import { ArtifactEffectOperation } from "../equipment/artifact";
-    import { F } from "../utils";
+    import { capitalize, getTierName } from "../utils";
 
     export let artifact: Artifact;
+
+    $: tierName = capitalize(getTierName(artifact.tier));
 
     let dialog: HTMLDialogElement;
 </script>
 
 <dialog bind:this={dialog}>
     <div>
-        <h2>{artifact.data.title}</h2>
+        <h2>{tierName} {artifact.data.title}</h2>
         <p>{artifact.description}</p>
+        {#if artifact.data.effectOperation === ArtifactEffectOperation.ADDITIVE}
+            <small>This effect is additive and is applied <strong>before</strong> all multiplicative effects.</small>
+        {/if}
     </div>
     <p class="font-semibold">Current: <span class="text-green-400">{artifact.effectString}</span></p>
     <button on:click={() => dialog.close()} class="btn">Close</button>
