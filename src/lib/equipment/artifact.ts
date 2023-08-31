@@ -21,6 +21,7 @@ export interface ArtifactData {
     effectType: ArtifactEffectType,
     effectAmount: DecimalSource,
     effectOperation: ArtifactEffectOperation,
+    image: string,
 }
 
 export type ArtifactCalculatedEffects = {
@@ -102,6 +103,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.MAX_HEALTH,
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.ADDITIVE,
+        image: "./images/artifacts/potion.png",
     },
     "ironfist": {
         id: "ironfist",
@@ -109,6 +111,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.DAMAGE,
         effectAmount: 0.7,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
+        image: "./images/artifacts/ironfist.png",
     },
     "shinydiamond": {
         id: "shinydiamond",
@@ -116,13 +119,15 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.MAGIC_FIND,
         effectAmount: 0.25,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
+        image: "./images/artifacts/shinydiamond.png",
     },
     "compass": {
         id: "compass",
         title: "Compass",
         effectType: ArtifactEffectType.REQUIRED_KILLS,
         effectAmount: -1,
-        effectOperation: ArtifactEffectOperation.ADDITIVE
+        effectOperation: ArtifactEffectOperation.ADDITIVE,
+        image: "./images/artifacts/compass.png",
     },
     "shovel": {
         id: "shovel",
@@ -130,6 +135,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.EQUIPMENT_RARITY,
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
+        image: "./images/artifacts/shovel.png",
     },
 };
 

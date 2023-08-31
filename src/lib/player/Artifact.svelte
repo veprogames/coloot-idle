@@ -19,7 +19,7 @@
 
 <button on:click={() => dialog.showModal()} class="relative w-16 h-16">
     <img 
-        class="h-16 w-auto" src="./images/equipment/sword.png" 
+        class="h-16 w-auto" src={artifact.data.image}
         alt="Icon"
         style:--artifact-color={artifact.color}
     />
