@@ -11,11 +11,12 @@ export default function tickGame(dt: number) {
 export function tickPlayer() {
     game.update(game => {
         game.player.hitEnemy(game.arena);
+        const overkill = game.player.getOverkill(game.arena.currentEnemy);
+        const cooldown = overkill.gt(5) ? (overkill.gt(1e6) ? 200 : 500) : 1000;
 
+        setTimeout(tickPlayer, cooldown);
         return game;
     });
-
-    setTimeout(tickPlayer, 60000 / 128);
 }
 
 export function tickEnemy() {
@@ -25,5 +26,5 @@ export function tickEnemy() {
         return game;
     });
 
-    setTimeout(tickEnemy, 2500);
+    setTimeout(tickEnemy, 5000);
 }

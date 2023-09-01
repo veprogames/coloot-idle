@@ -12,7 +12,7 @@ export enum EnemyType {
 
 export type EnemyDrop = Equipment|Artifact;
 
-const HP_TO_STAT_EXP = 1 / 2.6;
+const HP_TO_STAT_EXP = 1 / 2.75;
 
 export default class Enemy {
     baseHp: Decimal;
@@ -55,9 +55,9 @@ export default class Enemy {
     private getEquipmentBaseStat() {
         const player = get(game).player;
         return this.hp.div(100).pow(HP_TO_STAT_EXP)
-            .div(this.hp.div(1e18).max(1).pow(0.04)) // kicks in around stage 70
+            .div(this.hp.div(1e30).max(1).pow(0.02))
             .mul(player.magicFind)
-            .mul(8 + 8 * Math.random());
+            .mul(8 + 6 * Math.random());
     }
 
     generateEquipment(): Equipment {

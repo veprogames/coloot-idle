@@ -63,6 +63,13 @@ export default class Arena {
                 this.isBossActive = false;
             }
             this.currentEnemy = this.getNewEnemy();
+
+            // automatically activate boss if very strong
+            const player = get(game).player;
+            if(player.getOverkillForHealth(this.getBaseHp(this.currentStage)).gt(64)) {
+                this.activateBoss();
+            }
+
             return drop;
         }
         return null;
