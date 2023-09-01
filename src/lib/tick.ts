@@ -15,7 +15,7 @@ export function tickPlayer() {
         return game;
     });
 
-    setTimeout(tickPlayer, 1000);
+    setTimeout(tickPlayer, 60000 / 128);
 }
 
 export function tickEnemy() {
@@ -25,5 +25,5 @@ export function tickEnemy() {
         return game;
     });
 
-    setTimeout(tickEnemy, 5000);
+    setTimeout(tickEnemy, 2500);
 }
