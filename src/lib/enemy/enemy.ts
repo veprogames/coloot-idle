@@ -55,8 +55,9 @@ export default class Enemy {
     private getEquipmentBaseStat() {
         const player = get(game).player;
         return this.hp.div(100).pow(HP_TO_STAT_EXP)
+            .div(this.hp.div(1e18).max(1).pow(0.04)) // kicks in around stage 70
             .mul(player.magicFind)
-            .mul(7 + 6 * Math.random());
+            .mul(8 + 8 * Math.random());
     }
 
     generateEquipment(): Equipment {
@@ -84,6 +85,8 @@ export default class Enemy {
     }
 
     get damage(): number{
-        return this.type == EnemyType.BOSS ? 2 : 1;
+        const stageMult = 1 + 2 * (get(game).arena.currentStage / 200) ** 2;
+        const base = this.type == EnemyType.BOSS ? 2 : 1;
+        return Math.floor(base * stageMult);
     }
 }

@@ -93,13 +93,14 @@ export default class Arena {
     }
 
     get isBossStage(): boolean {
-        return this.currentStage % 5 === 0 && this.currentStage > 0;
+        return this.currentStage % 5 === 4 && this.currentStage > 0;
     }
 
     get requiredKills(): number {
+        const stageEffect = Math.floor(15 * (this.currentStage / 200) ** 2);
         const artifactEffect = get(game).player.inventory.getArtifactEffects()[ArtifactEffectType.REQUIRED_KILLS];
 
-        return this.isBossStage ? 1 : Math.max(1, 10 + artifactEffect.toNumber());
+        return this.isBossStage ? 1 : Math.max(1, 10 + stageEffect + artifactEffect.toNumber());
     }
 
     /* Stage Navigation */
