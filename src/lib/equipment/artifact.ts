@@ -6,7 +6,6 @@ export enum ArtifactEffectType {
     DAMAGE,
     MAGIC_FIND,
     MAX_HEALTH,
-    REQUIRED_KILLS,
     EQUIPMENT_RARITY,
 }
 
@@ -48,8 +47,6 @@ export default class Artifact {
                 return "Equipment Rarity";
             case ArtifactEffectType.MAX_HEALTH:
                 return "Max Health";
-            case ArtifactEffectType.REQUIRED_KILLS:
-                return "Required Kills per Stage";
             default:
                 return "Unknown Effect";
         }
@@ -121,14 +118,6 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
         image: "./images/artifacts/shinydiamond.png",
     },
-    "compass": {
-        id: "compass",
-        title: "Compass",
-        effectType: ArtifactEffectType.REQUIRED_KILLS,
-        effectAmount: -1,
-        effectOperation: ArtifactEffectOperation.ADDITIVE,
-        image: "./images/artifacts/compass.png",
-    },
     "shovel": {
         id: "shovel",
         title: "Shovel",
@@ -145,7 +134,6 @@ export function calculateArtifactEffects(artifacts: Artifact[]){
         [ArtifactEffectType.DAMAGE]: new Decimal(1),
         [ArtifactEffectType.EQUIPMENT_RARITY]: new Decimal(1),
         [ArtifactEffectType.MAX_HEALTH]: new Decimal(0),
-        [ArtifactEffectType.REQUIRED_KILLS]: new Decimal(0),
     };
 
     const sorted = [...artifacts].sort((a1: Artifact, a2: Artifact) => {
