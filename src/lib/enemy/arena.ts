@@ -6,6 +6,7 @@ import type Player from "../player/player";
 import { get } from "svelte/store";
 import { game } from "../stores";
 import { ArtifactEffectType } from "../equipment/artifact";
+import { getWorldDataForStage } from "./world";
 
 export default class Arena {
     currentStage: number = 0;
@@ -90,6 +91,11 @@ export default class Arena {
 
     get isOnHighestStage(): boolean {
         return this.currentStage === this.maxStage;
+    }
+
+    get stageName(): string {
+        const data = getWorldDataForStage(this.currentStage);
+        return `${data.title} ${this.currentStage - data.stage + 1}`;
     }
 
     /* Stage Navigation */
