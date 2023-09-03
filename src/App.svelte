@@ -5,6 +5,7 @@
     import tickGame, { tickEnemy, tickPlayer } from "./lib/tick";
     import Arena from "./lib/enemy/Arena.svelte";
     import GameBackground from "./lib/enemy/GameBackground.svelte";
+    import PrestigeCrystalContent from "./lib/prestigecrystal/PrestigeCrystalContent.svelte";
 
     let prev = Date.now();
 
@@ -26,6 +27,7 @@
 <main class="p-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
     <Arena arena={$game.arena} />
     <Player player={$game.player} />
+    <PrestigeCrystalContent />
 
     <GameBackground arena={$game.arena} />
 </main>

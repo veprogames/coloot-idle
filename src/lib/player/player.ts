@@ -5,6 +5,8 @@ import type Arena from "../enemy/arena";
 import PlayerInventory from "./player-inventory";
 import Artifact, { ArtifactEffectType, Artifacts, randomArtifact } from "../equipment/artifact";
 import type Enemy from "../enemy/enemy";
+import { get } from "svelte/store";
+import { game } from "../stores";
 
 export type PlayerEquipment = {
     [EquipmentType.WEAPON]: Equipment,
@@ -49,11 +51,13 @@ export default class Player {
 
     get power(): Decimal {
         const artifactEffect = this._inventory.getArtifactEffects()[ArtifactEffectType.DAMAGE];
+        const crystalEffect = get(game).prestigeCrystals.power.effect;
 
         return this.weapon.stat
             .mul(this.armor.stat.div(10).pow(0.5))
             .mul(this.accessory.stat.div(10).pow(0.5))
             .mul(artifactEffect)
+            .mul(crystalEffect)
             .floor();
     }
 
@@ -83,11 +87,13 @@ export default class Player {
      * Multiplies the base stats of equipment earned
      */
     get magicFind(): Decimal {
-        const boostFromArtifacts = this._inventory.getArtifactEffects()[ArtifactEffectType.MAGIC_FIND];
+        const artifactMult = this._inventory.getArtifactEffects()[ArtifactEffectType.MAGIC_FIND];
+        const crystalMult = get(game).prestigeCrystals.magic.effect;
 
         return (this.scrap.add(1).pow(0.1))
             .mul(this.accessory.stat.div(10).pow(0.1))
-            .mul(boostFromArtifacts);
+            .mul(artifactMult)
+            .mul(crystalMult);
     }
 
     equip(equipment: Equipment): void {
@@ -146,5 +152,15 @@ export default class Player {
 
     revive(): void {
         this.currentHp = this.hp;
+    }
+
+    reset(): void {
+        this.equipment = {
+            [EquipmentType.WEAPON]: INIT_WEAPON,
+            [EquipmentType.ARMOR]: INIT_ARMOR,
+            [EquipmentType.ACCESSORY]: INIT_ACCESSORY,
+        };
+        this.scrap = new Decimal(0);
+        this._inventory.reset();
     }
 }

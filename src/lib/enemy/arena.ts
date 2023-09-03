@@ -129,4 +129,11 @@ export default class Arena {
         this.isBossActive = false;
         this.currentEnemy = this.getNewEnemy();
     }
+
+    reset() {
+        this.currentStage = 0;
+        this.maxStage = 0;
+        this.isBossActive = false;
+        this.currentEnemy = this.getNewEnemy();
+    }
 }

@@ -12,7 +12,7 @@ export enum EnemyType {
 
 export type EnemyDrop = Equipment|Artifact;
 
-const HP_TO_STAT_EXP = 1 / 2.75;
+const HP_TO_STAT_EXP = 1 / 2.72;
 
 export default class Enemy {
     baseHp: Decimal;
@@ -56,6 +56,7 @@ export default class Enemy {
         const player = get(game).player;
         return this.hp.div(100).pow(HP_TO_STAT_EXP)
             .div(this.hp.div(1e30).max(1).pow(0.02))
+            .div(this.hp.div(1e100).max(1).pow(0.02))
             .mul(player.magicFind)
             .mul(8 + 6 * Math.random());
     }
@@ -63,8 +64,13 @@ export default class Enemy {
     generateEquipment(): Equipment {
         const base = this.getEquipmentBaseStat();
         const inventory = get(game).player.inventory;
+        const crystal = get(game).prestigeCrystals.rarity;
+
         const artifactMult = inventory.getArtifactEffects()[ArtifactEffectType.EQUIPMENT_RARITY];
-        const tier = Math.floor(-Math.log10(1 - Math.random()) + Decimal.log10(artifactMult));
+        const crystalMult = crystal.effect;
+
+        const tier = Math.floor(-Math.log10(1 - Math.random()) + Decimal.log10(artifactMult.mul(crystalMult)));
+
         return new Equipment(base,
             choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),
             tier

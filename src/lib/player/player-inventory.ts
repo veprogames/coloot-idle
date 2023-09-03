@@ -42,4 +42,9 @@ export default class PlayerInventory {
             .map((artifact: Artifact) => artifact.count)
             .reduce((prev: number, current: number) => prev + current);
     }
+
+    reset(): void {
+        this.artifacts = [];
+        this.equipment = [];
+    }
 }
