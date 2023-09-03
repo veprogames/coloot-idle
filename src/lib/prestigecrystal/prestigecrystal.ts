@@ -19,7 +19,7 @@ export abstract class PrestigeCrystal {
         this.data = data;
     }
 
-    abstract getLevels(artifactCount: number): number;
+    abstract getLevels(playerLevel: number): number;
 
     abstract getEffect(level: number): Decimal;
 
@@ -32,7 +32,7 @@ export abstract class PrestigeCrystal {
     }
 
     getNewLevels(player: Player): number {
-        return this.getLevels(player.inventory.artifactCount) - this.level;
+        return this.getLevels(player.level) - this.level;
     }
 
     invest(player: Player) {
@@ -53,8 +53,8 @@ export class PrestigeCrystalPower extends PrestigeCrystal {
         });
     }
 
-    getLevels(artifactCount: number): number {
-        return Math.max(0, artifactCount - 19);
+    getLevels(playerLevel: number): number {
+        return Math.max(0, playerLevel - 19);
     }
 
     getEffect(level: number): Decimal {
@@ -70,8 +70,8 @@ export class PrestigeCrystalRarity extends PrestigeCrystal {
         });
     }
 
-    getLevels(artifactCount: number): number {
-        return Math.max(0, artifactCount - 19);
+    getLevels(playerLevel: number): number {
+        return Math.max(0, playerLevel - 19);
     }
 
     getEffect(level: number): Decimal {
@@ -87,8 +87,8 @@ export class PrestigeCrystalMagic extends PrestigeCrystal {
         });
     }
 
-    getLevels(artifactCount: number): number {
-        return Math.max(0, artifactCount - 19);
+    getLevels(playerLevel: number): number {
+        return Math.max(0, playerLevel - 19);
     }
 
     getEffect(level: number): Decimal {

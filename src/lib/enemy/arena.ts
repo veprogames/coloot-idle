@@ -54,9 +54,7 @@ export default class Arena {
     hitEnemy(damage: Decimal): EnemyDrop|null {
         this.currentEnemy.hit(damage);
         if(this.currentEnemy.dead) {
-            const drop = Math.random() < this.currentEnemy.dropChance ?
-                this.currentEnemy.generateDrop() :
-                null;
+            const drop = this.currentEnemy.generateDrop();
             const wasBoss = this.currentEnemy.type === EnemyType.BOSS;
             if(wasBoss && this.isOnHighestStage) {
                 this.maxStage++;
