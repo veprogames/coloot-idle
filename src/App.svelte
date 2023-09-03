@@ -4,6 +4,7 @@
     import { game } from "./lib/stores";
     import tickGame, { tickEnemy, tickPlayer } from "./lib/tick";
     import Arena from "./lib/enemy/Arena.svelte";
+    import GameBackground from "./lib/enemy/GameBackground.svelte";
 
     let prev = Date.now();
 
@@ -26,11 +27,5 @@
     <Arena arena={$game.arena} />
     <Player player={$game.player} />
 
-    <img class="bg fixed left-0 top-0 -z-10 h-screen w-auto" src="./images/bg.png" alt="Game Background, torchlit dungeon"/>
+    <GameBackground arena={$game.arena} />
 </main>
-
-<style lang="postcss">
-    img.bg {
-        mask-image: linear-gradient(125deg, rgba(1, 1, 1, 0.7), transparent);
-    }
-</style>

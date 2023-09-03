@@ -12,19 +12,19 @@ export enum EnemyType {
 
 export type EnemyDrop = Equipment|Artifact;
 
-const HP_TO_STAT_EXP = 1 / 2.6;
+const HP_TO_STAT_EXP = 1 / 2.75;
 
 export default class Enemy {
-    hp: Decimal;
+    baseHp: Decimal;
     currentHp: Decimal;
-    def: Decimal;
     type: EnemyType;
+    tier: number;
 
-    constructor(hp: Decimal, def: Decimal, type: EnemyType) {
-        this.hp = hp;
-        this.def = def;
-        this.currentHp = new Decimal(hp);
+    constructor(baseHp: Decimal, type: EnemyType, tier: number = 0) {
         this.type = type;
+        this.tier = tier;
+        this.baseHp = baseHp;
+        this.currentHp = new Decimal(this.hp);
     }
 
     /**
@@ -33,11 +33,11 @@ export default class Enemy {
      * @param damage Amount of Damage
      */
     hit(damage: Decimal) {
-        this.currentHp = this.currentHp.sub(this.getEffectiveDamage(damage));
+        this.currentHp = this.currentHp.sub(damage);
     }
 
-    getEffectiveDamage(rawDamage: Decimal): Decimal {
-        return Decimal.max(0, rawDamage.sub(this.def));
+    get hp(): Decimal {
+        return this.baseHp.mul(Decimal.pow(2, this.tier));
     }
 
     get hpPercentage(): number {
@@ -49,15 +49,15 @@ export default class Enemy {
     }
 
     get dropChance(): number {
-        return this.type === EnemyType.NORMAL ? 0.5 : 1;
+        return 1;
     }
 
     private getEquipmentBaseStat() {
         const player = get(game).player;
         return this.hp.div(100).pow(HP_TO_STAT_EXP)
-            .div(this.hp.div(1e18).max(1).pow(0.04)) // kicks in around stage 70
+            .div(this.hp.div(1e30).max(1).pow(0.02))
             .mul(player.magicFind)
-            .mul(8 + 8 * Math.random());
+            .mul(8 + 6 * Math.random());
     }
 
     generateEquipment(): Equipment {

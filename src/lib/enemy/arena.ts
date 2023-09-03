@@ -6,11 +6,12 @@ import type Player from "../player/player";
 import { get } from "svelte/store";
 import { game } from "../stores";
 import { ArtifactEffectType } from "../equipment/artifact";
+import { getWorldDataForStage } from "./world";
 
 export default class Arena {
     currentStage: number = 0;
     maxStage: number = 0;
-    killsOnHighestStage: number = 0;
+    isBossActive: boolean = false;
 
     currentEnemy: Enemy;
 
@@ -18,39 +19,30 @@ export default class Arena {
         this.currentEnemy = this.getNewEnemy();
     }
 
-    generateEnemy(): Enemy {
+    private getBaseHp(stage: number): Decimal {
         const PHI = 1.618;
-        const hp = new Decimal(0.75 + 0.5 * Math.random())
-            .mul(100)
-            .mul(Decimal.pow(PHI, this.currentStage));
-        const def = hp.mul(0.01 + 0.01 * Math.random()).floor();
+        return new Decimal(50)
+            .mul(Decimal.pow(PHI, stage * 5));
+    }
 
-        return new Enemy(hp, def, EnemyType.NORMAL);
+    generateEnemy(): Enemy {
+        const hp = this.getBaseHp(this.currentStage).mul(0.75 + 0.5 * Math.random());
+        const tier = Math.min(2, Math.floor(-Math.log2(1 - Math.random())));
+
+        return new Enemy(hp, EnemyType.NORMAL, tier);
     }
 
     generateBoss(): Enemy {
-        const PHI = 1.618;
-        const hp = new Decimal(1)
-            .mul(1000)
-            .mul(Decimal.pow(PHI, this.currentStage));
-        const def = hp.mul(0.005).floor();
+        const hp = this.getBaseHp(this.currentStage).mul(20);
 
-        return new Enemy(hp, def, EnemyType.BOSS);
+        return new Enemy(hp, EnemyType.BOSS, 0);
     }
 
     getNewEnemy(): Enemy {
-        if(this.isOnHighestStage && this.isBossStage) {
+        if(this.isOnHighestStage && this.isBossActive) {
             return this.generateBoss();
         }
         return this.generateEnemy();
-    }
-
-    private increaseKillCounter(){
-        this.killsOnHighestStage++;
-        if(this.killsOnHighestStage >= this.requiredKills){
-            this.maxStage++;
-            this.killsOnHighestStage = 0;
-        }
     }
 
     /**
@@ -65,10 +57,20 @@ export default class Arena {
             const drop = Math.random() < this.currentEnemy.dropChance ?
                 this.currentEnemy.generateDrop() :
                 null;
-            if(this.isOnHighestStage) {
-                this.increaseKillCounter();
+            const wasBoss = this.currentEnemy.type === EnemyType.BOSS;
+            if(wasBoss && this.isOnHighestStage) {
+                this.maxStage++;
+                this.gotoMaxStage();
+                this.isBossActive = false;
             }
             this.currentEnemy = this.getNewEnemy();
+
+            // automatically activate boss if very strong
+            const player = get(game).player;
+            if(player.getOverkillForHealth(this.getBaseHp(this.currentStage)).gt(64)) {
+                this.activateBoss();
+            }
+
             return drop;
         }
         return null;
@@ -79,7 +81,6 @@ export default class Arena {
         // When the player dies, kills are being reset
         if(player.dead) {
             player.revive();
-            this.killsOnHighestStage = 0;
             this.currentEnemy = this.getNewEnemy();
         }
     }
@@ -92,15 +93,9 @@ export default class Arena {
         return this.currentStage === this.maxStage;
     }
 
-    get isBossStage(): boolean {
-        return this.currentStage % 5 === 4 && this.currentStage > 0;
-    }
-
-    get requiredKills(): number {
-        const stageEffect = Math.floor(15 * (this.currentStage / 200) ** 2);
-        const artifactEffect = get(game).player.inventory.getArtifactEffects()[ArtifactEffectType.REQUIRED_KILLS];
-
-        return this.isBossStage ? 1 : Math.max(1, 10 + stageEffect + artifactEffect.toNumber());
+    get stageName(): string {
+        const data = getWorldDataForStage(this.currentStage);
+        return `${data.title} ${this.currentStage - data.stage + 1}`;
     }
 
     /* Stage Navigation */
@@ -111,11 +106,27 @@ export default class Arena {
         this.currentEnemy = this.getNewEnemy();
     }
 
+    gotoMaxStage() {
+        this.gotoStage(this.maxStage);
+    }
+
     nextStage() {
         this.gotoStage(this.currentStage + 1);
     }
 
     prevStage() {
         this.gotoStage(this.currentStage - 1);
+    }
+
+    activateBoss(){
+        if(this.isOnHighestStage) {
+            this.isBossActive = true;
+            this.currentEnemy = this.getNewEnemy();
+        }
+    }
+
+    deactivateBoss() {
+        this.isBossActive = false;
+        this.currentEnemy = this.getNewEnemy();
     }
 }

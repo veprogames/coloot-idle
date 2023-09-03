@@ -4,6 +4,7 @@ import { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equip
 import type Arena from "../enemy/arena";
 import PlayerInventory from "./player-inventory";
 import Artifact, { ArtifactEffectType, Artifacts, randomArtifact } from "../equipment/artifact";
+import type Enemy from "../enemy/enemy";
 
 export type PlayerEquipment = {
     [EquipmentType.WEAPON]: Equipment,
@@ -68,6 +69,14 @@ export default class Player {
 
     get dead(): boolean {
         return this.currentHp <= 0;
+    }
+
+    getOverkill(enemy: Enemy): Decimal {
+        return this.power.div(enemy.hp);
+    }
+
+    getOverkillForHealth(hp: Decimal): Decimal {
+        return this.power.div(hp);
     }
 
     /**
