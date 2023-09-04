@@ -2,7 +2,7 @@
     import ArtifactShopDialog from "../artifact/ArtifactShopDialog.svelte";
 import type Equipment from "../equipment/equipment";
     import { game } from "../stores";
-    import Artifact from "./Artifact.svelte";
+    import Artifact from "../artifact/Artifact.svelte";
     import EquipmentComponent from "./Equipment.svelte";
     import Player from "./player";
 

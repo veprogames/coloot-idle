@@ -4,11 +4,12 @@
 
     export let data: ArtifactData;
     export let tier: number;
+    export let size: number = 12;
 
     $: color = getTierColor(tier);
 </script>
 
-<img class="w-12 h-12" style:--artifact-color={color} src={data.image} alt={data.title}/>
+<img style:width="{size / 4}rem" style:height="{size / 4}rem" style:--artifact-color={color} src={data.image} alt={data.title}/>
 
 <style lang="postcss">
     img {
