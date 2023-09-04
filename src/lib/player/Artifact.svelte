@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type Artifact from "../equipment/artifact";
-    import { ArtifactEffectOperation } from "../equipment/artifact";
+    import type Artifact from "../artifact/artifact";
+    import { ArtifactEffectOperation } from "../artifact/artifact";
     import { capitalize, getTierName } from "../utils";
 
     export let artifact: Artifact;

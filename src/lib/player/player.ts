@@ -3,7 +3,7 @@ import Equipment from "../equipment/equipment"
 import { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment"
 import type Arena from "../enemy/arena";
 import PlayerInventory from "./player-inventory";
-import Artifact, { ArtifactEffectType, Artifacts, randomArtifact } from "../equipment/artifact";
+import Artifact, { ArtifactEffectType, Artifacts, randomArtifact } from "../artifact/artifact";
 import type Enemy from "../enemy/enemy";
 import { get } from "svelte/store";
 import { game } from "../stores";

@@ -5,7 +5,7 @@ import { clamp } from "../utils";
 import type Player from "../player/player";
 import { get } from "svelte/store";
 import { game } from "../stores";
-import { ArtifactEffectType } from "../equipment/artifact";
+import { ArtifactEffectType } from "../artifact/artifact";
 import { getWorldDataForStage } from "./world";
 
 export default class Arena {

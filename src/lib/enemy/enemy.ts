@@ -3,7 +3,7 @@ import Equipment, { EquipmentType } from "../equipment/equipment";
 import { choose } from "../utils";
 import { get } from "svelte/store";
 import { game } from "../stores";
-import Artifact, { ArtifactEffectType, Artifacts, calculateArtifactEffects, randomArtifact } from "../equipment/artifact";
+import Artifact, { ArtifactEffectType, Artifacts, calculateArtifactEffects, randomArtifact } from "../artifact/artifact";
 
 export enum EnemyType {
     NORMAL,

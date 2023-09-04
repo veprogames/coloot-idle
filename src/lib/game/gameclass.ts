@@ -1,3 +1,4 @@
+import ArtifactShop from "../artifact/artifactshop";
 import Arena from "../enemy/arena";
 import Player from "../player/player";
 import { PrestigeCrystalPower, type PrestigeCrystal, PrestigeCrystalRarity, PrestigeCrystalMagic } from "../prestigecrystal/prestigecrystal";
@@ -10,4 +11,5 @@ export default class GameClass {
         rarity: new PrestigeCrystalRarity(),
         magic: new PrestigeCrystalMagic(),
     }
+    artifactShop: ArtifactShop = new ArtifactShop(this.player)
 }
