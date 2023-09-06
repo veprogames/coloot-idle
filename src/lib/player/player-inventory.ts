@@ -47,8 +47,7 @@ export default class PlayerInventory {
         this.artifacts = [];
     }
 
-    reset(): void {
-        this.artifacts = [];
+    resetEquipment(): void {
         this.equipment = [];
     }
 }

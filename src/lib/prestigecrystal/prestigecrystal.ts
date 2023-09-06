@@ -43,6 +43,10 @@ export abstract class PrestigeCrystal {
             arena.reset();
         }
     }
+
+    reset() {
+        this.level = 0;
+    }
 }
 
 export class PrestigeCrystalPower extends PrestigeCrystal {

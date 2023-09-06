@@ -200,6 +200,6 @@ export default class Player {
         this.scrap = new Decimal(0);
         this.xp = new Decimal(0);
         this.level = 0;
-        this._inventory.reset();
+        this._inventory.resetEquipment();
     }
 }

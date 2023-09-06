@@ -12,4 +12,10 @@ export default class GameClass {
         magic: new PrestigeCrystalMagic(),
     }
     artifactShop: ArtifactShop = new ArtifactShop(this.player)
+
+    resetPrestigeCrystals() {
+        for(const crystal of Object.values(this.prestigeCrystals)) {
+            crystal.reset();
+        }
+    }
 }

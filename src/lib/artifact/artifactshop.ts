@@ -6,7 +6,7 @@ import type { ArtifactData } from "./artifact";
 import Artifact, { Artifacts } from "./artifact";
 
 export default class ArtifactShop {
-    totalGems: number = 100;
+    totalGems: number = 0;
     gemsSpent: number = 0;
     player: Player
 
@@ -25,7 +25,7 @@ export default class ArtifactShop {
     getGems(playerLevel: number): number {
         const headStart = playerLevel >= 99 ? 3 : 0;
         const baseGems = (playerLevel - 99) / 3 + headStart;
-        return Math.max(0, baseGems - this.totalGems);
+        return Math.floor(Math.max(0, baseGems - this.totalGems));
     }
 
     /**
@@ -38,6 +38,7 @@ export default class ArtifactShop {
 
             this.player.reset();
             arena.reset();
+            get(game).resetPrestigeCrystals();
 
             this.totalGems += gems;
         }
