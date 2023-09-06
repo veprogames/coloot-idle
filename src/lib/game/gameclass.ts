@@ -1,7 +1,7 @@
 import ArtifactShop from "../artifact/artifactshop";
 import Arena from "../enemy/arena";
 import Player from "../player/player";
-import { PrestigeCrystalPower, type PrestigeCrystal, PrestigeCrystalRarity, PrestigeCrystalMagic } from "../prestigecrystal/prestigecrystal";
+import { PrestigeCrystalMagic, PrestigeCrystalPower, PrestigeCrystalRarity } from "../prestigecrystal/prestigecrystal";
 
 export default class GameClass {
     player: Player = new Player();
@@ -11,7 +11,7 @@ export default class GameClass {
         rarity: new PrestigeCrystalRarity(),
         magic: new PrestigeCrystalMagic(),
     }
-    artifactShop: ArtifactShop = new ArtifactShop(this.player)
+    artifactShop: ArtifactShop = new ArtifactShop()
 
     resetPrestigeCrystals() {
         for(const crystal of Object.values(this.prestigeCrystals)) {

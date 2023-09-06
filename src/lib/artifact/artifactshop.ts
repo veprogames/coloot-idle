@@ -1,18 +1,10 @@
-import Decimal from "break_infinity.js";
-import type Player from "../player/player";
-import { get } from "svelte/store";
-import { game } from "../stores";
+import { getGame } from "../singleton";
 import type { ArtifactData } from "./artifact";
 import Artifact, { Artifacts } from "./artifact";
 
 export default class ArtifactShop {
     totalGems: number = 0;
     gemsSpent: number = 0;
-    player: Player
-
-    constructor(player: Player) {
-        this.player = player;
-    }
 
     get gems(): number {
         return this.totalGems - this.gemsSpent;
@@ -20,6 +12,10 @@ export default class ArtifactShop {
 
     get shopLevel() {
         return 1 + this.gemsSpent ** 0.5;
+    }
+
+    private get player() {
+        return getGame().player;
     }
 
     getGems(playerLevel: number): number {
@@ -34,11 +30,11 @@ export default class ArtifactShop {
     activate() {
         const gems = this.getGems(this.player.level);
         if(gems > 0) {
-            const arena = get(game).arena;
+            const arena = getGame().arena;
 
             this.player.reset();
             arena.reset();
-            get(game).resetPrestigeCrystals();
+            getGame().resetPrestigeCrystals();
 
             this.totalGems += gems;
         }
@@ -53,7 +49,7 @@ export default class ArtifactShop {
     }
 
     getArtifactPrice(artifactData: ArtifactData, tier: number): number {
-        return 1 * (1 + tier);
+        return artifactData.basePrice * (1 + tier);
     }
 
     buyArtifact(artifactData: ArtifactData, tier: number) {
@@ -67,7 +63,7 @@ export default class ArtifactShop {
     }
 
     respec() {
-        const arena = get(game).arena;
+        const arena = getGame().arena;
         
         this.gemsSpent = 0;
         this.player.reset();

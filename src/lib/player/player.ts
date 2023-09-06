@@ -1,12 +1,10 @@
 import Decimal from "break_infinity.js";
-import Equipment from "../equipment/equipment"
-import { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment"
+import Artifact, { ArtifactEffectType } from "../artifact/artifact";
 import type Arena from "../enemy/arena";
-import PlayerInventory from "./player-inventory";
-import Artifact, { ArtifactEffectType, Artifacts, randomArtifact } from "../artifact/artifact";
 import type Enemy from "../enemy/enemy";
-import { get } from "svelte/store";
-import { game } from "../stores";
+import Equipment, { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment";
+import { getGame } from "../singleton";
+import PlayerInventory from "./player-inventory";
 
 export type PlayerEquipment = {
     [EquipmentType.WEAPON]: Equipment,
@@ -36,6 +34,10 @@ export default class Player {
     level: number = 0;
 
     constructor() {
+        this.currentHp = 0;
+    }
+
+    initialize() {
         this.currentHp = this.hp;
     }
 
@@ -58,7 +60,7 @@ export default class Player {
     get power(): Decimal {
         const levelEffect = Decimal.pow(1.04, this.level);
         const artifactEffect = this._inventory.getArtifactEffects()[ArtifactEffectType.DAMAGE];
-        const crystalEffect = get(game).prestigeCrystals.power.effect;
+        const crystalEffect = getGame().prestigeCrystals.power.effect;
 
         return this.weapon.stat
             .mul(this.armor.stat.div(10).pow(0.5))
@@ -70,6 +72,7 @@ export default class Player {
     }
 
     get hp(): number {
+        const g = getGame();
         const artifactEffect = this._inventory.getArtifactEffects()[ArtifactEffectType.MAX_HEALTH].toNumber();
 
         return 10 + artifactEffect;
@@ -97,7 +100,7 @@ export default class Player {
     get magicFind(): Decimal {
         const levelMult = Decimal.pow(1.02, this.level);
         const artifactMult = this._inventory.getArtifactEffects()[ArtifactEffectType.MAGIC_FIND];
-        const crystalMult = get(game).prestigeCrystals.magic.effect;
+        const crystalMult = getGame().prestigeCrystals.magic.effect;
 
         return (this.scrap.add(1).pow(0.1))
             .mul(this.accessory.stat.div(10).pow(0.1))

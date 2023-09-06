@@ -1,7 +1,6 @@
-import { get } from "svelte/store";
-import type Player from "../player/player";
-import { game } from "../stores";
 import Decimal from "break_infinity.js";
+import type Player from "../player/player";
+import { getGame } from "../singleton";
 
 export interface PrestigeCrystalData {
     title: string,
@@ -37,7 +36,7 @@ export abstract class PrestigeCrystal {
 
     invest(player: Player) {
         if(this.canInvest(player)) {
-            const arena = get(game).arena;
+            const arena = getGame().arena;
             this.level += this.getNewLevels(player);
             player.reset();
             arena.reset();

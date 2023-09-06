@@ -1,9 +1,8 @@
 import Decimal from "break_infinity.js";
+import Artifact, { ArtifactEffectType, randomArtifact } from "../artifact/artifact";
 import Equipment, { EquipmentType } from "../equipment/equipment";
+import { getGame } from "../singleton";
 import { choose } from "../utils";
-import { get } from "svelte/store";
-import { game } from "../stores";
-import Artifact, { ArtifactEffectType, Artifacts, calculateArtifactEffects, randomArtifact } from "../artifact/artifact";
 
 export enum EnemyType {
     NORMAL,
@@ -56,7 +55,7 @@ export default class Enemy {
     }
 
     private getEquipmentBaseStat() {
-        const player = get(game).player;
+        const player = getGame().player;
         return this.hp.div(100).pow(HP_TO_STAT_EXP)
             .div(this.hp.div(1e30).max(1).pow(0.0333))
             .div(this.hp.div(1e100).max(1).pow(0.03))
@@ -66,9 +65,9 @@ export default class Enemy {
 
     generateEquipment(): Equipment {
         const base = this.getEquipmentBaseStat();
-        const player = get(game).player;
+        const player = getGame().player;
         const inventory = player.inventory;
-        const crystal = get(game).prestigeCrystals.rarity;
+        const crystal = getGame().prestigeCrystals.rarity;
 
         const artifactMult = inventory.getArtifactEffects()[ArtifactEffectType.EQUIPMENT_RARITY];
         const crystalMult = crystal.effect;
@@ -84,7 +83,7 @@ export default class Enemy {
     }
 
     generateArtifact(): Artifact {
-        const stage = get(game).arena.currentStage;
+        const stage = getGame().arena.currentStage;
         const tier = Math.floor(-Math.log10(1 - Math.random()) + stage / 200);
         return randomArtifact(tier);
     }
@@ -103,7 +102,7 @@ export default class Enemy {
     }
 
     get damage(): number{
-        const stageMult = 1 + 2 * (get(game).arena.currentStage / 200) ** 2;
+        const stageMult = 1 + 2 * (getGame().arena.currentStage / 200) ** 2;
         const base = this.type == EnemyType.BOSS ? 2 : 1;
         return Math.floor(base * stageMult);
     }

@@ -1,6 +1,10 @@
 import type { DecimalSource } from "break_infinity.js";
-import { F, choose, getTierColor } from "../utils";
 import Decimal from "break_infinity.js";
+import { F, choose, getTierColor } from "../utils";
+import type GameClass from "../game/gameclass";
+
+// this broke because Player() called a getter too early
+import { getGame } from "../singleton";
 
 export enum ArtifactEffectType {
     DAMAGE,
@@ -20,7 +24,10 @@ export interface ArtifactData {
     effectType: ArtifactEffectType,
     effectAmount: DecimalSource,
     effectOperation: ArtifactEffectOperation,
+    getAdditionalEffectMultiplier?: (game: GameClass, count: number) => Decimal,
     image: string,
+    // base gem price
+    basePrice: number,
 }
 
 export type ArtifactCalculatedEffects = {
@@ -31,6 +38,7 @@ export default class Artifact {
     count: number = 1;
     tier: number;
     data: ArtifactData;
+    gameInstance: GameClass|undefined;
 
     constructor(data: ArtifactData, tier: number) {
         this.data = data;
@@ -62,9 +70,10 @@ export default class Artifact {
     }
 
     private get effectEach(): Decimal {
-        return this.data.effectOperation === ArtifactEffectOperation.ADDITIVE ?
-            new Decimal(this.data.effectAmount).mul(1 + this.tier) :
-            new Decimal(this.data.effectAmount);
+        const base = new Decimal(this.data.effectAmount);
+        const additionalMult = this.data.getAdditionalEffectMultiplier?.(getGame(), this.count) ?? new Decimal(1);
+
+        return base.mul(additionalMult);
     }
 
     get effect(): Decimal {
@@ -101,6 +110,10 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.ADDITIVE,
         image: "./images/artifacts/potion.png",
+        basePrice: 1,
+        getAdditionalEffectMultiplier(game, count) {
+            return new Decimal(1 + count);
+        },
     },
     "ironfist": {
         id: "ironfist",
@@ -109,6 +122,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectAmount: 0.7,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
         image: "./images/artifacts/ironfist.png",
+        basePrice: 1,
     },
     "shinydiamond": {
         id: "shinydiamond",
@@ -117,6 +131,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectAmount: 0.25,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
         image: "./images/artifacts/shinydiamond.png",
+        basePrice: 1,
     },
     "shovel": {
         id: "shovel",
@@ -125,6 +140,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
         image: "./images/artifacts/shovel.png",
+        basePrice: 1,
     },
 };
 

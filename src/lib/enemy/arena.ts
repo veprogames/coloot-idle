@@ -1,11 +1,8 @@
 import Decimal from "break_infinity.js";
-import Enemy, { EnemyType, type EnemyDrop } from "./enemy";
-import type Equipment from "../equipment/equipment";
-import { clamp } from "../utils";
 import type Player from "../player/player";
-import { get } from "svelte/store";
-import { game } from "../stores";
-import { ArtifactEffectType } from "../artifact/artifact";
+import { getGame } from "../singleton";
+import { clamp } from "../utils";
+import Enemy, { EnemyType, type EnemyDrop } from "./enemy";
 import { getWorldDataForStage } from "./world";
 
 export default class Arena {
@@ -64,7 +61,7 @@ export default class Arena {
             this.currentEnemy = this.getNewEnemy();
 
             // automatically activate boss if very strong
-            const player = get(game).player;
+            const player = getGame().player;
             if(player.getOverkillForHealth(this.getBaseHp(this.currentStage)).gt(64)) {
                 this.activateBoss();
             }
