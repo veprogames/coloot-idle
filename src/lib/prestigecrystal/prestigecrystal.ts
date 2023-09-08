@@ -2,6 +2,8 @@ import Decimal from "break_infinity.js";
 import type Player from "../player/player";
 import { getGame } from "../singleton";
 
+const BASE_REQUIRED_LEVEL = 20;
+
 export interface PrestigeCrystalData {
     title: string,
     description: string,
@@ -13,6 +15,11 @@ export abstract class PrestigeCrystal {
      * Increases by investing Artifacts
      */
     level: number = 0;
+
+    /**
+     * The Level the player had when investing
+     */
+    investedPlayerLevel: number = BASE_REQUIRED_LEVEL;
 
     constructor(data: PrestigeCrystalData) {
         this.data = data;
@@ -38,6 +45,7 @@ export abstract class PrestigeCrystal {
         if(this.canInvest(player)) {
             const arena = getGame().arena;
             this.level += this.getNewLevels(player);
+            this.investedPlayerLevel = Math.max(this.investedPlayerLevel, player.level);
             player.reset();
             arena.reset();
         }
@@ -57,7 +65,7 @@ export class PrestigeCrystalPower extends PrestigeCrystal {
     }
 
     getLevels(playerLevel: number): number {
-        return Math.max(0, playerLevel - 19);
+        return Math.max(0, playerLevel - BASE_REQUIRED_LEVEL + 1);
     }
 
     getEffect(level: number): Decimal {
@@ -74,7 +82,7 @@ export class PrestigeCrystalRarity extends PrestigeCrystal {
     }
 
     getLevels(playerLevel: number): number {
-        return Math.max(0, playerLevel - 19);
+        return Math.max(0, playerLevel - BASE_REQUIRED_LEVEL + 1);
     }
 
     getEffect(level: number): Decimal {
@@ -91,7 +99,7 @@ export class PrestigeCrystalMagic extends PrestigeCrystal {
     }
 
     getLevels(playerLevel: number): number {
-        return Math.max(0, playerLevel - 19);
+        return Math.max(0, playerLevel - BASE_REQUIRED_LEVEL + 1);
     }
 
     getEffect(level: number): Decimal {

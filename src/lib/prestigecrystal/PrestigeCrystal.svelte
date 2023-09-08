@@ -12,13 +12,21 @@
     }
 </script>
 
-<div class="bg-black bg-opacity-30 p-4">
-    <h2>{crystal.data.title} Lv. {crystal.level}</h2>
-    <p>{crystal.data.description}</p>
-    <p>Current: <span class="text-green-400 font-semibold">x{F(crystal.effect, true)}</span></p>
+<div class="flex gap-4 justify-between bg-black bg-opacity-30 p-4">
+    <div>
+        <h2>{crystal.data.title} Lv. {crystal.level}</h2>
+        <p class="flex items-center">
+            <img class="w-8 h-8 inline" src="./images/equipment/sword.png" alt={crystal.data.description}/>
+            <span class="text-green-400 font-semibold text-xl">x{F(crystal.effect, true)}</span>
+        </p>
+    </div>
 
-    <button on:click={invest} class="btn">
-        Invest (+{crystal.getNewLevels(player)}) <br/>
-        To: x{F(crystal.getEffect(crystal.getLevels(player.level)), true)}
-    </button>
+    {#if crystal.canInvest(player)}
+        <button on:click={invest} class="btn">
+            Invest (+{crystal.getNewLevels(player)}) <br/>
+            To: x{F(crystal.getEffect(crystal.getLevels(player.level)), true)}
+        </button>
+    {:else}
+        <button disabled class="btn">Reach<br/>Level {crystal.investedPlayerLevel}</button>
+    {/if}
 </div>
