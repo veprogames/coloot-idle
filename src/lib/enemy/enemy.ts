@@ -104,7 +104,7 @@ export default class Enemy {
     }
 
     get damage(): number{
-        const stageMult = 1 + 2 * (getGame().arena.currentStage / 200) ** 2;
+        const stageMult = 1 + 2 * (getGame().arena.currentStage / 100);
         const base = this.type == EnemyType.BOSS ? 2 : 1;
         return Math.floor(base * stageMult);
     }

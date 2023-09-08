@@ -72,10 +72,9 @@ export default class Player {
     }
 
     get hp(): number {
-        const g = getGame();
         const artifactEffect = this._inventory.getArtifactEffects()[ArtifactEffectType.MAX_HEALTH].toNumber();
 
-        return 10 + artifactEffect;
+        return 10 + Math.floor(0.25 * this.level) + artifactEffect;
     }
 
     get hpPercentage(): number {
@@ -173,11 +172,18 @@ export default class Player {
     }
 
     addXp(xp: Decimal) {
+        let didLevelUp = false;
+
         this.xp = this.xp.add(xp);
 
         while(this.xp.gt(this.xpRequired)){
             this.xp = this.xp.sub(this.xpRequired);
             this.level++;
+            didLevelUp = true;
+        }
+
+        if(didLevelUp) {
+            this.heal();
         }
     }
 
