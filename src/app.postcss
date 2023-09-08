@@ -27,14 +27,18 @@ button.btn {
   box-shadow: 0 0.25rem theme(colors.green.800);
 }
 
-button.btn:hover {
+button.btn:hover:not(:disabled) {
   @apply bg-green-500 p-2 rounded-md;
   box-shadow: 0 0.25rem theme(colors.green.700);
 }
 
-button.btn:active {
+button.btn:active:not(:disabled) {
   @apply bg-green-400 p-2 rounded-md translate-y-[0.1rem];
   box-shadow: 0 0.15rem theme(colors.green.600);
+}
+
+button.btn:disabled {
+  @apply brightness-75;
 }
 
 button.btn.btn-gray {

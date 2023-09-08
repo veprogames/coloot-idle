@@ -28,5 +28,6 @@
 
 <button on:click={() => dialog.showModal()} class="relative w-16 h-16">
     <ArtifactImage data={artifact.data} tier={artifact.tier} size={16}/>
-    <span class="absolute -bottom-2 right-0 font-bold">x{artifact.count}</span>
+    <span class="absolute -bottom-1 right-0 font-bold text-xl
+        bg-black bg-opacity-50 p-0.5 z-10">x{artifact.count}</span>
 </button>

@@ -7,7 +7,11 @@ export default class PlayerInventory {
     artifacts: Artifact[] = [];
 
     get equipmentCapacity(): number {
-        return 32;
+        return 48;
+    }
+
+    get remainingEquipmentCapacity(): number {
+        return this.equipmentCapacity - this.equipment.length;
     }
 
     addEquipment(equipment: Equipment) {
