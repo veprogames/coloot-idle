@@ -1,11 +1,8 @@
 import Decimal from "break_infinity.js";
-import Enemy, { EnemyType, type EnemyDrop } from "./enemy";
-import type Equipment from "../equipment/equipment";
-import { clamp } from "../utils";
 import type Player from "../player/player";
-import { get } from "svelte/store";
-import { game } from "../stores";
-import { ArtifactEffectType } from "../equipment/artifact";
+import { getGame } from "../singleton";
+import { clamp } from "../utils";
+import Enemy, { EnemyType, type EnemyDrop } from "./enemy";
 import { getWorldDataForStage } from "./world";
 
 export default class Arena {
@@ -54,19 +51,19 @@ export default class Arena {
     hitEnemy(damage: Decimal): EnemyDrop|null {
         this.currentEnemy.hit(damage);
         if(this.currentEnemy.dead) {
-            const drop = Math.random() < this.currentEnemy.dropChance ?
-                this.currentEnemy.generateDrop() :
-                null;
+            const player = getGame().player;
+
+            const drop = this.currentEnemy.generateDrop();
             const wasBoss = this.currentEnemy.type === EnemyType.BOSS;
             if(wasBoss && this.isOnHighestStage) {
                 this.maxStage++;
                 this.gotoMaxStage();
                 this.isBossActive = false;
+                player.heal();
             }
             this.currentEnemy = this.getNewEnemy();
 
             // automatically activate boss if very strong
-            const player = get(game).player;
             if(player.getOverkillForHealth(this.getBaseHp(this.currentStage)).gt(64)) {
                 this.activateBoss();
             }
@@ -80,7 +77,7 @@ export default class Arena {
         player.hit(this.currentEnemy.damage);
         // When the player dies, kills are being reset
         if(player.dead) {
-            player.revive();
+            player.heal();
             this.currentEnemy = this.getNewEnemy();
         }
     }

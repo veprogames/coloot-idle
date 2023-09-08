@@ -19,6 +19,6 @@
 
     <button on:click={invest} class="btn">
         Invest (+{crystal.getNewLevels(player)}) <br/>
-        To: x{F(crystal.getEffect(crystal.getLevels(player.inventory.artifactCount)), true)}
+        To: x{F(crystal.getEffect(crystal.getLevels(player.level)), true)}
     </button>
 </div>

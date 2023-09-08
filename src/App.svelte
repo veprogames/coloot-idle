@@ -18,6 +18,8 @@
     }
 
     onMount(() => {
+        $game.player.initialize();
+
         tick();
         tickPlayer();
         tickEnemy();
