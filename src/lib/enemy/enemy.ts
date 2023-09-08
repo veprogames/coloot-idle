@@ -1,5 +1,5 @@
 import Decimal from "break_infinity.js";
-import Artifact, { ArtifactEffectType, randomArtifact } from "../artifact/artifact";
+import Artifact, { ArtifactEffectType, calculateArtifactEffects, randomArtifact } from "../artifact/artifact";
 import Equipment, { EquipmentType } from "../equipment/equipment";
 import { getGame } from "../singleton";
 import { choose } from "../utils";
@@ -51,7 +51,9 @@ export default class Enemy {
     }
 
     get xp(): Decimal {
-        return this.hp;
+        const artifactMult = getGame().player.inventory.getArtifactEffects()[ArtifactEffectType.PLAYER_XP];
+
+        return this.hp.mul(artifactMult);
     }
 
     private getEquipmentBaseStat() {

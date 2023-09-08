@@ -19,8 +19,8 @@ export default class ArtifactShop {
     }
 
     getGems(playerLevel: number): number {
-        const headStart = playerLevel >= 99 ? 3 : 0;
-        const baseGems = (playerLevel - 99) / 3 + headStart;
+        const headStart = playerLevel >= 99 ? 5 : 0;
+        const baseGems = (playerLevel - 99) / 2 + headStart;
         return Math.floor(Math.max(0, baseGems - this.totalGems));
     }
 

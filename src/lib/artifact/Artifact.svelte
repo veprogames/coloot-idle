@@ -15,6 +15,9 @@
     <div>
         <h2>{tierName} {artifact.data.title}</h2>
         <p>{artifact.description}</p>
+        {#if artifact.data.hint}
+            <p class="italic text-slate-300">{artifact.data.hint}</p>
+        {/if}
         {#if artifact.data.effectOperation === ArtifactEffectOperation.ADDITIVE}
             <small>This effect is additive and is applied <strong>before</strong> all multiplicative effects.</small>
         {/if}

@@ -11,6 +11,7 @@ export enum ArtifactEffectType {
     MAGIC_FIND,
     MAX_HEALTH,
     EQUIPMENT_RARITY,
+    PLAYER_XP,
 }
 
 export enum ArtifactEffectOperation {
@@ -21,10 +22,11 @@ export enum ArtifactEffectOperation {
 export interface ArtifactData {
     id: string,
     title: string,
+    hint?: string,
     effectType: ArtifactEffectType,
     effectAmount: DecimalSource,
     effectOperation: ArtifactEffectOperation,
-    getAdditionalEffectMultiplier?: (game: GameClass, count: number) => Decimal,
+    getAdditionalEffectMultiplier?: (game: GameClass, count: number, tier: number) => Decimal,
     image: string,
     // base gem price
     basePrice: number,
@@ -55,6 +57,8 @@ export default class Artifact {
                 return "Equipment Rarity";
             case ArtifactEffectType.MAX_HEALTH:
                 return "Max Health";
+            case ArtifactEffectType.PLAYER_XP:
+                return "Player XP Gain";
             default:
                 return "Unknown Effect";
         }
@@ -71,7 +75,7 @@ export default class Artifact {
 
     private get effectEach(): Decimal {
         const base = new Decimal(this.data.effectAmount);
-        const additionalMult = this.data.getAdditionalEffectMultiplier?.(getGame(), this.count) ?? new Decimal(1);
+        const additionalMult = this.data.getAdditionalEffectMultiplier?.(getGame(), this.count, this.tier) ?? new Decimal(1);
 
         return base.mul(additionalMult);
     }
@@ -107,12 +111,12 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         id: "potion",
         title: "Potion",
         effectType: ArtifactEffectType.MAX_HEALTH,
-        effectAmount: 1,
+        effectAmount: 2,
         effectOperation: ArtifactEffectOperation.ADDITIVE,
         image: "./images/artifacts/potion.png",
         basePrice: 1,
-        getAdditionalEffectMultiplier(game, count) {
-            return new Decimal(1 + count);
+        getAdditionalEffectMultiplier(game, count, tier) {
+            return new Decimal(1 + 2 * tier);
         },
     },
     "ironfist": {
@@ -142,6 +146,45 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         image: "./images/artifacts/shovel.png",
         basePrice: 1,
     },
+    "orbofwisdom": {
+        id: "orbofwisdom",
+        title: "Orb of Wisdom",
+        hint: "This Artifact gets stronger based on Player Level squared",
+        effectType: ArtifactEffectType.PLAYER_XP,
+        effectAmount: 1,
+        effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
+        image: "./images/artifacts/compass.png",
+        basePrice: 3,
+        getAdditionalEffectMultiplier(game, count, tier) {
+            return Decimal.pow(1 + game.player.level * count, 2);
+        },
+    },
+    "metaldetector": {
+        id: "metaldetector",
+        title: "Metal Detector",
+        hint: "This Artifacts effect strength is based on how much Equipment you scrapped",
+        effectType: ArtifactEffectType.EQUIPMENT_RARITY,
+        effectAmount: 1,
+        effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
+        image: "./images/artifacts/compass.png",
+        basePrice: 5,
+        getAdditionalEffectMultiplier(game, count, tier) {
+            return new Decimal(game.player.scrap.add(1).log10() / 5);
+        },
+    },
+    "magicwand": {
+        id: "magicwand",
+        title: "Magic Wand of Thousand Colors",
+        hint: "This Artifacts effect strength is based on how much Artifacts you own",
+        effectType: ArtifactEffectType.MAGIC_FIND,
+        effectAmount: 0.02,
+        effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
+        image: "./images/artifacts/compass.png",
+        basePrice: 10,
+        getAdditionalEffectMultiplier(game, count, tier) {
+            return new Decimal(game.player.inventory.artifactCount);
+        },
+    },
 };
 
 export function calculateArtifactEffects(artifacts: Artifact[]){
@@ -150,6 +193,7 @@ export function calculateArtifactEffects(artifacts: Artifact[]){
         [ArtifactEffectType.DAMAGE]: new Decimal(1),
         [ArtifactEffectType.EQUIPMENT_RARITY]: new Decimal(1),
         [ArtifactEffectType.MAX_HEALTH]: new Decimal(0),
+        [ArtifactEffectType.PLAYER_XP]: new Decimal(1),
     };
 
     const sorted = [...artifacts].sort((a1: Artifact, a2: Artifact) => {
