@@ -190,7 +190,7 @@ export default class Player {
         this.currentHp -= damage;
     }
 
-    revive(): void {
+    heal() {
         this.currentHp = this.hp;
     }
 
@@ -204,5 +204,6 @@ export default class Player {
         this.xp = new Decimal(0);
         this.level = 0;
         this._inventory.resetEquipment();
+        this.heal();
     }
 }

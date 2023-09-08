@@ -2,7 +2,7 @@
     import { scale } from "svelte/transition";
     import Artifact from "./Artifact.svelte";
 import ArtifactImage from "./ArtifactImage.svelte";
-import type ArtifactShop from "./artifactshop";
+import ArtifactShop from "./artifactshop";
 
     export let shop: ArtifactShop;
 
@@ -37,5 +37,6 @@ import type ArtifactShop from "./artifactshop";
             </div>
         {/each}
     </div>
+    <button on:click={() => shop.respec()} class="btn">Respec</button>
     <button on:click={() => dialog.close()} class="btn">Close</button>
 </dialog>

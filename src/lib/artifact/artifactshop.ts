@@ -3,7 +3,7 @@ import type { ArtifactData } from "./artifact";
 import Artifact, { Artifacts } from "./artifact";
 
 export default class ArtifactShop {
-    totalGems: number = 0;
+    totalGems: number = 100;
     gemsSpent: number = 0;
 
     get gems(): number {
@@ -11,11 +11,15 @@ export default class ArtifactShop {
     }
 
     get shopLevel() {
-        return 1 + this.gemsSpent ** 0.5;
+        return 1 + this.gemsSpent ** 0.4 / 2;
     }
 
     private get player() {
         return getGame().player;
+    }
+
+    private get arena() {
+        return getGame().arena;
     }
 
     getGems(playerLevel: number): number {
@@ -62,11 +66,16 @@ export default class ArtifactShop {
         }
     }
 
+    get canRespec() {
+        return this.gemsSpent > 0;
+    }
+
     respec() {
-        const arena = getGame().arena;
-        
-        this.gemsSpent = 0;
-        this.player.reset();
-        arena.reset();
+        if(this.canRespec) {
+            this.gemsSpent = 0;
+            this.player.inventory.resetArtifacts();
+            this.player.reset();
+            this.arena.reset();
+        }
     }
 }

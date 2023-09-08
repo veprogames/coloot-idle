@@ -51,17 +51,19 @@ export default class Arena {
     hitEnemy(damage: Decimal): EnemyDrop|null {
         this.currentEnemy.hit(damage);
         if(this.currentEnemy.dead) {
+            const player = getGame().player;
+
             const drop = this.currentEnemy.generateDrop();
             const wasBoss = this.currentEnemy.type === EnemyType.BOSS;
             if(wasBoss && this.isOnHighestStage) {
                 this.maxStage++;
                 this.gotoMaxStage();
                 this.isBossActive = false;
+                player.heal();
             }
             this.currentEnemy = this.getNewEnemy();
 
             // automatically activate boss if very strong
-            const player = getGame().player;
             if(player.getOverkillForHealth(this.getBaseHp(this.currentStage)).gt(64)) {
                 this.activateBoss();
             }
@@ -75,7 +77,7 @@ export default class Arena {
         player.hit(this.currentEnemy.damage);
         // When the player dies, kills are being reset
         if(player.dead) {
-            player.revive();
+            player.heal();
             this.currentEnemy = this.getNewEnemy();
         }
     }
