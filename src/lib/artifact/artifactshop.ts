@@ -1,8 +1,9 @@
+import type { SaverLoader } from "../saveload";
 import { getGame } from "../singleton";
 import type { ArtifactData } from "./artifact";
 import Artifact, { Artifacts } from "./artifact";
 
-export default class ArtifactShop {
+export default class ArtifactShop implements SaverLoader {
     totalGems: number = 100;
     gemsSpent: number = 0;
 
@@ -77,5 +78,17 @@ export default class ArtifactShop {
             this.player.reset();
             this.arena.reset();
         }
+    }
+
+    save() {
+        return {
+            totalGems: this.totalGems,
+            gemsSpent: this.gemsSpent,
+        };
+    }
+
+    load(data: any): void {
+        this.totalGems = data.totalGems;
+        this.gemsSpent = data.gemsSpent;
     }
 }

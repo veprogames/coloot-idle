@@ -3,6 +3,7 @@ import Artifact, { ArtifactEffectType, calculateArtifactEffects, randomArtifact 
 import Equipment, { EquipmentType } from "../equipment/equipment";
 import { getGame } from "../singleton";
 import { choose } from "../utils";
+import type { SaverLoader } from "../saveload";
 
 export enum EnemyType {
     NORMAL,
@@ -16,7 +17,7 @@ export interface EnemyDrop {
 
 const HP_TO_STAT_EXP = 1 / 2.58;
 
-export default class Enemy {
+export default class Enemy implements SaverLoader {
     baseHp: Decimal;
     currentHp: Decimal;
     type: EnemyType;
@@ -107,5 +108,21 @@ export default class Enemy {
         const stageMult = 1 + 2 * (getGame().arena.currentStage / 100);
         const base = this.type == EnemyType.BOSS ? 2 : 1;
         return Math.floor(base * stageMult);
+    }
+
+    save() {
+        return {
+            baseHp: this.baseHp.toString(),
+            currentHp: this.currentHp.toString(),
+            tier: this.tier,
+            type: this.type,
+        };
+    }
+
+    load(data: any): void {
+        this.baseHp = new Decimal(data.baseHp);
+        this.currentHp = new Decimal(data.currentHp);
+        this.tier = data.tier;
+        this.type = data.type;
     }
 }

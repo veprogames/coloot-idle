@@ -1,3 +1,4 @@
+import { saveGame } from "./saveload";
 import { game } from "./stores";
 
 export default function tickGame(dt: number) {
@@ -27,4 +28,10 @@ export function tickEnemy() {
     });
 
     setTimeout(tickEnemy, 5000);
+}
+
+export function tickSave() {
+    saveGame();
+
+    setTimeout(tickSave, 60000);
 }

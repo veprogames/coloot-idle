@@ -1,6 +1,7 @@
 import Decimal from "break_infinity.js";
 import type Player from "../player/player";
 import { getGame } from "../singleton";
+import type { SaverLoader } from "../saveload";
 
 const BASE_REQUIRED_LEVEL = 20;
 
@@ -9,7 +10,7 @@ export interface PrestigeCrystalData {
     description: string,
 }
 
-export abstract class PrestigeCrystal {
+export abstract class PrestigeCrystal implements SaverLoader {
     data: PrestigeCrystalData
     /**
      * Increases by investing Artifacts
@@ -53,6 +54,16 @@ export abstract class PrestigeCrystal {
 
     reset() {
         this.level = 0;
+    }
+
+    save() {
+        return {
+            level: this.level,
+        };
+    }
+
+    load(data: any): void {
+        this.level = data.level;
     }
 }
 

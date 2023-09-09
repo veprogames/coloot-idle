@@ -4,8 +4,9 @@ import { getGame } from "../singleton";
 import { clamp } from "../utils";
 import Enemy, { EnemyType, type EnemyDrop } from "./enemy";
 import { getWorldDataForStage } from "./world";
+import type { SaverLoader } from "../saveload";
 
-export default class Arena {
+export default class Arena implements SaverLoader {
     currentStage: number = 0;
     maxStage: number = 0;
     isBossActive: boolean = false;
@@ -132,5 +133,21 @@ export default class Arena {
         this.maxStage = 0;
         this.isBossActive = false;
         this.currentEnemy = this.getNewEnemy();
+    }
+
+    save() {
+        return {
+            currentStage: this.currentStage,
+            maxStage: this.maxStage,
+            isBossActive: this.isBossActive,
+            currentEnemy: this.currentEnemy.save(),
+        };
+    }
+
+    load(data: any): void {
+        this.currentStage = data.currentStage;
+        this.maxStage = data.maxStage;
+        this.isBossActive = data.isBossActive;
+        this.currentEnemy.load(data.currentEnemy);
     }
 }

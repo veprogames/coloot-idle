@@ -5,6 +5,7 @@ import type Enemy from "../enemy/enemy";
 import Equipment, { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment";
 import { getGame } from "../singleton";
 import PlayerInventory from "./player-inventory";
+import type { SaverLoader } from "../saveload";
 
 export type PlayerEquipment = {
     [EquipmentType.WEAPON]: Equipment,
@@ -12,7 +13,7 @@ export type PlayerEquipment = {
     [EquipmentType.ACCESSORY]: Equipment,
 }
 
-export default class Player {
+export default class Player implements SaverLoader {
     private equipment: PlayerEquipment = {
         [EquipmentType.WEAPON]: INIT_WEAPON,
         [EquipmentType.ARMOR]: INIT_ARMOR,
@@ -211,5 +212,35 @@ export default class Player {
         this.level = 0;
         this._inventory.resetEquipment();
         this.heal();
+    }
+
+    /**
+     * Save and Load
+     */
+
+    save(): unknown {
+        return {
+            currentHp: this.currentHp,
+            xp: this.xp.toString(),
+            level: this.level,
+            scrap: this.scrap.toString(),
+            equipment: {
+                weapon: this.equipment[EquipmentType.WEAPON].save(),
+                armor: this.equipment[EquipmentType.ARMOR].save(),
+                accessory: this.equipment[EquipmentType.ACCESSORY].save(),
+            },
+            inventory: this._inventory.save(),
+        };
+    }
+
+    load(data: any): void {
+        this.currentHp = data.currentHp;
+        this.level = data.level;
+        this.xp = new Decimal(data.xp);
+        this.scrap = new Decimal(data.scrap);
+        this.equipment[EquipmentType.WEAPON].load(data.equipment.weapon);
+        this.equipment[EquipmentType.ARMOR].load(data.equipment.armor);
+        this.equipment[EquipmentType.ACCESSORY].load(data.equipment.accessory);
+        this._inventory.load(data.inventory);
     }
 }

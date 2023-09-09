@@ -2,10 +2,11 @@
     import { onMount } from "svelte";
     import Player from "./lib/player/Player.svelte";
     import { game } from "./lib/stores";
-    import tickGame, { tickEnemy, tickPlayer } from "./lib/tick";
+    import tickGame, { tickEnemy, tickPlayer, tickSave } from "./lib/tick";
     import Arena from "./lib/enemy/Arena.svelte";
     import GameBackground from "./lib/enemy/GameBackground.svelte";
     import PrestigeCrystalContent from "./lib/prestigecrystal/PrestigeCrystalContent.svelte";
+    import { loadGame, saveGame, wipeGame } from "./lib/saveload";
 
     let prev = Date.now();
 
@@ -23,6 +24,14 @@
         tick();
         tickPlayer();
         tickEnemy();
+        setTimeout(tickSave, 60000);
+
+        try {
+            loadGame();
+        }
+        catch(e) {
+            alert(`Error while loading Game: ${e}`);
+        }
     });
 </script>
 
@@ -30,6 +39,11 @@
     <Arena arena={$game.arena} />
     <Player player={$game.player} />
     <PrestigeCrystalContent />
+    <div>
+        <button on:click={() => saveGame()} class="btn">Save</button>
+        <button on:click={() => loadGame()} class="btn">Load</button>
+        <button on:click={() => wipeGame()} class="btn">WIPE</button>
+    </div>
 
     <GameBackground arena={$game.arena} />
 </main>

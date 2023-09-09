@@ -5,6 +5,7 @@ import type GameClass from "../game/gameclass";
 
 // this broke because Player() called a getter too early
 import { getGame } from "../singleton";
+import type { SaverLoader } from "../saveload";
 
 export enum ArtifactEffectType {
     DAMAGE,
@@ -36,7 +37,7 @@ export type ArtifactCalculatedEffects = {
     [key in ArtifactEffectType]: Decimal
 }
 
-export default class Artifact {
+export default class Artifact implements SaverLoader {
     count: number = 1;
     tier: number;
     data: ArtifactData;
@@ -103,6 +104,20 @@ export default class Artifact {
 
     static from(data: ArtifactData, tier: number): Artifact {
         return new Artifact(data, tier);
+    }
+
+    save() {
+        return {
+            id: this.data.id,
+            count: this.count,
+            tier: this.tier,
+        }
+    }
+
+    load(data: any): void {
+        this.count = data.count;
+        this.tier = data.tier;
+        this.data = Artifacts[data.id];
     }
 }
 
