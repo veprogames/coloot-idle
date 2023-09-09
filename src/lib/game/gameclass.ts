@@ -2,7 +2,7 @@ import ArtifactShop from "../artifact/artifactshop";
 import Arena from "../enemy/arena";
 import Player from "../player/player";
 import { PrestigeCrystalMagic, PrestigeCrystalPower, PrestigeCrystalRarity } from "../prestigecrystal/prestigecrystal";
-import type { SaverLoader } from "../saveload";
+import type { SaverLoader } from "../saveload/saveload";
 
 export default class GameClass implements SaverLoader {
     player: Player = new Player();

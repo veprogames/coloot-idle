@@ -1,4 +1,4 @@
-import type { SaverLoader } from "../saveload";
+import type { SaverLoader } from "../saveload/saveload";
 import { getGame } from "../singleton";
 import type { ArtifactData } from "./artifact";
 import Artifact, { Artifacts } from "./artifact";

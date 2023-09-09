@@ -1,7 +1,7 @@
 import { calculateArtifactEffects, type ArtifactCalculatedEffects, Artifacts } from "../artifact/artifact";
 import Artifact from "../artifact/artifact";
 import Equipment from "../equipment/equipment";
-import type { SaverLoader } from "../saveload";
+import type { SaverLoader } from "../saveload/saveload";
 
 export default class PlayerInventory implements SaverLoader {
     equipment: Equipment[] = [];

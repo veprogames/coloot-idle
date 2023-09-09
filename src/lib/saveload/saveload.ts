@@ -1,6 +1,6 @@
-import GameClass from "./game/gameclass";
-import { getGame } from "./singleton";
-import { game } from "./stores";
+import GameClass from "../game/gameclass";
+import { getGame } from "../singleton";
+import { game } from "../stores";
 
 const LOCALSTORAGE_KEY = "com.veprogames.loot";
 

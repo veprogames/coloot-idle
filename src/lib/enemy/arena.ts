@@ -4,7 +4,7 @@ import { getGame } from "../singleton";
 import { clamp } from "../utils";
 import Enemy, { EnemyType, type EnemyDrop } from "./enemy";
 import { getWorldDataForStage } from "./world";
-import type { SaverLoader } from "../saveload";
+import type { SaverLoader } from "../saveload/saveload";
 
 export default class Arena implements SaverLoader {
     currentStage: number = 0;

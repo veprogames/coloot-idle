@@ -5,7 +5,7 @@ import type Enemy from "../enemy/enemy";
 import Equipment, { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment";
 import { getGame } from "../singleton";
 import PlayerInventory from "./player-inventory";
-import type { SaverLoader } from "../saveload";
+import type { SaverLoader } from "../saveload/saveload";
 
 export type PlayerEquipment = {
     [EquipmentType.WEAPON]: Equipment,

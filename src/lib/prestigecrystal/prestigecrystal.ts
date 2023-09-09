@@ -1,7 +1,7 @@
 import Decimal from "break_infinity.js";
 import type Player from "../player/player";
 import { getGame } from "../singleton";
-import type { SaverLoader } from "../saveload";
+import type { SaverLoader } from "../saveload/saveload";
 
 const BASE_REQUIRED_LEVEL = 20;
 

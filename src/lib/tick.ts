@@ -1,4 +1,4 @@
-import { saveGame } from "./saveload";
+import { saveGame } from "./saveload/saveload";
 import { game } from "./stores";
 
 export default function tickGame(dt: number) {

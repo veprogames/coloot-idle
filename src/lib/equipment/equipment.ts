@@ -1,7 +1,7 @@
 import type { DecimalSource } from "break_infinity.js";
 import Decimal from "break_infinity.js";
 import { getTierColor } from "../utils";
-import type { SaverLoader } from "../saveload";
+import type { SaverLoader } from "../saveload/saveload";
 
 export enum EquipmentType {
     WEAPON,

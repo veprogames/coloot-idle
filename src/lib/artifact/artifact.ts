@@ -5,7 +5,7 @@ import type GameClass from "../game/gameclass";
 
 // this broke because Player() called a getter too early
 import { getGame } from "../singleton";
-import type { SaverLoader } from "../saveload";
+import type { SaverLoader } from "../saveload/saveload";
 
 export enum ArtifactEffectType {
     DAMAGE,

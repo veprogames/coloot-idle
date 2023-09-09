@@ -6,7 +6,8 @@
     import Arena from "./lib/enemy/Arena.svelte";
     import GameBackground from "./lib/enemy/GameBackground.svelte";
     import PrestigeCrystalContent from "./lib/prestigecrystal/PrestigeCrystalContent.svelte";
-    import { loadGame, saveGame, wipeGame } from "./lib/saveload";
+    import { loadGame, saveGame, wipeGame } from "./lib/saveload/saveload";
+    import SaveManagementButton from "./lib/saveload/SaveManagementButton.svelte";
 
     let prev = Date.now();
 
@@ -39,11 +40,7 @@
     <Arena arena={$game.arena} />
     <Player player={$game.player} />
     <PrestigeCrystalContent />
-    <div>
-        <button on:click={() => saveGame()} class="btn">Save</button>
-        <button on:click={() => loadGame()} class="btn">Load</button>
-        <button on:click={() => wipeGame()} class="btn">WIPE</button>
-    </div>
+    <SaveManagementButton />
 
     <GameBackground arena={$game.arena} />
 </main>

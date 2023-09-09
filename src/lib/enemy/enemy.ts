@@ -3,7 +3,7 @@ import Artifact, { ArtifactEffectType, calculateArtifactEffects, randomArtifact 
 import Equipment, { EquipmentType } from "../equipment/equipment";
 import { getGame } from "../singleton";
 import { choose } from "../utils";
-import type { SaverLoader } from "../saveload";
+import type { SaverLoader } from "../saveload/saveload";
 
 export enum EnemyType {
     NORMAL,
