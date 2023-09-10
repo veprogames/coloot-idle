@@ -68,7 +68,7 @@
     </div>
     {#if tab === "equipment"}
         <div class="bag-actions" style:width={bagWidth}>
-            <h2>Loot ({inventory.equipment.length} / {inventory.equipmentCapacity})</h2>
+            <h2>Loot ({inventory.equipment.length}/{inventory.equipmentCapacity})</h2>
             <button on:click={equipAll} class="btn">Equip All</button>
         </div>
         <div class="bag" style:width={bagWidth} style:height={bagHeight}>

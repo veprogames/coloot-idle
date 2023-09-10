@@ -70,7 +70,7 @@ export abstract class PrestigeCrystal implements SaverLoader {
 export class PrestigeCrystalPower extends PrestigeCrystal {
     constructor() {
         super({
-            title: "Crystal of Power",
+            title: "Power",
             description: "Increases Damage dealt",
         });
     }
@@ -87,7 +87,7 @@ export class PrestigeCrystalPower extends PrestigeCrystal {
 export class PrestigeCrystalRarity extends PrestigeCrystal {
     constructor() {
         super({
-            title: "Crystal of Rarity",
+            title: "Rarity",
             description: "Increases the Rarity of found Equipment",
         });
     }
@@ -104,7 +104,7 @@ export class PrestigeCrystalRarity extends PrestigeCrystal {
 export class PrestigeCrystalMagic extends PrestigeCrystal {
     constructor() {
         super({
-            title: "Crystal of Magic",
+            title: "Magic",
             description: "Increases Magic Find",
         });
     }

@@ -26,20 +26,23 @@
         [EquipmentType.ACCESSORY]: "accessory.png",
     }[equipment.type];
 
+    $: statText = F(equipment.stat);
+
     $: isBetter = $game.player.canEquip(equipment);
+    $: fontSize = `${3 / Math.max(3, statText.length)}rem`;
 
     function dispatchEquip() {
         dispatch("equip", equipment);
     }
 </script>
 
-<button on:click={dispatchEquip} 
+<button on:click={dispatchEquip}
     in:fly={{y: "-4rem"}}
     out:fade={{duration: 50}}
     class="inline-flex flex-col p-1 justify-center items-center text-center w-16 h-16 hover:brightness-125 transition-all overflow-clip"
     class:better={isBetter}
     style="background-color: {equipment.color};">
-    <span class="font-bold text-sm whitespace-nowrap">{F(equipment.stat)}</span>
+    <span class="font-bold whitespace-nowrap" style:font-size={fontSize}>{F(equipment.stat)}</span>
     <img
         style:filter="hue-rotate({hueshift}deg) saturate({saturation}) drop-shadow(0 4px 0 rgba(0, 0, 0, 0.5))"
         class="w-10 h-10"

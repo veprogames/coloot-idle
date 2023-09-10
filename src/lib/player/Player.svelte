@@ -29,8 +29,8 @@ import { F } from "../utils";
             <EquipmentText equipment={player.accessory}/>
         </div>
     </div>
-    <Statbar value={player.hpPercentage}>{F(player.currentHp)} / {F(player.hp)}</Statbar>
-    <Statbar value={player.xpPercentage}>{F(player.xp)} / {F(player.xpRequired)}</Statbar>
+    <Statbar value={player.hpPercentage}>{F(player.currentHp)}/{F(player.hp)}</Statbar>
+    <Statbar value={player.xpPercentage}>{F(player.xp)}/{F(player.xpRequired)}</Statbar>
     <Inventory {player}/>
 </section>
 

@@ -12,9 +12,12 @@
     }
 </script>
 
-<div class="flex gap-4 justify-between bg-black bg-opacity-30 p-4">
+<div class="flex gap-4 justify-between bg-black bg-opacity-30 p-4 text-left">
     <div>
         <h2>{crystal.data.title} Lv. {crystal.level}</h2>
+        <p class="text-xs">
+            {crystal.data.description}
+        </p>
         <p class="flex items-center">
             <img class="w-8 h-8 inline" src="./images/equipment/sword.png" alt={crystal.data.description}/>
             <span class="text-green-400 font-semibold text-xl">x{F(crystal.effect, true)}</span>
