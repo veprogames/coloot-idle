@@ -32,7 +32,7 @@ export default class Player implements SaverLoader {
      * Levels give a boost and are used for prestige crystals
      */
     xp: Decimal = new Decimal(0);
-    level: number = 0;
+    level: number = 19;
 
     constructor() {
         this.currentHp = 0;

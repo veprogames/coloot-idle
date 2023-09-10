@@ -5,11 +5,14 @@
     import Artifact from "../artifact/Artifact.svelte";
     import EquipmentComponent from "./Equipment.svelte";
     import Player from "./player";
+    import SaveManagementButton from "../saveload/SaveManagementButton.svelte";
+    import PrestigeCrystalContent from "../prestigecrystal/PrestigeCrystalContent.svelte";
+    import UnlockableButton from "../dom/UnlockableButton.svelte";
 
     export let player: Player;
 
     let containerWidth: number;
-    let tab: "equipment" | "artifacts" = "equipment";
+    let tab: "equipment" | "artifacts" | "crystals" = "equipment";
 
     let dialog: ArtifactShopDialog;
 
@@ -51,9 +54,17 @@
 <ArtifactShopDialog bind:this={dialog} shop={$game.artifactShop} />
 
 <div bind:clientWidth={containerWidth}>
-    <div class="flex gap-4">
+    <div class="flex flex-col md:flex-row md:justify-center gap-4 my-2">
         <button on:click={() => tab = "equipment"} class="btn">Loot</button>
-        <button on:click={() => tab = "artifacts"} class="btn">Artifacts</button>
+        <UnlockableButton on:click={() => tab = "crystals"} condition={(game) => game.prestigeCrystalsUnlocked}>
+            <span slot="locked">Reach Level 19</span>
+            <span>Crystals</span>
+        </UnlockableButton>
+        <UnlockableButton on:click={() => tab = "artifacts"} condition={(game) => game.artifactShop.unlocked}>
+            <span slot="locked">Reach Level 100</span>
+            <span>Artifacts</span>
+        </UnlockableButton>
+        <SaveManagementButton />
     </div>
     {#if tab === "equipment"}
         <div class="bag-actions" style:width={bagWidth}>
@@ -75,6 +86,8 @@
                 <Artifact {artifact}/>
             {/each}
         </div>
+    {:else if tab === "crystals"}
+        <PrestigeCrystalContent />
     {/if}
 </div>
 

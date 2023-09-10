@@ -3,7 +3,7 @@ import type Player from "../player/player";
 import { getGame } from "../singleton";
 import type { SaverLoader } from "../saveload/saveload";
 
-const BASE_REQUIRED_LEVEL = 20;
+const BASE_REQUIRED_LEVEL = 19;
 
 export interface PrestigeCrystalData {
     title: string,

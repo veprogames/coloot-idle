@@ -71,6 +71,10 @@ export default class ArtifactShop implements SaverLoader {
         return this.gemsSpent > 0;
     }
 
+    get unlocked() {
+        return getGame().player.level >= 99;
+    }
+
     respec() {
         if(this.canRespec) {
             this.gemsSpent = 0;

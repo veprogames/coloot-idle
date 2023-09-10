@@ -20,6 +20,10 @@ export default class GameClass implements SaverLoader {
         }
     }
 
+    get prestigeCrystalsUnlocked() {
+        return this.player.level >= 19;
+    }
+
     save(): any {
         return {
             player: this.player.save(),
