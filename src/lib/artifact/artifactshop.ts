@@ -4,7 +4,7 @@ import type { ArtifactData } from "./artifact";
 import Artifact, { Artifacts } from "./artifact";
 
 export default class ArtifactShop implements SaverLoader {
-    totalGems: number = 100;
+    totalGems: number = 0;
     gemsSpent: number = 0;
 
     get gems(): number {

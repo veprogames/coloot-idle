@@ -25,7 +25,7 @@
     </div>
 
     {#if crystal.canInvest(player)}
-        <button on:click={invest} class="btn">
+        <button on:click={invest} class="btn btn-warn">
             Invest (+{crystal.getNewLevels(player)}) <br/>
             To: x{F(crystal.getEffect(crystal.getLevels(player.level)), true)}
         </button>
