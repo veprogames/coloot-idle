@@ -94,6 +94,15 @@ export default class Player implements SaverLoader {
         return this.power.div(hp);
     }
 
+    get rarityMultiplier(): Decimal {
+        const crystal = getGame().prestigeCrystals.rarity;
+        
+        const artifactMult = this._inventory.getArtifactEffects()[ArtifactEffectType.EQUIPMENT_RARITY];
+        const crystalMult = crystal.effect;
+        
+        return artifactMult.mul(crystalMult);
+    }
+
     /**
      * Multiplies the base stats of equipment earned
      */

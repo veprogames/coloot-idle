@@ -18,8 +18,8 @@
         <p class="text-xs">
             {crystal.data.description}
         </p>
-        <p class="flex items-center">
-            <img class="w-8 h-8 inline" src="./images/equipment/sword.png" alt={crystal.data.description}/>
+        <p class="flex gap-2 items-center">
+            <img class="w-8 h-8 inline" src={crystal.data.statIcon} alt={crystal.data.description}/>
             <span class="text-green-400 font-semibold text-xl">x{F(crystal.effect, true)}</span>
         </p>
     </div>

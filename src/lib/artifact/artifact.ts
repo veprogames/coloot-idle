@@ -168,7 +168,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.PLAYER_XP,
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
-        image: "./images/artifacts/compass.png",
+        image: "./images/artifacts/orbofwisdom.png",
         basePrice: 3,
         getAdditionalEffectMultiplier(game, count, tier) {
             return Decimal.pow(1 + game.player.level * count, 2);
@@ -181,7 +181,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.EQUIPMENT_RARITY,
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
-        image: "./images/artifacts/compass.png",
+        image: "./images/artifacts/metaldetector.png",
         basePrice: 5,
         getAdditionalEffectMultiplier(game, count, tier) {
             return new Decimal(game.player.scrap.add(1).log10() / 5);
@@ -194,7 +194,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.MAGIC_FIND,
         effectAmount: 0.02,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
-        image: "./images/artifacts/compass.png",
+        image: "./images/artifacts/wandofcolors.png",
         basePrice: 10,
         getAdditionalEffectMultiplier(game, count, tier) {
             return new Decimal(game.player.inventory.artifactCount);

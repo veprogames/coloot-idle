@@ -8,6 +8,7 @@ const BASE_REQUIRED_LEVEL = 19;
 export interface PrestigeCrystalData {
     title: string,
     description: string,
+    statIcon: string,
 }
 
 export abstract class PrestigeCrystal implements SaverLoader {
@@ -72,6 +73,7 @@ export class PrestigeCrystalPower extends PrestigeCrystal {
         super({
             title: "Power",
             description: "Increases Damage dealt",
+            statIcon: "./images/stat/power.png",
         });
     }
 
@@ -89,6 +91,7 @@ export class PrestigeCrystalRarity extends PrestigeCrystal {
         super({
             title: "Rarity",
             description: "Increases the Rarity of found Equipment",
+            statIcon: "./images/stat/rarity.png",
         });
     }
 
@@ -106,6 +109,7 @@ export class PrestigeCrystalMagic extends PrestigeCrystal {
         super({
             title: "Magic",
             description: "Increases Magic Find",
+            statIcon: "./images/stat/magicfind.png",
         });
     }
 

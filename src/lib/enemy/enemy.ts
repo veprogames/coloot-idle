@@ -69,15 +69,8 @@ export default class Enemy implements SaverLoader {
     generateEquipment(): Equipment {
         const base = this.getEquipmentBaseStat();
         const player = getGame().player;
-        const inventory = player.inventory;
-        const crystal = getGame().prestigeCrystals.rarity;
 
-        const artifactMult = inventory.getArtifactEffects()[ArtifactEffectType.EQUIPMENT_RARITY];
-        const crystalMult = crystal.effect;
-        const combinedMult = artifactMult
-            .mul(crystalMult);
-
-        const tier = Math.floor(-Math.log10(1 - Math.random()) + Decimal.log10(combinedMult));
+        const tier = Math.floor(-Math.log10(1 - Math.random()) + Decimal.log10(player.rarityMultiplier));
 
         return new Equipment(base,
             choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),

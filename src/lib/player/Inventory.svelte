@@ -57,7 +57,7 @@
     <div class="flex flex-col md:flex-row md:justify-center gap-4 my-2">
         <button on:click={() => tab = "equipment"} class="btn">Loot</button>
         <UnlockableButton on:click={() => tab = "crystals"} condition={(game) => game.prestigeCrystalsUnlocked}>
-            <span slot="locked">Reach Level 19</span>
+            <span slot="locked">Reach Level 20</span>
             <span>Crystals</span>
         </UnlockableButton>
         <UnlockableButton on:click={() => tab = "artifacts"} condition={(game) => game.artifactShop.unlocked}>
