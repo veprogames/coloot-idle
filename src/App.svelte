@@ -39,6 +39,10 @@
 <main class="p-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
     <Arena arena={$game.arena} />
     <Player player={$game.player} />
+    <div class="flex flex-col gap-2">
+        <span>Made by <a href="https://veprogames.github.io">veprogames</a></span>
+        <span>Early Access</span>
+    </div>
 
     <GameBackground arena={$game.arena} />
 </main>
