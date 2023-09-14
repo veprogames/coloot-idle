@@ -2,7 +2,7 @@ import Decimal from "break_infinity.js";
 import Artifact, { ArtifactEffectType } from "../artifact/artifact";
 import type Arena from "../enemy/arena";
 import type Enemy from "../enemy/enemy";
-import Equipment, { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment";
+import Equipment, { EquipmentType} from "../equipment/equipment";
 import { getGame } from "../singleton";
 import PlayerInventory from "./player-inventory";
 import type { SaverLoader } from "../saveload/saveload";
@@ -15,9 +15,9 @@ export type PlayerEquipment = {
 
 export default class Player implements SaverLoader {
     private equipment: PlayerEquipment = {
-        [EquipmentType.WEAPON]: INIT_WEAPON,
-        [EquipmentType.ARMOR]: INIT_ARMOR,
-        [EquipmentType.ACCESSORY]: INIT_ACCESSORY,
+        [EquipmentType.WEAPON]: Equipment.INIT_WEAPON,
+        [EquipmentType.ARMOR]: Equipment.INIT_ARMOR,
+        [EquipmentType.ACCESSORY]: Equipment.INIT_ACCESSORY,
     };
 
     private _inventory: PlayerInventory = new PlayerInventory();
@@ -212,9 +212,9 @@ export default class Player implements SaverLoader {
 
     reset(): void {
         this.equipment = {
-            [EquipmentType.WEAPON]: INIT_WEAPON,
-            [EquipmentType.ARMOR]: INIT_ARMOR,
-            [EquipmentType.ACCESSORY]: INIT_ACCESSORY,
+            [EquipmentType.WEAPON]: Equipment.INIT_WEAPON,
+            [EquipmentType.ARMOR]: Equipment.INIT_ARMOR,
+            [EquipmentType.ACCESSORY]: Equipment.INIT_ACCESSORY,
         };
         this.scrap = new Decimal(0);
         this.xp = new Decimal(0);

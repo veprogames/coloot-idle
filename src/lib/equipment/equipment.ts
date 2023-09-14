@@ -32,6 +32,18 @@ export default class Equipment implements SaverLoader {
         return getTierColor(this.tier);
     }
 
+    static get INIT_WEAPON() {
+        return new Equipment(10, EquipmentType.WEAPON);
+    }
+
+    static get INIT_ARMOR() {
+        return new Equipment(10, EquipmentType.ARMOR);
+    }
+
+    static get INIT_ACCESSORY() {
+        return new Equipment(10, EquipmentType.ACCESSORY);
+    }
+
     save() {
         return {
             baseStat: this.baseStat.toString(),
@@ -46,7 +58,3 @@ export default class Equipment implements SaverLoader {
         this.type = data.type;
     }
 }
-
-export const INIT_WEAPON = new Equipment(10, EquipmentType.WEAPON);
-export const INIT_ARMOR = new Equipment(10, EquipmentType.ARMOR);
-export const INIT_ACCESSORY = new Equipment(10, EquipmentType.ACCESSORY);
