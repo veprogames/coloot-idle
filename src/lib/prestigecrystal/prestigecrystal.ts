@@ -82,7 +82,7 @@ export class PrestigeCrystalPower extends PrestigeCrystal {
     }
 
     getEffect(level: number): Decimal {
-        return Decimal.pow(2, level / 12.5);
+        return Decimal.pow(2, level / 12.5).mul(level >= 1 ? 1.25 : 1);
     }
 }
 
@@ -100,7 +100,7 @@ export class PrestigeCrystalRarity extends PrestigeCrystal {
     }
 
     getEffect(level: number): Decimal {
-        return Decimal.pow(10, level / 25);
+        return Decimal.pow(10, level / 25).mul(level >= 1 ? 1.5 : 1);
     }
 }
 
@@ -118,6 +118,6 @@ export class PrestigeCrystalMagic extends PrestigeCrystal {
     }
 
     getEffect(level: number): Decimal {
-        return Decimal.pow(2, level / 25);
+        return Decimal.pow(2, level / 25).mul(level >= 1 ? 1.1 : 1);
     }
 }
