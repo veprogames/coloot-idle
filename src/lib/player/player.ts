@@ -34,7 +34,7 @@ export default class Player implements SaverLoader {
     xp: Decimal = new Decimal(0);
     level: number = 1;
     // used for unlocks
-    highestLevel: number = 1;
+    highestLevel: number = 100;
 
     constructor() {
         this.currentHp = 0;
@@ -221,7 +221,7 @@ export default class Player implements SaverLoader {
         };
         this.scrap = new Decimal(0);
         this.xp = new Decimal(0);
-        this.level = 0;
+        this.level = 1;
         this._inventory.resetEquipment();
         this.heal();
     }
