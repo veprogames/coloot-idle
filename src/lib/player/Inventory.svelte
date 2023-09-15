@@ -8,6 +8,8 @@
     import SaveManagementButton from "../saveload/SaveManagementButton.svelte";
     import PrestigeCrystalContent from "../prestigecrystal/PrestigeCrystalContent.svelte";
     import UnlockableButton from "../dom/UnlockableButton.svelte";
+    import { CRYSTAL_BASE_REQUIRED_LEVEL } from "../prestigecrystal/prestigecrystal";
+    import { ARTIFACTS_BASE_REQUIRED_LEVEL } from "../artifact/artifactshop";
 
     export let player: Player;
 
@@ -57,11 +59,11 @@
     <div class="flex flex-col md:flex-row md:justify-center gap-4 my-2">
         <button on:click={() => tab = "equipment"} class="btn">Loot</button>
         <UnlockableButton on:click={() => tab = "crystals"} condition={(game) => game.prestigeCrystalsUnlocked}>
-            <span slot="locked">Reach Level 20</span>
+            <span slot="locked">Reach Level {CRYSTAL_BASE_REQUIRED_LEVEL}</span>
             <span>Crystals</span>
         </UnlockableButton>
         <UnlockableButton on:click={() => tab = "artifacts"} condition={(game) => game.artifactShop.unlocked}>
-            <span slot="locked">Reach Level 100</span>
+            <span slot="locked">Reach Level {ARTIFACTS_BASE_REQUIRED_LEVEL}</span>
             <span>Artifacts</span>
         </UnlockableButton>
         <SaveManagementButton />

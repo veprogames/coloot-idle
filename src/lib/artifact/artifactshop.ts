@@ -3,6 +3,8 @@ import { getGame } from "../singleton";
 import type { ArtifactData } from "./artifact";
 import Artifact, { Artifacts } from "./artifact";
 
+export const ARTIFACTS_BASE_REQUIRED_LEVEL = 100;
+
 export default class ArtifactShop implements SaverLoader {
     totalGems: number = 0;
     gemsSpent: number = 0;
@@ -24,8 +26,8 @@ export default class ArtifactShop implements SaverLoader {
     }
 
     getGems(playerLevel: number): number {
-        const headStart = playerLevel >= 99 ? 5 : 0;
-        const baseGems = (playerLevel - 99) / 2 + headStart;
+        const headStart = playerLevel >= ARTIFACTS_BASE_REQUIRED_LEVEL ? 5 : 0;
+        const baseGems = (playerLevel - ARTIFACTS_BASE_REQUIRED_LEVEL) / 2 + headStart;
         return Math.floor(Math.max(0, baseGems - this.totalGems));
     }
 
@@ -72,7 +74,7 @@ export default class ArtifactShop implements SaverLoader {
     }
 
     get unlocked() {
-        return getGame().player.level >= 99;
+        return getGame().player.highestLevel >= ARTIFACTS_BASE_REQUIRED_LEVEL;
     }
 
     respec() {

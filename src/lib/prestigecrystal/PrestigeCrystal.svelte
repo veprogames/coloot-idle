@@ -30,6 +30,6 @@
             To: x{F(crystal.getEffect(crystal.getLevels(player.level)), true)}
         </button>
     {:else}
-        <button disabled class="btn">Reach<br/>Level {crystal.investedPlayerLevel}</button>
+        <button disabled class="btn">Reach<br/>Level {crystal.investedPlayerLevel + 1}</button>
     {/if}
 </div>

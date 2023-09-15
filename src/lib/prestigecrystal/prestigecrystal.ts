@@ -3,7 +3,7 @@ import type Player from "../player/player";
 import { getGame } from "../singleton";
 import type { SaverLoader } from "../saveload/saveload";
 
-const BASE_REQUIRED_LEVEL = 19;
+export const CRYSTAL_BASE_REQUIRED_LEVEL = 20;
 
 export interface PrestigeCrystalData {
     title: string,
@@ -21,7 +21,7 @@ export abstract class PrestigeCrystal implements SaverLoader {
     /**
      * The Level the player had when investing
      */
-    investedPlayerLevel: number = BASE_REQUIRED_LEVEL;
+    investedPlayerLevel: number = CRYSTAL_BASE_REQUIRED_LEVEL;
 
     constructor(data: PrestigeCrystalData) {
         this.data = data;
@@ -78,7 +78,7 @@ export class PrestigeCrystalPower extends PrestigeCrystal {
     }
 
     getLevels(playerLevel: number): number {
-        return Math.max(0, playerLevel - BASE_REQUIRED_LEVEL + 1);
+        return Math.max(0, playerLevel - CRYSTAL_BASE_REQUIRED_LEVEL);
     }
 
     getEffect(level: number): Decimal {
@@ -96,7 +96,7 @@ export class PrestigeCrystalRarity extends PrestigeCrystal {
     }
 
     getLevels(playerLevel: number): number {
-        return Math.max(0, playerLevel - BASE_REQUIRED_LEVEL + 1);
+        return Math.max(0, playerLevel - CRYSTAL_BASE_REQUIRED_LEVEL);
     }
 
     getEffect(level: number): Decimal {
@@ -114,7 +114,7 @@ export class PrestigeCrystalMagic extends PrestigeCrystal {
     }
 
     getLevels(playerLevel: number): number {
-        return Math.max(0, playerLevel - BASE_REQUIRED_LEVEL + 1);
+        return Math.max(0, playerLevel - CRYSTAL_BASE_REQUIRED_LEVEL);
     }
 
     getEffect(level: number): Decimal {

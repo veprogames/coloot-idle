@@ -32,7 +32,9 @@ export default class Player implements SaverLoader {
      * Levels give a boost and are used for prestige crystals
      */
     xp: Decimal = new Decimal(0);
-    level: number = 0;
+    level: number = 1;
+    // used for unlocks
+    highestLevel: number = 1;
 
     constructor() {
         this.currentHp = 0;
@@ -59,7 +61,7 @@ export default class Player implements SaverLoader {
     }
 
     get power(): Decimal {
-        const levelEffect = Decimal.pow(1.04, this.level);
+        const levelEffect = Decimal.pow(1.04, this.level - 1);
         const artifactEffect = this._inventory.getArtifactEffects()[ArtifactEffectType.DAMAGE];
         const crystalEffect = getGame().prestigeCrystals.power.effect;
 
@@ -75,7 +77,7 @@ export default class Player implements SaverLoader {
     get hp(): number {
         const artifactEffect = this._inventory.getArtifactEffects()[ArtifactEffectType.MAX_HEALTH].toNumber();
 
-        return 10 + Math.floor(0.25 * this.level) + artifactEffect;
+        return 10 + Math.floor(0.25 * (this.level - 1)) + artifactEffect;
     }
 
     get hpPercentage(): number {
@@ -107,7 +109,7 @@ export default class Player implements SaverLoader {
      * Multiplies the base stats of equipment earned
      */
     get magicFind(): Decimal {
-        const levelMult = Decimal.pow(1.02, this.level);
+        const levelMult = Decimal.pow(1.02, this.level - 1);
         const artifactMult = this._inventory.getArtifactEffects()[ArtifactEffectType.MAGIC_FIND];
         const crystalMult = getGame().prestigeCrystals.magic.effect;
 
@@ -174,7 +176,7 @@ export default class Player implements SaverLoader {
         // scales according to enemy hp, scale level similar to stage
         const INCREASE_PER_STAGE = 1.618 ** 5;
         return new Decimal(1000)
-            .mul(Decimal.pow(INCREASE_PER_STAGE, this.level));
+            .mul(Decimal.pow(INCREASE_PER_STAGE, this.level - 1));
     }
 
     get xpPercentage(): number {
@@ -189,6 +191,7 @@ export default class Player implements SaverLoader {
         while(this.xp.gt(this.xpRequired)){
             this.xp = this.xp.sub(this.xpRequired);
             this.level++;
+            this.highestLevel = Math.max(this.level, this.highestLevel)
             didLevelUp = true;
         }
 
@@ -232,6 +235,7 @@ export default class Player implements SaverLoader {
             currentHp: this.currentHp,
             xp: this.xp.toString(),
             level: this.level,
+            highestLevel: this.highestLevel,
             scrap: this.scrap.toString(),
             equipment: {
                 weapon: this.equipment[EquipmentType.WEAPON].save(),
@@ -245,6 +249,7 @@ export default class Player implements SaverLoader {
     load(data: any): void {
         this.currentHp = data.currentHp;
         this.level = data.level;
+        this.highestLevel = data.highestLevel ?? this.level;
         this.xp = new Decimal(data.xp);
         this.scrap = new Decimal(data.scrap);
         this.equipment[EquipmentType.WEAPON].load(data.equipment.weapon);

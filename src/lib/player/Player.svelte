@@ -32,7 +32,7 @@ import { F } from "../utils";
     </div>
     <Statbar value={player.hpPercentage}>HP: {F(player.currentHp)}/{F(player.hp)}</Statbar>
     <span title="Level (Multiplies various stats)">
-        Level {(player.level + 1).toLocaleString("en-US")}
+        Level {(player.level).toLocaleString("en-US")}
     </span>
     <Statbar value={player.xpPercentage}>{F(player.xp)}/{F(player.xpRequired)}</Statbar>
     <Inventory {player}/>

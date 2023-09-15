@@ -1,7 +1,7 @@
 import ArtifactShop from "../artifact/artifactshop";
 import Arena from "../enemy/arena";
 import Player from "../player/player";
-import { PrestigeCrystalMagic, PrestigeCrystalPower, PrestigeCrystalRarity } from "../prestigecrystal/prestigecrystal";
+import { CRYSTAL_BASE_REQUIRED_LEVEL, PrestigeCrystalMagic, PrestigeCrystalPower, PrestigeCrystalRarity } from "../prestigecrystal/prestigecrystal";
 import type { SaverLoader } from "../saveload/saveload";
 
 export default class GameClass implements SaverLoader {
@@ -21,7 +21,7 @@ export default class GameClass implements SaverLoader {
     }
 
     get prestigeCrystalsUnlocked() {
-        return this.player.level >= 19;
+        return this.player.highestLevel >= CRYSTAL_BASE_REQUIRED_LEVEL;
     }
 
     save(): any {
