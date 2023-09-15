@@ -1,5 +1,6 @@
 <script lang="ts">
-    import Statbar from "../dom/Statbar.svelte";
+    import ConfirmButton from "../dom/ConfirmButton.svelte";
+import Statbar from "../dom/Statbar.svelte";
 import { F } from "../utils";
     import EquipmentText from "./EquipmentText.svelte";
     import Inventory from "./Inventory.svelte";
@@ -8,7 +9,7 @@ import { F } from "../utils";
     export let player: Player;
 </script>
 
-<section class="text-center">
+<section>
     <div class="flex flex-wrap justify-between text-lg">
         <div class="flex flex-col justify-evenly items-start gap-1">
             <div class="stat" title="Damage">
@@ -31,9 +32,9 @@ import { F } from "../utils";
         </div>
     </div>
     <Statbar width="18rem" value={player.hpPercentage}>HP: {F(player.currentHp)}/{F(player.hp)}</Statbar>
-    <span title="Level (Multiplies various stats)">
+    <p class="text-center" title="Level (Multiplies various stats)">
         Level {(player.level).toLocaleString("en-US")}
-    </span>
+    </p>
     <Statbar width="18rem" value={player.xpPercentage}>{F(player.xp)}/{F(player.xpRequired)}</Statbar>
     <Inventory {player}/>
 </section>

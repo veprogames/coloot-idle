@@ -15,7 +15,7 @@
 
 <dialog bind:this={dialog}>
     <h2>WIPE SAVE</h2>
-    <p class="max-w-sm text-left">
+    <p>
         This will reset absolutely everything! Are you sure?
         Type <span class="text-green-400">{RESET_STRING}</span> into the text box below
         and click "WIPE".
