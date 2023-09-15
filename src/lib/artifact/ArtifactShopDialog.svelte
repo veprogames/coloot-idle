@@ -4,6 +4,7 @@
 import ArtifactImage from "./ArtifactImage.svelte";
 import ArtifactShop from "./artifactshop";
     import Statbar from "../dom/Statbar.svelte";
+    import ConfirmButton from "../dom/ConfirmButton.svelte";
 
     export let shop: ArtifactShop;
 
@@ -38,6 +39,11 @@ import ArtifactShop from "./artifactshop";
             </div>
         {/each}
     </div>
-    <button on:click={() => shop.respec()} class="btn">Respec</button>
+    <ConfirmButton 
+        message="Are your sure? This will reset your equipment and level, 
+            getting back all gems and keeping Crystal levels"
+        on:confirm={() => shop.respec()}>
+        Respec
+    </ConfirmButton>
     <button on:click={() => dialog.close()} class="btn">Close</button>
 </dialog>
