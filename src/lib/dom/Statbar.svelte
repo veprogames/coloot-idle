@@ -3,10 +3,10 @@
      * Value that ranges between 0 (empty) and 1 (full)
      */
     export let value: number;
-    export let fitWidth: boolean = true;
+    export let width: string = "10rem";
 </script>
 
-<div class="relative h-fit overflow-clip mx-auto" class:w-40={!fitWidth} class:w-fit={fitWidth}>
+<div class="relative h-fit overflow-clip mx-auto" style:width>
     <progress class="h-8 w-full" {value} max=1></progress>
     <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[0.82rem] font-semibold whitespace-nowrap">
         <slot />

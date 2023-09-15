@@ -3,6 +3,7 @@
     import Artifact from "./Artifact.svelte";
 import ArtifactImage from "./ArtifactImage.svelte";
 import ArtifactShop from "./artifactshop";
+    import Statbar from "../dom/Statbar.svelte";
 
     export let shop: ArtifactShop;
 
@@ -13,14 +14,14 @@ import ArtifactShop from "./artifactshop";
     }
 </script>
 
-<dialog bind:this={dialog} class="overflow-x-hidden">
+<dialog bind:this={dialog}>
     <h2>Artifact Shop</h2>
     <div class="flex flex-wrap justify-center gap-8">
         <span>Gems: {shop.gems}</span>
         <span>Spent: {shop.gemsSpent}</span>
-        <span>Level: {shop.shopLevel.toFixed(2)}</span>
     </div>
-    <div class="flex flex-col gap-4 h-64 w-60 lg:w-[30rem] xl:w-[45rem] overflow-scroll">
+    <Statbar width="16rem" value={shop.shopLevel % 1.0}>Tier {Math.floor(shop.shopLevel).toFixed(0)}</Statbar>
+    <div class="flex flex-col gap-4 h-64 w-full overflow-scroll">
         {#each { length: shop.maxTierAvailable } as _, tier} 
             <div class="flex gap-4">
                 {#each shop.availableArtifacts as artifact}

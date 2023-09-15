@@ -30,19 +30,15 @@ import { F } from "../utils";
             <EquipmentText equipment={player.accessory}/>
         </div>
     </div>
-    <Statbar value={player.hpPercentage}>HP: {F(player.currentHp)}/{F(player.hp)}</Statbar>
+    <Statbar width="18rem" value={player.hpPercentage}>HP: {F(player.currentHp)}/{F(player.hp)}</Statbar>
     <span title="Level (Multiplies various stats)">
         Level {(player.level).toLocaleString("en-US")}
     </span>
-    <Statbar value={player.xpPercentage}>{F(player.xp)}/{F(player.xpRequired)}</Statbar>
+    <Statbar width="18rem" value={player.xpPercentage}>{F(player.xp)}/{F(player.xpRequired)}</Statbar>
     <Inventory {player}/>
 </section>
 
 <style lang="postcss">
-    section :global(progress) {
-        @apply w-72 h-8;
-    }
-
     div.stat {
         @apply flex items-center gap-2;
     }
