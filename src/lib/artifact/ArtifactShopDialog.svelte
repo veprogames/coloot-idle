@@ -39,7 +39,8 @@ import ArtifactShop from "./artifactshop";
             </div>
         {/each}
     </div>
-    <ConfirmButton 
+    <ConfirmButton
+        disabled={!shop.canRespec} 
         message="Are your sure? This will reset your equipment and level, 
             getting back all gems and keeping Crystal levels"
         on:confirm={() => shop.respec()}>

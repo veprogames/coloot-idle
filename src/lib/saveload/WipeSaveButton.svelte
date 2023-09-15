@@ -5,8 +5,10 @@
     let value: string = "";
     let dialog: HTMLDialogElement;
 
+    $: canReset = value.trim() === RESET_STRING;
+
     function wipe() {
-        if(value.trim() === RESET_STRING) {
+        if(canReset) {
             wipeGame();
             value = "";
         }
@@ -21,7 +23,7 @@
         and click "WIPE".
     </p>
     <input type="text" bind:value />
-    <button on:click={wipe} class="btn btn-crit">WIPE</button>
+    <button disabled={!canReset} on:click={wipe} class="btn btn-crit">WIPE</button>
     <button on:click={() => dialog.close()} class="btn">Close</button>
 </dialog>
 

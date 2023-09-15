@@ -2,6 +2,7 @@
     import { createEventDispatcher } from "svelte";
 
     export let clazz: string = "";
+    export let disabled: boolean = false;
     export let message: string;
 
     let dialog: HTMLDialogElement;
@@ -36,4 +37,4 @@
     </div>
 </dialog>
 
-<button on:click={openDialog} class="btn btn-warn {clazz}"><slot/></button>
+<button {disabled} on:click={openDialog} class="btn btn-warn {clazz}"><slot/></button>
