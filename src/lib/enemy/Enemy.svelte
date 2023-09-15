@@ -17,7 +17,7 @@
 <div class="flex flex-col items-center">
     <h2>{tierName} {enemyName}</h2>
     <img class="my-4 w-32 h-32" class:glow={enemy.tier > 0} style:--glow-color={glowColor} src="./images/enemy/{image}" alt="Enemy" />
-    <Statbar fitWidth={false} value={enemy.hpPercentage}>{F(enemy.currentHp)}</Statbar>
+    <Statbar value={enemy.hpPercentage}>{F(enemy.currentHp)}</Statbar>
 </div>
 
 <style lang="postcss">
