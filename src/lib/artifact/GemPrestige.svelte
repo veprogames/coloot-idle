@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { game } from "../stores";
+    import ConfirmButton from "../dom/ConfirmButton.svelte";
+import { game } from "../stores";
     import type ArtifactShop from "./artifactshop";
 
     export let artifactShop: ArtifactShop;
@@ -16,9 +17,14 @@
         </p>
     {:else}
         <p>
-            Turn your Levels into Gems. This process is destructive and will destroy your equipment
-            and also drain everything out of your Prestige Crystals. Are you sure?
+            Turn your Levels into Gems, which can be used to buy Artifacts.
         </p>
-        <button disabled={gemGain <= 0} on:click={() => artifactShop.activate()} class="btn">+{gemGain} Gems</button>
+        <ConfirmButton 
+            disabled={gemGain <= 0}
+            on:confirm={() => artifactShop.activate()}
+            message="This process is destructive and will destroy your equipment
+            and also drain everything out of your Prestige Crystals. Are you sure?">
+            +{gemGain} Gems
+        </ConfirmButton>
     {/if}
 </div>
