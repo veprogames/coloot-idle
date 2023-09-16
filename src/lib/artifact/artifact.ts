@@ -164,7 +164,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
     "orbofwisdom": {
         id: "orbofwisdom",
         title: "Orb of Wisdom",
-        hint: "This Artifact gets stronger based on Player Level squared",
+        hint: "This Artifact gets stronger based on Player Level times its count squared",
         effectType: ArtifactEffectType.PLAYER_XP,
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
@@ -177,27 +177,27 @@ export const Artifacts: {[key: string]: ArtifactData} = {
     "metaldetector": {
         id: "metaldetector",
         title: "Metal Detector",
-        hint: "This Artifacts effect strength is based on how much Equipment you scrapped",
+        hint: "This Artifacts effect strength is based on how much Equipment you scrapped and its count",
         effectType: ArtifactEffectType.EQUIPMENT_RARITY,
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
         image: "./images/artifacts/metaldetector.png",
         basePrice: 5,
         getAdditionalEffectMultiplier(game, count, tier) {
-            return new Decimal(game.player.scrap.add(1).log10() / 5);
+            return new Decimal(game.player.scrap.add(1).log10() / 5).mul(count);
         },
     },
     "magicwand": {
         id: "magicwand",
         title: "Magic Wand of Thousand Colors",
-        hint: "This Artifacts effect strength is based on how much Artifacts you own",
+        hint: "This Artifacts effect strength is based on how much Artifacts you own and its tier",
         effectType: ArtifactEffectType.MAGIC_FIND,
-        effectAmount: 0.02,
+        effectAmount: 0.1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
         image: "./images/artifacts/wandofcolors.png",
         basePrice: 10,
         getAdditionalEffectMultiplier(game, count, tier) {
-            return new Decimal(game.player.inventory.artifactCount);
+            return new Decimal(game.player.inventory.artifactCount).mul(1 + tier);
         },
     },
 };

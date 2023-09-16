@@ -14,7 +14,7 @@ export default class ArtifactShop implements SaverLoader {
     }
 
     get shopLevel() {
-        return 1 + this.gemsSpent ** 0.4 / 2;
+        return 1 + (this.gemsSpent / 2) ** 0.5;
     }
 
     private get player() {
@@ -56,7 +56,7 @@ export default class ArtifactShop implements SaverLoader {
     }
 
     getArtifactPrice(artifactData: ArtifactData, tier: number): number {
-        return artifactData.basePrice * (1 + tier);
+        return Math.floor(artifactData.basePrice * (1 + 0.1 * tier));
     }
 
     buyArtifact(artifactData: ArtifactData, tier: number) {
