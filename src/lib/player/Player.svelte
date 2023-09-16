@@ -31,11 +31,11 @@ import { F } from "../utils";
             <EquipmentText equipment={player.accessory}/>
         </div>
     </div>
-    <Statbar width="18rem" value={player.hpPercentage}>HP: {F(player.currentHp)}/{F(player.hp)}</Statbar>
+    <Statbar center width="18rem" value={player.hpPercentage}>HP: {F(player.currentHp)}/{F(player.hp)}</Statbar>
     <p class="text-center" title="Level (Multiplies various stats)">
         Level {(player.level).toLocaleString("en-US")}
     </p>
-    <Statbar width="18rem" value={player.xpPercentage}>{F(player.xp)}/{F(player.xpRequired)}</Statbar>
+    <Statbar center width="18rem" value={player.xpPercentage}>{F(player.xp)}/{F(player.xpRequired)}</Statbar>
     <Inventory {player}/>
 </section>
 

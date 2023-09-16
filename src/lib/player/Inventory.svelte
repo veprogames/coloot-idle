@@ -10,6 +10,7 @@
     import UnlockableButton from "../dom/UnlockableButton.svelte";
     import { CRYSTAL_BASE_REQUIRED_LEVEL } from "../prestigecrystal/prestigecrystal";
     import { ARTIFACTS_BASE_REQUIRED_LEVEL } from "../artifact/artifactshop";
+    import PlayerHelpButton from "./PlayerHelpButton.svelte";
 
     export let player: Player;
 
@@ -56,7 +57,7 @@
 <ArtifactShopDialog bind:this={dialog} shop={$game.artifactShop} />
 
 <div bind:clientWidth={containerWidth}>
-    <div class="flex flex-col md:flex-row md:justify-center gap-4 my-2">
+    <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-4 my-2">
         <button on:click={() => tab = "equipment"} class="btn">Loot</button>
         <UnlockableButton on:click={() => tab = "crystals"} condition={(game) => game.prestigeCrystalsUnlocked}>
             <span slot="locked">Reach Level {CRYSTAL_BASE_REQUIRED_LEVEL}</span>
@@ -67,6 +68,7 @@
             <span>Artifacts</span>
         </UnlockableButton>
         <SaveManagementButton />
+        <PlayerHelpButton />
     </div>
     {#if tab === "equipment"}
         <div class="bag-actions" style:width={bagWidth}>
