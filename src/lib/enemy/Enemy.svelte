@@ -1,12 +1,13 @@
 <script lang="ts">
     import Statbar from "../dom/Statbar.svelte";
+    import { I } from "../images";
     import { F, getTierColor } from "../utils";
     import type Enemy from "./enemy";
     import { EnemyType } from "./enemy";
 
     export let enemy: Enemy;
 
-    $: image = enemy.type === EnemyType.BOSS ? "golem.png" : "slime.png";
+    $: image = enemy.type === EnemyType.BOSS ? I.enemy.golem : I.enemy.slime;
     // add an alpha component to the hex color code
     $: glowColor = `${getTierColor(enemy.tier)}80`;
 
@@ -16,7 +17,7 @@
 
 <div class="flex flex-col items-center">
     <h2>{tierName} {enemyName}</h2>
-    <img class="my-4 w-32 h-32" class:glow={enemy.tier > 0} style:--glow-color={glowColor} src="./images/enemy/{image}" alt="Enemy" />
+    <img class="my-4 w-32 h-32" class:glow={enemy.tier > 0} style:--glow-color={glowColor} src={image} alt="Enemy" />
     <Statbar value={enemy.hpPercentage}>{F(enemy.currentHp)}</Statbar>
 </div>
 

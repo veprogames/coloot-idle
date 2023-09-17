@@ -1,6 +1,7 @@
 <script lang="ts">
     import ConfirmButton from "../dom/ConfirmButton.svelte";
 import Statbar from "../dom/Statbar.svelte";
+    import { I } from "../images";
 import { F } from "../utils";
     import EquipmentText from "./EquipmentText.svelte";
     import Inventory from "./Inventory.svelte";
@@ -13,15 +14,15 @@ import { F } from "../utils";
     <div class="flex flex-wrap justify-between text-lg">
         <div class="flex flex-col justify-evenly items-start gap-1">
             <div class="stat" title="Damage">
-                <img src="./images/stat/power.png" alt="Power"/>
+                <img src={I.stat.power} alt="Power"/>
                 {F(player.power)}
             </div>
             <div class="stat" title="Rarity">
-                <img src="./images/stat/rarity.png" alt="Magic Find"/>
+                <img src={I.stat.rarity} alt="Magic Find"/>
                 x{F(player.rarityMultiplier, true)}
             </div>
             <div class="stat" title="Magic Find (Multiplies Stats of found Equipment)">
-                <img src="./images/stat/magicfind.png" alt="Magic Find"/>
+                <img src={I.stat.magicFind} alt="Magic Find"/>
                 x{F(player.magicFind, true)}
             </div>
         </div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { I } from "../images";
     import Enemy from "./Enemy.svelte";
     import type Arena from "./arena";
 
@@ -7,7 +8,7 @@
 
 <section class="text-center">
     <div class="flex gap-1 items-center justify-center text-lg font-semibold">
-        <img src="./images/arena/world.png" alt="Stage"/>
+        <img src={I.arena.world} alt="Stage"/>
         {arena.stageName}
     </div>
     <Enemy enemy={arena.currentEnemy} />

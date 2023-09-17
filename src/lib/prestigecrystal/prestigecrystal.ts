@@ -2,6 +2,7 @@ import Decimal from "break_infinity.js";
 import type Player from "../player/player";
 import { getGame } from "../singleton";
 import type { SaverLoader } from "../saveload/saveload";
+import { I } from "../images";
 
 export const CRYSTAL_BASE_REQUIRED_LEVEL = 20;
 
@@ -73,7 +74,7 @@ export class PrestigeCrystalPower extends PrestigeCrystal {
         super({
             title: "Power",
             description: "Increases Damage dealt",
-            statIcon: "./images/stat/power.png",
+            statIcon: I.stat.power,
         });
     }
 
@@ -91,7 +92,7 @@ export class PrestigeCrystalRarity extends PrestigeCrystal {
         super({
             title: "Rarity",
             description: "Increases the Rarity of found Equipment",
-            statIcon: "./images/stat/rarity.png",
+            statIcon: I.stat.rarity,
         });
     }
 
@@ -109,7 +110,7 @@ export class PrestigeCrystalMagic extends PrestigeCrystal {
         super({
             title: "Magic",
             description: "Increases Magic Find",
-            statIcon: "./images/stat/magicfind.png",
+            statIcon: I.stat.magicFind,
         });
     }
 

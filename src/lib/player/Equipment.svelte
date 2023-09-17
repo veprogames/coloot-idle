@@ -5,6 +5,7 @@
     import { F } from "../utils";
     import { game } from "../stores";
     import { fade, fly } from "svelte/transition";
+    import { I } from "../images";
 
     export let equipment: Equipment;
 
@@ -20,10 +21,10 @@
         [EquipmentType.ACCESSORY]: "O",
     }[equipment.type];
 
-    $: image = "./images/equipment/" + {
-        [EquipmentType.WEAPON]: "sword.png",
-        [EquipmentType.ARMOR]: "armor.png",
-        [EquipmentType.ACCESSORY]: "accessory.png",
+    $: image = {
+        [EquipmentType.WEAPON]: I.equipment.sword,
+        [EquipmentType.ARMOR]: I.equipment.armor,
+        [EquipmentType.ACCESSORY]: I.equipment.accessory,
     }[equipment.type];
 
     $: statText = F(equipment.stat);

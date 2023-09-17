@@ -6,6 +6,7 @@ import type GameClass from "../game/gameclass";
 // this broke because Player() called a getter too early
 import { getGame } from "../singleton";
 import type { SaverLoader } from "../saveload/saveload";
+import { I } from "../images";
 
 export enum ArtifactEffectType {
     DAMAGE,
@@ -128,7 +129,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.MAX_HEALTH,
         effectAmount: 2,
         effectOperation: ArtifactEffectOperation.ADDITIVE,
-        image: "./images/artifacts/potion.png",
+        image: I.artifacts.potion,
         basePrice: 1,
         getAdditionalEffectMultiplier(game, count, tier) {
             return new Decimal(1 + 2 * tier);
@@ -140,7 +141,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.DAMAGE,
         effectAmount: 0.7,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
-        image: "./images/artifacts/ironfist.png",
+        image: I.artifacts.ironFist,
         basePrice: 1,
     },
     "shinydiamond": {
@@ -149,7 +150,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.MAGIC_FIND,
         effectAmount: 0.25,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
-        image: "./images/artifacts/shinydiamond.png",
+        image: I.artifacts.shinyDiamond,
         basePrice: 1,
     },
     "shovel": {
@@ -158,7 +159,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.EQUIPMENT_RARITY,
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
-        image: "./images/artifacts/shovel.png",
+        image: I.artifacts.shovel,
         basePrice: 1,
     },
     "orbofwisdom": {
@@ -168,7 +169,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.PLAYER_XP,
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
-        image: "./images/artifacts/orbofwisdom.png",
+        image: I.artifacts.orbOfWisdom,
         basePrice: 3,
         getAdditionalEffectMultiplier(game, count, tier) {
             return Decimal.pow(1 + game.player.level * count, 2);
@@ -181,7 +182,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.EQUIPMENT_RARITY,
         effectAmount: 1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
-        image: "./images/artifacts/metaldetector.png",
+        image: I.artifacts.metalDetector,
         basePrice: 5,
         getAdditionalEffectMultiplier(game, count, tier) {
             return new Decimal(game.player.scrap.add(1).log10() / 5).mul(count);
@@ -194,7 +195,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         effectType: ArtifactEffectType.MAGIC_FIND,
         effectAmount: 0.1,
         effectOperation: ArtifactEffectOperation.MULTIPLICATIVE,
-        image: "./images/artifacts/wandofcolors.png",
+        image: I.artifacts.wandOfColors,
         basePrice: 10,
         getAdditionalEffectMultiplier(game, count, tier) {
             return new Decimal(game.player.inventory.artifactCount).mul(1 + tier);

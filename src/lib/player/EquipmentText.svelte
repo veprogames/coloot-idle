@@ -2,6 +2,7 @@
     import Icon from "../dom/Icon.svelte";
 import type Equipment from "../equipment/equipment";
     import { EquipmentType } from "../equipment/equipment";
+    import { I } from "../images";
     import { F } from "../utils";
 
     export let equipment: Equipment;
@@ -13,10 +14,10 @@ import type Equipment from "../equipment/equipment";
         [EquipmentType.ACCESSORY]: "Accessory",
     }[equipment.type];
 
-    $: image = "./images/equipment/" + {
-        [EquipmentType.WEAPON]: "sword.png",
-        [EquipmentType.ARMOR]: "armor.png",
-        [EquipmentType.ACCESSORY]: "accessory.png",
+    $: image = {
+        [EquipmentType.WEAPON]: I.equipment.sword,
+        [EquipmentType.ARMOR]: I.equipment.armor,
+        [EquipmentType.ACCESSORY]: I.equipment.accessory,
     }[equipment.type];
 </script>
 
