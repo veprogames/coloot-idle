@@ -1,6 +1,6 @@
 <script lang="ts">
     import ConfirmButton from "../dom/ConfirmButton.svelte";
-import { game } from "../stores";
+    import { game } from "../stores";
     import type ArtifactShop from "./artifactshop";
 
     export let artifactShop: ArtifactShop;

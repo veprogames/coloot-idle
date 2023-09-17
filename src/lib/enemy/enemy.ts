@@ -1,9 +1,9 @@
 import Decimal from "break_infinity.js";
-import Artifact, { ArtifactEffectType, calculateArtifactEffects, randomArtifact } from "../artifact/artifact";
+import Artifact, { ArtifactEffectType, randomArtifact } from "../artifact/artifact";
 import Equipment, { EquipmentType } from "../equipment/equipment";
+import type { SaverLoader } from "../saveload/saveload";
 import { getGame } from "../singleton";
 import { choose } from "../utils";
-import type { SaverLoader } from "../saveload/saveload";
 
 export enum EnemyType {
     NORMAL,

@@ -1,11 +1,11 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
+    import { fade, fly } from "svelte/transition";
     import type Equipment from "../equipment/equipment";
     import { EquipmentType } from "../equipment/equipment";
-    import { F } from "../utils";
-    import { game } from "../stores";
-    import { fade, fly } from "svelte/transition";
     import { I } from "../images";
+    import { game } from "../stores";
+    import { F } from "../utils";
 
     export let equipment: Equipment;
 

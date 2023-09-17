@@ -1,7 +1,7 @@
 <script lang="ts">
     import { game } from "../stores";
     import WipeSaveButton from "./WipeSaveButton.svelte";
-    import { getSaveString, loadGame, loadGameFromString, saveGame, wipeGame } from "./saveload";
+    import { getSaveString, loadGameFromString, saveGame } from "./saveload";
 
     let dialog: HTMLDialogElement;
     let exportCode: string = "";

@@ -1,8 +1,7 @@
 <script lang="ts">
-    import ConfirmButton from "../dom/ConfirmButton.svelte";
-import Statbar from "../dom/Statbar.svelte";
+    import Statbar from "../dom/Statbar.svelte";
     import { I } from "../images";
-import { F } from "../utils";
+    import { F } from "../utils";
     import EquipmentText from "./EquipmentText.svelte";
     import Inventory from "./Inventory.svelte";
     import type Player from "./player";

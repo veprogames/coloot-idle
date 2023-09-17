@@ -1,16 +1,16 @@
 <script lang="ts">
-    import ArtifactShopDialog from "../artifact/ArtifactShopDialog.svelte";
-    import type Equipment from "../equipment/equipment";
-    import { game } from "../stores";
     import Artifact from "../artifact/Artifact.svelte";
-    import EquipmentComponent from "./Equipment.svelte";
-    import Player from "./player";
-    import SaveManagementButton from "../saveload/SaveManagementButton.svelte";
-    import PrestigeCrystalContent from "../prestigecrystal/PrestigeCrystalContent.svelte";
-    import UnlockableButton from "../dom/UnlockableButton.svelte";
-    import { CRYSTAL_BASE_REQUIRED_LEVEL } from "../prestigecrystal/prestigecrystal";
+    import ArtifactShopDialog from "../artifact/ArtifactShopDialog.svelte";
     import { ARTIFACTS_BASE_REQUIRED_LEVEL } from "../artifact/artifactshop";
+    import UnlockableButton from "../dom/UnlockableButton.svelte";
+    import type Equipment from "../equipment/equipment";
+    import PrestigeCrystalContent from "../prestigecrystal/PrestigeCrystalContent.svelte";
+    import { CRYSTAL_BASE_REQUIRED_LEVEL } from "../prestigecrystal/prestigecrystal";
+    import SaveManagementButton from "../saveload/SaveManagementButton.svelte";
+    import { game } from "../stores";
+    import EquipmentComponent from "./Equipment.svelte";
     import PlayerHelpButton from "./PlayerHelpButton.svelte";
+    import Player from "./player";
 
     export let player: Player;
 

@@ -1,7 +1,5 @@
 <script lang="ts">
     import HelpButton from "../dom/HelpButton.svelte";
-
-
 </script>
 
 <HelpButton>

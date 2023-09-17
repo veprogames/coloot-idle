@@ -1,11 +1,9 @@
 <script lang="ts">
-    import { scale } from "svelte/transition";
-    import Artifact from "./Artifact.svelte";
-import ArtifactImage from "./ArtifactImage.svelte";
-import ArtifactShop from "./artifactshop";
-    import Statbar from "../dom/Statbar.svelte";
     import ConfirmButton from "../dom/ConfirmButton.svelte";
     import HelpButton from "../dom/HelpButton.svelte";
+    import Statbar from "../dom/Statbar.svelte";
+    import ArtifactImage from "./ArtifactImage.svelte";
+    import ArtifactShop from "./artifactshop";
 
     export let shop: ArtifactShop;
 

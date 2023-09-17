@@ -1,13 +1,11 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import Player from "./lib/player/Player.svelte";
     import { game } from "./lib/stores";
-    import tickGame, { tickEnemy, tickPlayer, tickSave } from "./lib/tick";
     import Arena from "./lib/enemy/Arena.svelte";
     import GameBackground from "./lib/enemy/GameBackground.svelte";
-    import PrestigeCrystalContent from "./lib/prestigecrystal/PrestigeCrystalContent.svelte";
-    import { loadGame, saveGame, wipeGame } from "./lib/saveload/saveload";
-    import SaveManagementButton from "./lib/saveload/SaveManagementButton.svelte";
+    import Player from "./lib/player/Player.svelte";
+    import { loadGame } from "./lib/saveload/saveload";
+    import tickGame, { tickEnemy, tickPlayer, tickSave } from "./lib/tick";
 
     let prev = Date.now();
 

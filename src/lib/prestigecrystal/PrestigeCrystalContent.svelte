@@ -1,7 +1,7 @@
 <script lang="ts">
     import GemPrestige from "../artifact/GemPrestige.svelte";
     import HelpButton from "../dom/HelpButton.svelte";
-import { game } from "../stores";
+    import { game } from "../stores";
     import PrestigeCrystal from "./PrestigeCrystal.svelte";
 </script>
 

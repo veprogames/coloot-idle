@@ -1,6 +1,5 @@
 <script lang="ts">
-    import Icon from "../dom/Icon.svelte";
-import type Equipment from "../equipment/equipment";
+    import type Equipment from "../equipment/equipment";
     import { EquipmentType } from "../equipment/equipment";
     import { I } from "../images";
     import { F } from "../utils";

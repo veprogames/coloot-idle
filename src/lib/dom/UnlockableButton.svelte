@@ -1,8 +1,8 @@
 <script lang="ts">
     import { createEventDispatcher, onDestroy, onMount } from "svelte";
+    import type { Unsubscriber } from "svelte/store";
     import type GameClass from "../game/gameclass";
     import { game } from "../stores";
-    import type { Unsubscriber } from "svelte/store";
 
     export let clazz: string = "";
     export let condition: (game: GameClass) => boolean;

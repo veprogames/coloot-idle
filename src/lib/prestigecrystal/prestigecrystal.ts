@@ -1,8 +1,8 @@
 import Decimal from "break_infinity.js";
-import type Player from "../player/player";
-import { getGame } from "../singleton";
-import type { SaverLoader } from "../saveload/saveload";
 import { I } from "../images";
+import type Player from "../player/player";
+import type { SaverLoader } from "../saveload/saveload";
+import { getGame } from "../singleton";
 
 export const CRYSTAL_BASE_REQUIRED_LEVEL = 20;
 

@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { capitalize, getTierName } from "../utils";
     import ArtifactImage from "./ArtifactImage.svelte";
     import type Artifact from "./artifact";
     import { ArtifactEffectOperation } from "./artifact";
-    import { capitalize, getTierName } from "../utils";
 
     export let artifact: Artifact;
 

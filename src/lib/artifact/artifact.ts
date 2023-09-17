@@ -1,12 +1,10 @@
 import type { DecimalSource } from "break_infinity.js";
 import Decimal from "break_infinity.js";
-import { F, choose, getTierColor } from "../utils";
 import type GameClass from "../game/gameclass";
-
-// this broke because Player() called a getter too early
-import { getGame } from "../singleton";
-import type { SaverLoader } from "../saveload/saveload";
 import { I } from "../images";
+import type { SaverLoader } from "../saveload/saveload";
+import { getGame } from "../singleton";
+import { F, choose, getTierColor } from "../utils";
 
 export enum ArtifactEffectType {
     DAMAGE,

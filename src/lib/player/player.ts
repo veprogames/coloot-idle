@@ -2,10 +2,10 @@ import Decimal from "break_infinity.js";
 import Artifact, { ArtifactEffectType } from "../artifact/artifact";
 import type Arena from "../enemy/arena";
 import type Enemy from "../enemy/enemy";
-import Equipment, { EquipmentType} from "../equipment/equipment";
+import Equipment, { EquipmentType } from "../equipment/equipment";
+import type { SaverLoader } from "../saveload/saveload";
 import { getGame } from "../singleton";
 import PlayerInventory from "./player-inventory";
-import type { SaverLoader } from "../saveload/saveload";
 
 export type PlayerEquipment = {
     [EquipmentType.WEAPON]: Equipment,

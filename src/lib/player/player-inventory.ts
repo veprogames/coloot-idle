@@ -1,5 +1,4 @@
-import { calculateArtifactEffects, type ArtifactCalculatedEffects, Artifacts } from "../artifact/artifact";
-import Artifact from "../artifact/artifact";
+import Artifact, { Artifacts, calculateArtifactEffects, type ArtifactCalculatedEffects } from "../artifact/artifact";
 import Equipment from "../equipment/equipment";
 import type { SaverLoader } from "../saveload/saveload";
 
