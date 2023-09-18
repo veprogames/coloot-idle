@@ -1,47 +1,25 @@
-# Svelte + TS + Vite
+# Coloot - Idle Loot Collector
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+![Game Screenshot](./screenshot.png)
 
-## Recommended IDE Setup
+Fight Monsters and find Loot to keep getting stronger! Level up Prestige Crystals and buy Artifacts.
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+This Game is very inspired by Idle Loot Quest made by TogCog LLC: https://play.google.com/store/apps/details?id=com.topcog.idlelootquest
 
-## Need an official Svelte framework?
+# State of the Game
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+Basically finished, this is what I can think of that might need some polish:
 
-## Technical considerations
+* Balance past Level 100
+* Better Enemy Sprites
+* Misc Changes and Bug Fixes
+* Better Help if unclear (I hope most mechanics explain themselves), the less Help text the better
+* Progressive Web App with offline support
 
-**Why use this over SvelteKit?**
+It's a bit early but if I don't publish it now I might never get around to do it :P
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+# About PRs and Mods
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+I view this more of a personal project, so I won't be keen on merging PRs, but Mods are very welcome! Refer to the [MIT License](./LICENSE) attached to this Repository.
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
-
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
-
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `allowJs` in the TS template?**
-
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
-```
+It would be nice if all mods stay free and open source.

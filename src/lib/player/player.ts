@@ -1,10 +1,11 @@
 import Decimal from "break_infinity.js";
-import Equipment from "../equipment/equipment"
-import { EquipmentType, INIT_ACCESSORY, INIT_ARMOR, INIT_WEAPON } from "../equipment/equipment"
+import Artifact, { ArtifactEffectType } from "../artifact/artifact";
 import type Arena from "../enemy/arena";
-import PlayerInventory from "./player-inventory";
-import Artifact, { ArtifactEffectType, Artifacts, randomArtifact } from "../equipment/artifact";
 import type Enemy from "../enemy/enemy";
+import Equipment, { EquipmentType } from "../equipment/equipment";
+import type { SaverLoader } from "../saveload/saveload";
+import { getGame } from "../singleton";
+import PlayerInventory from "./player-inventory";
 
 export type PlayerEquipment = {
     [EquipmentType.WEAPON]: Equipment,
@@ -12,11 +13,11 @@ export type PlayerEquipment = {
     [EquipmentType.ACCESSORY]: Equipment,
 }
 
-export default class Player {
+export default class Player implements SaverLoader {
     private equipment: PlayerEquipment = {
-        [EquipmentType.WEAPON]: INIT_WEAPON,
-        [EquipmentType.ARMOR]: INIT_ARMOR,
-        [EquipmentType.ACCESSORY]: INIT_ACCESSORY,
+        [EquipmentType.WEAPON]: Equipment.INIT_WEAPON,
+        [EquipmentType.ARMOR]: Equipment.INIT_ARMOR,
+        [EquipmentType.ACCESSORY]: Equipment.INIT_ACCESSORY,
     };
 
     private _inventory: PlayerInventory = new PlayerInventory();
@@ -27,7 +28,19 @@ export default class Player {
      */
     scrap: Decimal = new Decimal(0);
 
+    /**
+     * Levels give a boost and are used for prestige crystals
+     */
+    xp: Decimal = new Decimal(0);
+    level: number = 1;
+    // used for unlocks
+    highestLevel: number = 1;
+
     constructor() {
+        this.currentHp = 0;
+    }
+
+    initialize() {
         this.currentHp = this.hp;
     }
 
@@ -48,19 +61,23 @@ export default class Player {
     }
 
     get power(): Decimal {
+        const levelEffect = Decimal.pow(1.04, this.level - 1);
         const artifactEffect = this._inventory.getArtifactEffects()[ArtifactEffectType.DAMAGE];
+        const crystalEffect = getGame().prestigeCrystals.power.effect;
 
         return this.weapon.stat
             .mul(this.armor.stat.div(10).pow(0.5))
             .mul(this.accessory.stat.div(10).pow(0.5))
+            .mul(levelEffect)
             .mul(artifactEffect)
+            .mul(crystalEffect)
             .floor();
     }
 
     get hp(): number {
         const artifactEffect = this._inventory.getArtifactEffects()[ArtifactEffectType.MAX_HEALTH].toNumber();
 
-        return 10 + artifactEffect;
+        return 10 + Math.floor(0.25 * (this.level - 1)) + artifactEffect;
     }
 
     get hpPercentage(): number {
@@ -79,15 +96,28 @@ export default class Player {
         return this.power.div(hp);
     }
 
+    get rarityMultiplier(): Decimal {
+        const crystal = getGame().prestigeCrystals.rarity;
+        
+        const artifactMult = this._inventory.getArtifactEffects()[ArtifactEffectType.EQUIPMENT_RARITY];
+        const crystalMult = crystal.effect;
+        
+        return artifactMult.mul(crystalMult);
+    }
+
     /**
      * Multiplies the base stats of equipment earned
      */
     get magicFind(): Decimal {
-        const boostFromArtifacts = this._inventory.getArtifactEffects()[ArtifactEffectType.MAGIC_FIND];
+        const levelMult = Decimal.pow(1.02, this.level - 1);
+        const artifactMult = this._inventory.getArtifactEffects()[ArtifactEffectType.MAGIC_FIND];
+        const crystalMult = getGame().prestigeCrystals.magic.effect;
 
         return (this.scrap.add(1).pow(0.1))
             .mul(this.accessory.stat.div(10).pow(0.1))
-            .mul(boostFromArtifacts);
+            .mul(levelMult)
+            .mul(artifactMult)
+            .mul(crystalMult);
     }
 
     equip(equipment: Equipment): void {
@@ -127,11 +157,46 @@ export default class Player {
 
         if(!possibleLoot) return;
 
-        if(possibleLoot instanceof Equipment) {
-            this._inventory.addEquipment(possibleLoot);
+        this.addXp(possibleLoot.xp);
+        for(const drop of possibleLoot.drops) {
+            if(drop instanceof Equipment) {
+                this._inventory.addEquipment(drop);
+            }
+            else if(drop instanceof Artifact) {
+                this._inventory.addArtifact(drop);
+            }
         }
-        else if(possibleLoot instanceof Artifact) {
-            this._inventory.addArtifact(possibleLoot);
+    }
+
+    /*
+    * XP
+    */
+
+    get xpRequired(): Decimal {
+        // scales according to enemy hp, scale level similar to stage
+        const INCREASE_PER_STAGE = 1.618 ** 5;
+        return new Decimal(1000)
+            .mul(Decimal.pow(INCREASE_PER_STAGE, this.level - 1));
+    }
+
+    get xpPercentage(): number {
+        return this.xp.div(this.xpRequired).toNumber();
+    }
+
+    addXp(xp: Decimal) {
+        let didLevelUp = false;
+
+        this.xp = this.xp.add(xp);
+
+        while(this.xp.gt(this.xpRequired)){
+            this.xp = this.xp.sub(this.xpRequired);
+            this.level++;
+            this.highestLevel = Math.max(this.level, this.highestLevel)
+            didLevelUp = true;
+        }
+
+        if(didLevelUp) {
+            this.heal();
         }
     }
 
@@ -144,7 +209,52 @@ export default class Player {
         this.currentHp -= damage;
     }
 
-    revive(): void {
+    heal() {
         this.currentHp = this.hp;
+    }
+
+    reset(): void {
+        this.equipment = {
+            [EquipmentType.WEAPON]: Equipment.INIT_WEAPON,
+            [EquipmentType.ARMOR]: Equipment.INIT_ARMOR,
+            [EquipmentType.ACCESSORY]: Equipment.INIT_ACCESSORY,
+        };
+        this.scrap = new Decimal(0);
+        this.xp = new Decimal(0);
+        this.level = 1;
+        this._inventory.resetEquipment();
+        this.heal();
+    }
+
+    /**
+     * Save and Load
+     */
+
+    save(): unknown {
+        return {
+            currentHp: this.currentHp,
+            xp: this.xp.toString(),
+            level: this.level,
+            highestLevel: this.highestLevel,
+            scrap: this.scrap.toString(),
+            equipment: {
+                weapon: this.equipment[EquipmentType.WEAPON].save(),
+                armor: this.equipment[EquipmentType.ARMOR].save(),
+                accessory: this.equipment[EquipmentType.ACCESSORY].save(),
+            },
+            inventory: this._inventory.save(),
+        };
+    }
+
+    load(data: any): void {
+        this.currentHp = data.currentHp;
+        this.level = data.level;
+        this.highestLevel = data.highestLevel ?? this.level;
+        this.xp = new Decimal(data.xp);
+        this.scrap = new Decimal(data.scrap);
+        this.equipment[EquipmentType.WEAPON].load(data.equipment.weapon);
+        this.equipment[EquipmentType.ARMOR].load(data.equipment.armor);
+        this.equipment[EquipmentType.ACCESSORY].load(data.equipment.accessory);
+        this._inventory.load(data.inventory);
     }
 }

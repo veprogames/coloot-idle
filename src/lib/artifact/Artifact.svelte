@@ -1,7 +1,8 @@
 <script lang="ts">
-    import type Artifact from "../equipment/artifact";
-    import { ArtifactEffectOperation } from "../equipment/artifact";
     import { capitalize, getTierName } from "../utils";
+    import ArtifactImage from "./ArtifactImage.svelte";
+    import type Artifact from "./artifact";
+    import { ArtifactEffectOperation } from "./artifact";
 
     export let artifact: Artifact;
 
@@ -14,6 +15,9 @@
     <div>
         <h2>{tierName} {artifact.data.title}</h2>
         <p>{artifact.description}</p>
+        {#if artifact.data.hint}
+            <p class="italic text-slate-300 text-sm mt-4">{artifact.data.hint}</p>
+        {/if}
         {#if artifact.data.effectOperation === ArtifactEffectOperation.ADDITIVE}
             <small>This effect is additive and is applied <strong>before</strong> all multiplicative effects.</small>
         {/if}
@@ -23,19 +27,7 @@
 </dialog>
 
 <button on:click={() => dialog.showModal()} class="relative w-16 h-16">
-    <img 
-        class="h-16 w-auto" src={artifact.data.image}
-        alt="Icon"
-        style:--artifact-color={artifact.color}
-    />
-    <span class="absolute -bottom-2 right-0 font-bold">x{artifact.count}</span>
+    <ArtifactImage data={artifact.data} tier={artifact.tier} size={16}/>
+    <span class="absolute -bottom-1 right-0 font-bold text-xl
+        bg-black bg-opacity-50 p-0.5 z-10">x{artifact.count}</span>
 </button>
-
-<style lang="postcss">
-    img {
-        filter: drop-shadow(0 0.25rem 0 var(--artifact-color)) 
-            drop-shadow(0 -0.25rem 0 var(--artifact-color))
-            drop-shadow(0.25rem 0 0 var(--artifact-color))
-            drop-shadow(-0.25rem 0 0 var(--artifact-color));
-    }
-</style>

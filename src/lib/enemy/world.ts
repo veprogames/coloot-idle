@@ -1,3 +1,5 @@
+import { I } from "../images";
+
 export interface WorldData {
     stage: number,
     title: string,
@@ -8,52 +10,52 @@ export const WORLD: WorldData[] = [
     {
         stage: 0,
         title: "Plains",
-        background: "./images/backgrounds/plains.png",
+        background: I.backgrounds.plains,
     },
     {
         stage: 20,
         title: "Forest",
-        background: "./images/backgrounds/forest.png",
+        background: I.backgrounds.forest,
     },
     {
         stage: 40,
         title: "Jungle",
-        background: "./images/backgrounds/jungle.png",
+        background: I.backgrounds.jungle,
     },
     {
         stage: 60,
         title: "Desert",
-        background: "./images/backgrounds/desert.png",
+        background: I.backgrounds.desert,
     },
     {
         stage: 80,
         title: "Badlands",
-        background: "./images/backgrounds/badlands.png",
+        background: I.backgrounds.badlands,
     },
     {
         stage: 100,
         title: "Cave",
-        background: "./images/backgrounds/cave.png",
+        background: I.backgrounds.cave,
     },
     {
         stage: 125,
         title: "Castle",
-        background: "./images/backgrounds/castle.png",
+        background: I.backgrounds.castle,
     },
     {
         stage: 150,
         title: "Deep Dungeon",
-        background: "./images/backgrounds/deepdungeon.png",
+        background: I.backgrounds.deepDungeon,
     },
     {
         stage: 180,
         title: "Hellscape",
-        background: "./images/backgrounds/hellscape.png",
+        background: I.backgrounds.hellscape,
     },
     {
         stage: 230,
         title: "Portal to Another World",
-        background: "./images/backgrounds/portal.png",
+        background: I.backgrounds.portal,
     },
 ];
 

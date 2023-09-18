@@ -1,13 +1,17 @@
-import { calculateArtifactEffects, type ArtifactCalculatedEffects } from "../equipment/artifact";
-import Artifact from "../equipment/artifact";
-import type Equipment from "../equipment/equipment";
+import Artifact, { Artifacts, calculateArtifactEffects, type ArtifactCalculatedEffects } from "../artifact/artifact";
+import Equipment from "../equipment/equipment";
+import type { SaverLoader } from "../saveload/saveload";
 
-export default class PlayerInventory {
+export default class PlayerInventory implements SaverLoader {
     equipment: Equipment[] = [];
     artifacts: Artifact[] = [];
 
     get equipmentCapacity(): number {
-        return 32;
+        return 48;
+    }
+
+    get remainingEquipmentCapacity(): number {
+        return this.equipmentCapacity - this.equipment.length;
     }
 
     addEquipment(equipment: Equipment) {
@@ -41,5 +45,33 @@ export default class PlayerInventory {
         return this.artifacts
             .map((artifact: Artifact) => artifact.count)
             .reduce((prev: number, current: number) => prev + current);
+    }
+
+    resetArtifacts(): void {
+        this.artifacts = [];
+    }
+
+    resetEquipment(): void {
+        this.equipment = [];
+    }
+
+    save() {
+        return {
+            equipment: this.equipment.map(equip => equip.save()),
+            artifacts: this.artifacts.map(artifact => artifact.save()),
+        };
+    }
+
+    load(data: any): void {
+        this.equipment = [];
+        this.artifacts = [];
+        for(const equip of data.equipment) {
+            this.equipment.push(new Equipment(equip.baseStat, equip.type, equip.tier));
+        }
+        for(const artifact of data.artifacts) {
+            const newArtifact = Artifact.from(Artifacts[artifact.id], artifact.tier);
+            newArtifact.count = artifact.count;
+            this.artifacts.push(newArtifact);
+        }
     }
 }

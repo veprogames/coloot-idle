@@ -1,5 +1,6 @@
 import type { DecimalSource } from "break_infinity.js";
 import Decimal from "break_infinity.js";
+import type { SaverLoader } from "../saveload/saveload";
 import { getTierColor } from "../utils";
 
 export enum EquipmentType {
@@ -8,7 +9,7 @@ export enum EquipmentType {
     ACCESSORY,
 }
 
-export default class Equipment {
+export default class Equipment implements SaverLoader {
     baseStat: Decimal;
     type: EquipmentType;
     tier: number;
@@ -30,8 +31,30 @@ export default class Equipment {
     get color(): string {
         return getTierColor(this.tier);
     }
-}
 
-export const INIT_WEAPON = new Equipment(10, EquipmentType.WEAPON);
-export const INIT_ARMOR = new Equipment(10, EquipmentType.ARMOR);
-export const INIT_ACCESSORY = new Equipment(10, EquipmentType.ACCESSORY);
+    static get INIT_WEAPON() {
+        return new Equipment(10, EquipmentType.WEAPON);
+    }
+
+    static get INIT_ARMOR() {
+        return new Equipment(10, EquipmentType.ARMOR);
+    }
+
+    static get INIT_ACCESSORY() {
+        return new Equipment(10, EquipmentType.ACCESSORY);
+    }
+
+    save() {
+        return {
+            baseStat: this.baseStat.toString(),
+            tier: this.tier,
+            type: this.type,
+        };
+    }
+
+    load(data: any): void {
+        this.baseStat = new Decimal(data.baseStat);
+        this.tier = data.tier;
+        this.type = data.type;
+    }
+}

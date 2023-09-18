@@ -1,3 +1,4 @@
+import { saveGame } from "./saveload/saveload";
 import { game } from "./stores";
 
 export default function tickGame(dt: number) {
@@ -12,7 +13,7 @@ export function tickPlayer() {
     game.update(game => {
         game.player.hitEnemy(game.arena);
         const overkill = game.player.getOverkill(game.arena.currentEnemy);
-        const cooldown = overkill.gt(5) ? (overkill.gt(1e6) ? 200 : 500) : 1000;
+        const cooldown = 1000 / (1 + overkill.max(1).log10() / 2);
 
         setTimeout(tickPlayer, cooldown);
         return game;
@@ -27,4 +28,10 @@ export function tickEnemy() {
     });
 
     setTimeout(tickEnemy, 5000);
+}
+
+export function tickSave() {
+    saveGame();
+
+    setTimeout(tickSave, 60000);
 }
