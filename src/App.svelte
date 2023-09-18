@@ -6,6 +6,7 @@
     import Player from "./lib/player/Player.svelte";
     import { loadGame } from "./lib/saveload/saveload";
     import tickGame, { tickEnemy, tickPlayer, tickSave } from "./lib/tick";
+    import CreditsButton from "./lib/credits/CreditsButton.svelte";
 
     let prev = Date.now();
 
@@ -41,9 +42,9 @@
 <main class="p-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
     <Arena arena={$game.arena} />
     <Player player={$game.player} />
-    <div class="flex flex-col gap-2">
-        <span>Made by <a href="https://veprogames.github.io">veprogames</a></span>
-        <span>Early Access</span>
+    <div class="flex flex-wrap items-center gap-2">
+        <CreditsButton/>
+        <span>v1.0.0</span>
     </div>
 
     <GameBackground arena={$game.arena} />
