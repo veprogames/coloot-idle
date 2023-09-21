@@ -4,7 +4,7 @@ import type { SaverLoader } from "../saveload/saveload";
 import { getGame } from "../singleton";
 import { choose, clamp } from "../utils";
 import Enemy, { EnemyType, type EnemyDrop, EnemyDataNormal, EnemyDataBoss } from "./enemy";
-import { getWorldDataForStage } from "./world";
+import { getWorldDataForStage, type WorldVisuals } from "./world";
 
 export default class Arena implements SaverLoader {
     currentStage: number = 0;
@@ -95,6 +95,10 @@ export default class Arena implements SaverLoader {
     get stageName(): string {
         const data = getWorldDataForStage(this.currentStage);
         return `${data.title} ${this.currentStage - data.stage + 1}`;
+    }
+
+    get visuals(): WorldVisuals|null {
+        return getWorldDataForStage(this.currentStage).visuals ?? null;
     }
 
     /* Stage Navigation */
