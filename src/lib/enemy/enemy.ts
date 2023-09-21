@@ -4,6 +4,7 @@ import Equipment, { EquipmentType } from "../equipment/equipment";
 import type { SaverLoader } from "../saveload/saveload";
 import { getGame } from "../singleton";
 import { choose } from "../utils";
+import { I } from "../images";
 
 export enum EnemyType {
     NORMAL,
@@ -15,18 +16,25 @@ export interface EnemyDrop {
     xp: Decimal,
 };
 
+export interface EnemyData {
+    name: string,
+    hpMultiplier: number,
+    image: string,
+    type: EnemyType,
+}
+
 const HP_TO_STAT_EXP = 1 / 2.58;
 
 export default class Enemy implements SaverLoader {
     baseHp: Decimal;
     currentHp: Decimal;
-    type: EnemyType;
+    data: EnemyData;
     tier: number;
 
-    constructor(baseHp: Decimal, type: EnemyType, tier: number = 0) {
-        this.type = type;
+    constructor(baseHp: Decimal, data: EnemyData, tier: number = 0) {
         this.tier = tier;
         this.baseHp = baseHp;
+        this.data = data;
         this.currentHp = new Decimal(this.hp);
     }
 
@@ -40,7 +48,7 @@ export default class Enemy implements SaverLoader {
     }
 
     get hp(): Decimal {
-        return this.baseHp.mul(Decimal.pow(2, this.tier));
+        return this.baseHp.mul(this.data.hpMultiplier).mul(Decimal.pow(2, this.tier));
     }
 
     get hpPercentage(): number {
@@ -55,6 +63,10 @@ export default class Enemy implements SaverLoader {
         const artifactMult = getGame().player.inventory.getArtifactEffects()[ArtifactEffectType.PLAYER_XP];
 
         return this.hp.mul(artifactMult);
+    }
+
+    get type(): EnemyType {
+        return this.data.type;
     }
 
     private getEquipmentBaseStat() {
@@ -108,7 +120,7 @@ export default class Enemy implements SaverLoader {
             baseHp: this.baseHp.toString(),
             currentHp: this.currentHp.toString(),
             tier: this.tier,
-            type: this.type,
+            data: this.data,
         };
     }
 
@@ -116,6 +128,30 @@ export default class Enemy implements SaverLoader {
         this.baseHp = new Decimal(data.baseHp);
         this.currentHp = new Decimal(data.currentHp);
         this.tier = data.tier;
-        this.type = data.type;
+        this.data = data.data ?? EnemyDataNormal.slime;
     }
+}
+
+export const EnemyDataNormal: Record<"slime" | "skeleton", EnemyData> = {
+    slime: {
+        hpMultiplier: 0.8,
+        name: "Slime",
+        image: I.enemy.slime,
+        type: EnemyType.NORMAL,
+    },
+    skeleton: {
+        hpMultiplier: 1.2,
+        name: "Skeleton",
+        image: I.enemy.skeleton,
+        type: EnemyType.NORMAL,
+    },
+}
+
+export const EnemyDataBoss: Record<"skull", EnemyData> = {
+    skull: {
+        hpMultiplier: 20,
+        name: "Skull",
+        image: I.enemy.skull,
+        type: EnemyType.BOSS,
+    },
 }

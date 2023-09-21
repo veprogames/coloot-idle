@@ -2,8 +2,8 @@ import Decimal from "break_infinity.js";
 import type Player from "../player/player";
 import type { SaverLoader } from "../saveload/saveload";
 import { getGame } from "../singleton";
-import { clamp } from "../utils";
-import Enemy, { EnemyType, type EnemyDrop } from "./enemy";
+import { choose, clamp } from "../utils";
+import Enemy, { EnemyType, type EnemyDrop, EnemyDataNormal, EnemyDataBoss } from "./enemy";
 import { getWorldDataForStage } from "./world";
 
 export default class Arena implements SaverLoader {
@@ -24,16 +24,17 @@ export default class Arena implements SaverLoader {
     }
 
     generateEnemy(): Enemy {
-        const hp = this.getBaseHp(this.currentStage).mul(0.75 + 0.5 * Math.random());
+        const hp = this.getBaseHp(this.currentStage);
         const tier = Math.min(2, Math.floor(-Math.log2(1 - Math.random())));
+        const enemyData = choose(Object.values(EnemyDataNormal));
 
-        return new Enemy(hp, EnemyType.NORMAL, tier);
+        return new Enemy(hp, enemyData, tier);
     }
 
     generateBoss(): Enemy {
-        const hp = this.getBaseHp(this.currentStage).mul(20);
+        const hp = this.getBaseHp(this.currentStage);
 
-        return new Enemy(hp, EnemyType.BOSS, 0);
+        return new Enemy(hp, EnemyDataBoss.skull, 0);
     }
 
     getNewEnemy(): Enemy {
