@@ -36,6 +36,8 @@ export default class Player implements SaverLoader {
     // used for unlocks
     highestLevel: number = 1;
 
+    autoEquip: boolean = false;
+
     constructor() {
         this.currentHp = 0;
     }
@@ -120,7 +122,7 @@ export default class Player implements SaverLoader {
             .mul(crystalMult);
     }
 
-    equip(equipment: Equipment): void {
+    private assignEquipment(equipment: Equipment): void {
         this.equipment[equipment.type] = equipment;
     }
 
@@ -133,6 +135,15 @@ export default class Player implements SaverLoader {
         return this.equipment[equipment.type].stat.lt(equipment.stat);
     }
 
+    equipOrScrap(equipment: Equipment) {
+        if(this.canEquip(equipment)) {
+            this.equipFromInventory(equipment);
+        }
+        else {
+            this.scrapEquipment(equipment);
+        }
+    }
+
     /* 
     * Inventory 
     */
@@ -143,8 +154,14 @@ export default class Player implements SaverLoader {
 
     equipFromInventory(equipment: Equipment){
         if(this.canEquip(equipment)) {
-            this.equip(equipment);
+            this.assignEquipment(equipment);
             this._inventory.removeEquipment(equipment);
+        }
+    }
+
+    equipAll() {
+        for(const equipment of this._inventory.equipment) {
+            this.equipOrScrap(equipment);
         }
     }
 
@@ -161,6 +178,10 @@ export default class Player implements SaverLoader {
         for(const drop of possibleLoot.drops) {
             if(drop instanceof Equipment) {
                 this._inventory.addEquipment(drop);
+
+                if(this.autoEquip) {
+                    this.equipAll();
+                }
             }
             else if(drop instanceof Artifact) {
                 this._inventory.addArtifact(drop);
@@ -237,6 +258,7 @@ export default class Player implements SaverLoader {
             level: this.level,
             highestLevel: this.highestLevel,
             scrap: this.scrap.toString(),
+            autoEquip: this.autoEquip,
             equipment: {
                 weapon: this.equipment[EquipmentType.WEAPON].save(),
                 armor: this.equipment[EquipmentType.ARMOR].save(),
@@ -252,6 +274,7 @@ export default class Player implements SaverLoader {
         this.highestLevel = data.highestLevel ?? this.level;
         this.xp = new Decimal(data.xp);
         this.scrap = new Decimal(data.scrap);
+        this.autoEquip = data.autoEquip ?? false;
         this.equipment[EquipmentType.WEAPON].load(data.equipment.weapon);
         this.equipment[EquipmentType.ARMOR].load(data.equipment.armor);
         this.equipment[EquipmentType.ACCESSORY].load(data.equipment.accessory);

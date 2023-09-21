@@ -30,23 +30,12 @@
     $: bagWidth = `${bagSlotsPerRow * 64}px`;
     $: bagHeight = `${Math.min(6, Math.ceil(inventory.equipmentCapacity / bagSlotsPerRow)) * 64}px`;
 
-    function equip(equipment: Equipment) {
-        if(player.canEquip(equipment)) {
-            player.equipFromInventory(equipment);
-        }
-        else {
-            player.scrapEquipment(equipment);
-        }
-    }
-
     function onEquip(event: CustomEvent<Equipment>){
-        equip(event.detail);
+        player.equipOrScrap(event.detail);
     }
 
     function equipAll() {
-        for(const equipment of inventory.equipment) {
-           equip(equipment);
-        }
+        player.equipAll();
     }
 
     function openShop() {
@@ -75,6 +64,12 @@
             <h2>Loot ({inventory.equipment.length}/{inventory.equipmentCapacity})</h2>
             <button on:click={equipAll} class="btn">Equip All</button>
         </div>
+        <div class="bag-actions" style:width={bagWidth}>
+            <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" bind:checked={player.autoEquip} />
+                <span>Auto Equip</span>
+            </label>
+        </div>
         <div class="bag" style:width={bagWidth} style:height={bagHeight}>
             {#each inventory.equipment as equipment (equipment)}
                 <EquipmentComponent on:equip={onEquip} {equipment} />
@@ -97,7 +92,7 @@
 
 <style lang="postcss">
     .bag-actions {
-        @apply flex justify-between items-center py-2 pb-4 mx-auto;
+        @apply flex justify-between items-center py-2 mx-auto;
     }
 
     .bag {
