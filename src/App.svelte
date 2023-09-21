@@ -24,7 +24,7 @@
         tick();
         tickPlayer();
         tickEnemy();
-        setTimeout(tickSave, 60000);
+        setTimeout(tickSave, 20000);
 
         try {
             loadGame();
