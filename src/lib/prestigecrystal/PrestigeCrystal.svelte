@@ -12,10 +12,10 @@
     }
 </script>
 
-<div class="flex gap-4 justify-between bg-black bg-opacity-30 p-4 text-left">
-    <div>
+<div class="flex flex-col md:flex-row gap-4 justify-between bg-black bg-opacity-30 p-4 text-left">
+    <div class="flex flex-col gap-2">
         <h2>{crystal.data.title} Lv. {crystal.level}</h2>
-        <p class="text-xs">
+        <p class="text-xs max-w-xs">
             {crystal.data.description}
         </p>
         <p class="flex gap-2 items-center">
@@ -26,10 +26,16 @@
 
     {#if crystal.canInvest(player)}
         <button on:click={invest} class="btn btn-warn">
-            Invest (+{crystal.getNewLevels(player)}) <br/>
+            Add +{crystal.getNewLevels(player)} <br/>
             To: x{F(crystal.getEffect(crystal.getLevels(player.level)), true)}
         </button>
     {:else}
         <button disabled class="btn">Reach<br/>Level {crystal.investedPlayerLevel + 1}</button>
     {/if}
 </div>
+
+<style lang="postcss">
+    button {
+        min-width: 12rem;
+    }
+</style>
