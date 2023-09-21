@@ -22,7 +22,7 @@ export abstract class PrestigeCrystal implements SaverLoader {
     /**
      * The Level the player had when investing
      */
-    investedPlayerLevel: number = CRYSTAL_BASE_REQUIRED_LEVEL;
+    investedPlayerLevel: number = CRYSTAL_BASE_REQUIRED_LEVEL - 1;
 
     constructor(data: PrestigeCrystalData) {
         this.data = data;
@@ -61,11 +61,13 @@ export abstract class PrestigeCrystal implements SaverLoader {
     save() {
         return {
             level: this.level,
+            investedPlayerLevel: this.investedPlayerLevel,
         };
     }
 
     load(data: any): void {
         this.level = data.level;
+        this.investedPlayerLevel = data.investedPlayerLevel ?? (CRYSTAL_BASE_REQUIRED_LEVEL - 1);
     }
 }
 
