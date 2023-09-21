@@ -44,7 +44,7 @@
     <Player player={$game.player} />
     <div class="flex flex-wrap items-center gap-2">
         <CreditsButton/>
-        <span>v1.0.0</span>
+        <span>v1.0.1</span>
     </div>
 
     <GameBackground arena={$game.arena} />
