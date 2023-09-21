@@ -33,5 +33,5 @@ export function tickEnemy() {
 export function tickSave() {
     saveGame();
 
-    setTimeout(tickSave, 60000);
+    setTimeout(tickSave, 20000);
 }

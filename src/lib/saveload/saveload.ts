@@ -2,7 +2,7 @@ import GameClass from "../game/gameclass";
 import { getGame } from "../singleton";
 import { game } from "../stores";
 
-const LOCALSTORAGE_KEY = "com.veprogames.loot";
+const LOCALSTORAGE_KEY_GAME = "veprogames.colootidle.game";
 
 export interface SaverLoader {
     /**
@@ -25,17 +25,21 @@ export function parseSaveString(base64string: string) {
 }
 
 export function saveGame() {
-    localStorage.setItem(LOCALSTORAGE_KEY, getSaveString(getGame()));
+    localStorage.setItem(LOCALSTORAGE_KEY_GAME, getSaveString(getGame()));
 }
 
 export function loadGameFromString(base64string: string) {
     const data = parseSaveString(base64string);
 
-    getGame().load(data);
+    game.update(g => {
+        g.load(data);
+
+        return g;
+    });
 }
 
 export function loadGame() {
-    const base64string = localStorage.getItem(LOCALSTORAGE_KEY);
+    const base64string = localStorage.getItem(LOCALSTORAGE_KEY_GAME);
 
     if(!base64string) return;
 
@@ -43,7 +47,7 @@ export function loadGame() {
 }
 
 export function wipeGame() {
-    localStorage.removeItem(LOCALSTORAGE_KEY);
+    localStorage.removeItem(LOCALSTORAGE_KEY_GAME);
 
     game.update(g => {
         return new GameClass();
