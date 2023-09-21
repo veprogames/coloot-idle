@@ -24,7 +24,7 @@
     $: inventory = player.inventory;
 
     $: {
-        const base = Math.min(8, Math.floor(containerWidth / 64));
+        const base = Math.floor(containerWidth / 64);
         bagSlotsPerRow = [4, 6, 8, 12].findLast(v => base >= v) ?? 4;
     }
     $: bagWidth = `${bagSlotsPerRow * 64}px`;
@@ -46,7 +46,7 @@
 <ArtifactShopDialog bind:this={dialog} shop={$game.artifactShop} />
 
 <div bind:clientWidth={containerWidth}>
-    <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-4 my-2">
+    <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-4 my-2">
         <button on:click={() => tab = "equipment"} class="btn">Loot</button>
         <UnlockableButton on:click={() => tab = "crystals"} condition={(game) => game.prestigeCrystalsUnlocked}>
             <span slot="locked">Reach Level {CRYSTAL_BASE_REQUIRED_LEVEL}</span>
