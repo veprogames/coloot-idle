@@ -1,7 +1,12 @@
 import ArtifactShop from "../artifact/artifactshop";
 import Arena from "../enemy/arena";
 import Player from "../player/player";
-import { CRYSTAL_BASE_REQUIRED_LEVEL, PrestigeCrystalMagic, PrestigeCrystalPower, PrestigeCrystalRarity } from "../prestigecrystal/prestigecrystal";
+import {
+    CRYSTAL_BASE_REQUIRED_LEVEL,
+    PrestigeCrystalMagic,
+    PrestigeCrystalPower,
+    PrestigeCrystalRarity,
+} from "../prestigecrystal/prestigecrystal";
 import type { SaverLoader } from "../saveload/saveload";
 
 export default class GameClass implements SaverLoader {
@@ -11,11 +16,11 @@ export default class GameClass implements SaverLoader {
         power: new PrestigeCrystalPower(),
         rarity: new PrestigeCrystalRarity(),
         magic: new PrestigeCrystalMagic(),
-    }
-    artifactShop: ArtifactShop = new ArtifactShop()
+    };
+    artifactShop: ArtifactShop = new ArtifactShop();
 
     resetPrestigeCrystals() {
-        for(const crystal of Object.values(this.prestigeCrystals)) {
+        for (const crystal of Object.values(this.prestigeCrystals)) {
             crystal.reset();
         }
     }
@@ -36,7 +41,7 @@ export default class GameClass implements SaverLoader {
             },
         };
     }
-    
+
     load(data: any): void {
         this.player.load(data.player);
         this.artifactShop.load(data.artifactShop);

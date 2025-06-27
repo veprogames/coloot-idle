@@ -71,4 +71,4 @@ export const I = {
         power,
         rarity,
     },
-}
+};

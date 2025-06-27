@@ -20,27 +20,31 @@ export enum ArtifactEffectOperation {
 }
 
 export interface ArtifactData {
-    id: string,
-    title: string,
-    hint?: string,
-    effectType: ArtifactEffectType,
-    effectAmount: DecimalSource,
-    effectOperation: ArtifactEffectOperation,
-    getAdditionalEffectMultiplier?: (game: GameClass, count: number, tier: number) => Decimal,
-    image: string,
+    id: string;
+    title: string;
+    hint?: string;
+    effectType: ArtifactEffectType;
+    effectAmount: DecimalSource;
+    effectOperation: ArtifactEffectOperation;
+    getAdditionalEffectMultiplier?: (
+        game: GameClass,
+        count: number,
+        tier: number,
+    ) => Decimal;
+    image: string;
     // base gem price
-    basePrice: number,
+    basePrice: number;
 }
 
 export type ArtifactCalculatedEffects = {
-    [key in ArtifactEffectType]: Decimal
-}
+    [key in ArtifactEffectType]: Decimal;
+};
 
 export default class Artifact implements SaverLoader {
     count: number = 1;
     tier: number;
     data: ArtifactData;
-    gameInstance: GameClass|undefined;
+    gameInstance: GameClass | undefined;
 
     constructor(data: ArtifactData, tier: number) {
         this.data = data;
@@ -67,26 +71,37 @@ export default class Artifact implements SaverLoader {
     get description() {
         const amount = this.effectEach;
         const direction = amount.lt(0) ? "Decreases" : "Increases";
-        const increment = this.data.effectOperation === ArtifactEffectOperation.ADDITIVE ?
-            `${F(amount.abs(), true)}` :
-            `${F(amount.abs().mul(100))} %`;
+        const increment =
+            this.data.effectOperation === ArtifactEffectOperation.ADDITIVE
+                ? `${F(amount.abs(), true)}`
+                : `${F(amount.abs().mul(100))} %`;
         return `${direction} ${this.effectTypeName} by ${increment} per stack.`;
     }
 
     private get effectEach(): Decimal {
         const base = new Decimal(this.data.effectAmount);
-        const additionalMult = this.data.getAdditionalEffectMultiplier?.(getGame(), this.count, this.tier) ?? new Decimal(1);
+        const additionalMult =
+            this.data.getAdditionalEffectMultiplier?.(
+                getGame(),
+                this.count,
+                this.tier,
+            ) ?? new Decimal(1);
 
         return base.mul(additionalMult);
     }
 
     get effect(): Decimal {
-        const base = this.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE ? 1 : 0;
-        return new Decimal(base).add(this.effectEach.mul(this.count));        
+        const base =
+            this.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE
+                ? 1
+                : 0;
+        return new Decimal(base).add(this.effectEach.mul(this.count));
     }
 
     get effectString(): string {
-        if(this.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE) {
+        if (
+            this.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE
+        ) {
             return `x${F(this.effect, true)}`;
         }
         const sign = this.effect.gt(0) ? "+" : ""; // minus sign is already there
@@ -110,7 +125,7 @@ export default class Artifact implements SaverLoader {
             id: this.data.id,
             count: this.count,
             tier: this.tier,
-        }
+        };
     }
 
     load(data: any): void {
@@ -120,8 +135,8 @@ export default class Artifact implements SaverLoader {
     }
 }
 
-export const Artifacts: {[key: string]: ArtifactData} = {
-    "potion": {
+export const Artifacts: { [key: string]: ArtifactData } = {
+    potion: {
         id: "potion",
         title: "Potion",
         effectType: ArtifactEffectType.MAX_HEALTH,
@@ -133,7 +148,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
             return new Decimal(1 + 2 * tier);
         },
     },
-    "ironfist": {
+    ironfist: {
         id: "ironfist",
         title: "Iron Fist",
         effectType: ArtifactEffectType.DAMAGE,
@@ -142,7 +157,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         image: I.artifacts.ironFist,
         basePrice: 1,
     },
-    "shinydiamond": {
+    shinydiamond: {
         id: "shinydiamond",
         title: "Shiny Diamond",
         effectType: ArtifactEffectType.MAGIC_FIND,
@@ -151,7 +166,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         image: I.artifacts.shinyDiamond,
         basePrice: 1,
     },
-    "shovel": {
+    shovel: {
         id: "shovel",
         title: "Shovel",
         effectType: ArtifactEffectType.EQUIPMENT_RARITY,
@@ -160,7 +175,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         image: I.artifacts.shovel,
         basePrice: 1,
     },
-    "orbofwisdom": {
+    orbofwisdom: {
         id: "orbofwisdom",
         title: "Orb of Wisdom",
         hint: "This Artifact gets stronger based on Player Level times its count squared",
@@ -173,7 +188,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
             return Decimal.pow(1 + game.player.level * count, 2);
         },
     },
-    "metaldetector": {
+    metaldetector: {
         id: "metaldetector",
         title: "Metal Detector",
         hint: "This Artifacts effect strength is based on how much Equipment you scrapped and its count",
@@ -186,7 +201,7 @@ export const Artifacts: {[key: string]: ArtifactData} = {
             return new Decimal(game.player.scrap.add(1).log10() / 5).mul(count);
         },
     },
-    "magicwand": {
+    magicwand: {
         id: "magicwand",
         title: "Magic Wand of Thousand Colors",
         hint: "This Artifacts effect strength is based on how much Artifacts you own and its tier",
@@ -196,12 +211,14 @@ export const Artifacts: {[key: string]: ArtifactData} = {
         image: I.artifacts.wandOfColors,
         basePrice: 10,
         getAdditionalEffectMultiplier(game, count, tier) {
-            return new Decimal(game.player.inventory.artifactCount).mul(1 + tier);
+            return new Decimal(game.player.inventory.artifactCount).mul(
+                1 + tier,
+            );
         },
     },
 };
 
-export function calculateArtifactEffects(artifacts: Artifact[]){
+export function calculateArtifactEffects(artifacts: Artifact[]) {
     let result: ArtifactCalculatedEffects = {
         [ArtifactEffectType.MAGIC_FIND]: new Decimal(1),
         [ArtifactEffectType.DAMAGE]: new Decimal(1),
@@ -211,16 +228,19 @@ export function calculateArtifactEffects(artifacts: Artifact[]){
     };
 
     const sorted = [...artifacts].sort((a1: Artifact, a2: Artifact) => {
-        if(a1.data.effectOperation === ArtifactEffectOperation.ADDITIVE) return -1;
+        if (a1.data.effectOperation === ArtifactEffectOperation.ADDITIVE)
+            return -1;
         return 1;
     });
 
-    for(const artifact of sorted) {
+    for (const artifact of sorted) {
         const type = artifact.data.effectType;
-        if(artifact.data.effectOperation === ArtifactEffectOperation.MULTIPLICATIVE) {
+        if (
+            artifact.data.effectOperation ===
+            ArtifactEffectOperation.MULTIPLICATIVE
+        ) {
             result[type] = result[type].mul(artifact.effect);
-        }
-        else {
+        } else {
             result[type] = result[type].add(artifact.effect);
         }
     }

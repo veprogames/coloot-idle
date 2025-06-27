@@ -1,9 +1,9 @@
 import { I } from "../images";
 
 export interface WorldData {
-    stage: number,
-    title: string,
-    background: string,
+    stage: number;
+    title: string;
+    background: string;
 }
 
 export const WORLD: WorldData[] = [
@@ -60,6 +60,6 @@ export const WORLD: WorldData[] = [
 ];
 
 export function getWorldDataForStage(stage: number): WorldData {
-    const data = WORLD.filter(data => stage >= data.stage).at(-1);
+    const data = WORLD.filter((data) => stage >= data.stage).at(-1);
     return data ?? WORLD[0];
 }

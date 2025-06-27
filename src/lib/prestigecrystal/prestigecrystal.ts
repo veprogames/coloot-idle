@@ -7,13 +7,13 @@ import { getGame } from "../singleton";
 export const CRYSTAL_BASE_REQUIRED_LEVEL = 20;
 
 export interface PrestigeCrystalData {
-    title: string,
-    description: string,
-    statIcon: string,
+    title: string;
+    description: string;
+    statIcon: string;
 }
 
 export abstract class PrestigeCrystal implements SaverLoader {
-    data: PrestigeCrystalData
+    data: PrestigeCrystalData;
     /**
      * Increases by investing Artifacts
      */
@@ -45,10 +45,13 @@ export abstract class PrestigeCrystal implements SaverLoader {
     }
 
     invest(player: Player) {
-        if(this.canInvest(player)) {
+        if (this.canInvest(player)) {
             const arena = getGame().arena;
             this.level += this.getNewLevels(player);
-            this.investedPlayerLevel = Math.max(this.investedPlayerLevel, player.level);
+            this.investedPlayerLevel = Math.max(
+                this.investedPlayerLevel,
+                player.level,
+            );
             player.reset();
             arena.reset();
         }
@@ -56,6 +59,7 @@ export abstract class PrestigeCrystal implements SaverLoader {
 
     reset() {
         this.level = 0;
+        this.investedPlayerLevel = CRYSTAL_BASE_REQUIRED_LEVEL - 1;
     }
 
     save() {
@@ -67,7 +71,8 @@ export abstract class PrestigeCrystal implements SaverLoader {
 
     load(data: any): void {
         this.level = data.level;
-        this.investedPlayerLevel = data.investedPlayerLevel ?? (CRYSTAL_BASE_REQUIRED_LEVEL - 1);
+        this.investedPlayerLevel =
+            data.investedPlayerLevel ?? CRYSTAL_BASE_REQUIRED_LEVEL - 1;
     }
 }
 

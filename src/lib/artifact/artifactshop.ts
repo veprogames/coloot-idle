@@ -27,7 +27,8 @@ export default class ArtifactShop implements SaverLoader {
 
     getGems(playerLevel: number): number {
         const headStart = playerLevel >= ARTIFACTS_BASE_REQUIRED_LEVEL ? 5 : 0;
-        const baseGems = (playerLevel - ARTIFACTS_BASE_REQUIRED_LEVEL) / 2 + headStart;
+        const baseGems =
+            (playerLevel - ARTIFACTS_BASE_REQUIRED_LEVEL) / 2 + headStart;
         return Math.floor(Math.max(0, baseGems - this.totalGems));
     }
 
@@ -36,7 +37,7 @@ export default class ArtifactShop implements SaverLoader {
      */
     activate() {
         const gems = this.getGems(this.player.level);
-        if(gems > 0) {
+        if (gems > 0) {
             const arena = getGame().arena;
 
             this.player.reset();
@@ -62,7 +63,7 @@ export default class ArtifactShop implements SaverLoader {
     buyArtifact(artifactData: ArtifactData, tier: number) {
         const price = this.getArtifactPrice(artifactData, tier);
 
-        if(this.gems >= price) {
+        if (this.gems >= price) {
             const artifact = Artifact.from(artifactData, tier);
             this.player.inventory.addArtifact(artifact);
             this.gemsSpent += price;
@@ -78,7 +79,7 @@ export default class ArtifactShop implements SaverLoader {
     }
 
     respec() {
-        if(this.canRespec) {
+        if (this.canRespec) {
             this.gemsSpent = 0;
             this.player.inventory.resetArtifacts();
             this.player.reset();

@@ -10,7 +10,7 @@ export function formatLetters(n: DecimalSource) {
     // resulting letters
     let result = "";
 
-    while(o > 0) {
+    while (o > 0) {
         const letter = LETTERS[o % LETTERS.length];
         result = `${letter}${result}`;
 

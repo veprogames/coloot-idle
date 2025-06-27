@@ -1,5 +1,8 @@
 import Decimal from "break_infinity.js";
-import Artifact, { ArtifactEffectType, randomArtifact } from "../artifact/artifact";
+import Artifact, {
+    ArtifactEffectType,
+    randomArtifact,
+} from "../artifact/artifact";
 import Equipment, { EquipmentType } from "../equipment/equipment";
 import type { SaverLoader } from "../saveload/saveload";
 import { getGame } from "../singleton";
@@ -11,9 +14,9 @@ export enum EnemyType {
 }
 
 export interface EnemyDrop {
-    drops: Array<Equipment|Artifact>,
-    xp: Decimal,
-};
+    drops: Array<Equipment | Artifact>;
+    xp: Decimal;
+}
 
 const HP_TO_STAT_EXP = 1 / 2.58;
 
@@ -32,7 +35,7 @@ export default class Enemy implements SaverLoader {
 
     /**
      * Deal damage to the enemy
-     * 
+     *
      * @param damage Amount of Damage
      */
     hit(damage: Decimal) {
@@ -52,14 +55,19 @@ export default class Enemy implements SaverLoader {
     }
 
     get xp(): Decimal {
-        const artifactMult = getGame().player.inventory.getArtifactEffects()[ArtifactEffectType.PLAYER_XP];
+        const artifactMult =
+            getGame().player.inventory.getArtifactEffects()[
+                ArtifactEffectType.PLAYER_XP
+            ];
 
         return this.hp.mul(artifactMult);
     }
 
     private getEquipmentBaseStat() {
         const player = getGame().player;
-        return this.hp.div(100).pow(HP_TO_STAT_EXP)
+        return this.hp
+            .div(100)
+            .pow(HP_TO_STAT_EXP)
             .div(this.hp.div(1e22).max(1).pow(0.034))
             .div(this.hp.div(1e100).max(1).pow(0.03))
             .mul(player.magicFind)
@@ -70,11 +78,19 @@ export default class Enemy implements SaverLoader {
         const base = this.getEquipmentBaseStat();
         const player = getGame().player;
 
-        const tier = Math.floor(-Math.log10(1 - Math.random()) + Decimal.log10(player.rarityMultiplier));
+        const tier = Math.floor(
+            -Math.log10(1 - Math.random()) +
+                Decimal.log10(player.rarityMultiplier),
+        );
 
-        return new Equipment(base,
-            choose([EquipmentType.WEAPON, EquipmentType.ARMOR, EquipmentType.ACCESSORY]),
-            tier
+        return new Equipment(
+            base,
+            choose([
+                EquipmentType.WEAPON,
+                EquipmentType.ARMOR,
+                EquipmentType.ACCESSORY,
+            ]),
+            tier,
         );
     }
 
@@ -85,7 +101,7 @@ export default class Enemy implements SaverLoader {
     }
 
     generateDrop(): EnemyDrop {
-        if(this.type == EnemyType.BOSS) {
+        if (this.type == EnemyType.BOSS) {
             return {
                 drops: [this.generateEquipment(), this.generateEquipment()],
                 xp: this.xp,
@@ -97,7 +113,7 @@ export default class Enemy implements SaverLoader {
         };
     }
 
-    get damage(): number{
+    get damage(): number {
         const stageMult = 1 + 2 * (getGame().arena.currentStage / 100);
         const base = this.type == EnemyType.BOSS ? 2 : 1;
         return Math.floor(base * stageMult);

@@ -24,7 +24,7 @@ const rarityNames: string[] = [
     "divine",
     "godly",
     "omega",
-]
+];
 
 export function choose<T>(elements: Array<T>) {
     return elements[Math.floor(Math.random() * elements.length)];
@@ -39,12 +39,12 @@ export function F(n: DecimalSource, long: boolean = false): string {
 
     const d = new Decimal(n);
 
-    if(d.lt(0)) return `-${F(d.neg())}`;
-    if(d.eq(0)) return "0";
+    if (d.lt(0)) return `-${F(d.neg())}`;
+    if (d.eq(0)) return "0";
 
-    if(d.lt(0.1)) return `${F(d.pow(-1))}⁻¹`;
-    if(d.lt(10)) return d.toFixed(long ? 2 : 0);
-    if(d.lt(1000)) return d.toFixed(0);
+    if (d.lt(0.1)) return `${F(d.pow(-1))}⁻¹`;
+    if (d.lt(10)) return d.toFixed(long ? 2 : 0);
+    if (d.lt(1000)) return d.toFixed(0);
 
     return scientific ? d.toExponential(2) : formatLetters(d);
 }
@@ -53,9 +53,9 @@ export function capitalize(str: string) {
     return `${str[0].toUpperCase()}${str.substring(1)}`;
 }
 
-export function getTierColor(tier: number): string{
+export function getTierColor(tier: number): string {
     const col = rarityColors[tier];
-    if(!col) {
+    if (!col) {
         const hex = ((0xbedead * tier) % 0xffffff).toString(16);
         return `#${hex}`;
     }
@@ -64,7 +64,7 @@ export function getTierColor(tier: number): string{
 
 export function getTierName(tier: number): string {
     const name = rarityNames[tier];
-    if(!name) {
+    if (!name) {
         const last = rarityNames.at(-1);
         return `${last} +${tier - rarityNames.length}`;
     }
