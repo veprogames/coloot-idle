@@ -23,3 +23,9 @@ It's a bit early but if I don't publish it now I might never get around to do it
 I view this more of a personal project, so I won't be keen on merging PRs, but Mods are very welcome! Refer to the [MIT License](./LICENSE) attached to this Repository.
 
 It would be nice if all mods stay free and open source.
+
+# Changelog
+
+## v1.0.2
+
+- Fixed required Crystal Level not resetting on Gem Prestige. **The Fix will happen the next time you Gem Prestige**.
