@@ -59,6 +59,7 @@ export abstract class PrestigeCrystal implements SaverLoader {
 
     reset() {
         this.level = 0;
+        this.investedPlayerLevel = CRYSTAL_BASE_REQUIRED_LEVEL - 1;
     }
 
     save() {
