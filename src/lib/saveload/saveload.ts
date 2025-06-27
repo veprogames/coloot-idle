@@ -31,7 +31,7 @@ export function saveGame() {
 export function loadGameFromString(base64string: string) {
     const data = parseSaveString(base64string);
 
-    game.update(g => {
+    game.update((g) => {
         g.load(data);
 
         return g;
@@ -41,7 +41,7 @@ export function loadGameFromString(base64string: string) {
 export function loadGame() {
     const base64string = localStorage.getItem(LOCALSTORAGE_KEY_GAME);
 
-    if(!base64string) return;
+    if (!base64string) return;
 
     loadGameFromString(base64string);
 }
@@ -49,7 +49,7 @@ export function loadGame() {
 export function wipeGame() {
     localStorage.removeItem(LOCALSTORAGE_KEY_GAME);
 
-    game.update(g => {
+    game.update((g) => {
         return new GameClass();
     });
 }

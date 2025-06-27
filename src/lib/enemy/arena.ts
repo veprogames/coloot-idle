@@ -19,12 +19,13 @@ export default class Arena implements SaverLoader {
 
     private getBaseHp(stage: number): Decimal {
         const PHI = 1.618;
-        return new Decimal(50)
-            .mul(Decimal.pow(PHI, stage * 5));
+        return new Decimal(50).mul(Decimal.pow(PHI, stage * 5));
     }
 
     generateEnemy(): Enemy {
-        const hp = this.getBaseHp(this.currentStage).mul(0.75 + 0.5 * Math.random());
+        const hp = this.getBaseHp(this.currentStage).mul(
+            0.75 + 0.5 * Math.random(),
+        );
         const tier = Math.min(2, Math.floor(-Math.log2(1 - Math.random())));
 
         return new Enemy(hp, EnemyType.NORMAL, tier);
@@ -37,7 +38,7 @@ export default class Arena implements SaverLoader {
     }
 
     getNewEnemy(): Enemy {
-        if(this.isOnHighestStage && this.isBossActive) {
+        if (this.isOnHighestStage && this.isBossActive) {
             return this.generateBoss();
         }
         return this.generateEnemy();
@@ -45,18 +46,18 @@ export default class Arena implements SaverLoader {
 
     /**
      * Hit the Enemy in this Arena.
-     * 
+     *
      * @param damage Amount to damage to deal
      * @returns A piece of Equipment if it was dropped, null otherwise
      */
-    hitEnemy(damage: Decimal): EnemyDrop|null {
+    hitEnemy(damage: Decimal): EnemyDrop | null {
         this.currentEnemy.hit(damage);
-        if(this.currentEnemy.dead) {
+        if (this.currentEnemy.dead) {
             const player = getGame().player;
 
             const drop = this.currentEnemy.generateDrop();
             const wasBoss = this.currentEnemy.type === EnemyType.BOSS;
-            if(wasBoss && this.isOnHighestStage) {
+            if (wasBoss && this.isOnHighestStage) {
                 this.maxStage++;
                 this.gotoMaxStage();
                 this.isBossActive = false;
@@ -65,7 +66,11 @@ export default class Arena implements SaverLoader {
             this.currentEnemy = this.getNewEnemy();
 
             // automatically activate boss if very strong
-            if(player.getOverkillForHealth(this.getBaseHp(this.currentStage)).gt(64)) {
+            if (
+                player
+                    .getOverkillForHealth(this.getBaseHp(this.currentStage))
+                    .gt(64)
+            ) {
                 this.activateBoss();
             }
 
@@ -77,7 +82,7 @@ export default class Arena implements SaverLoader {
     hitPlayer(player: Player): void {
         player.hit(this.currentEnemy.damage);
         // When the player dies, kills are being reset
-        if(player.dead) {
+        if (player.dead) {
             player.heal();
             this.currentEnemy = this.getNewEnemy();
         }
@@ -116,8 +121,8 @@ export default class Arena implements SaverLoader {
         this.gotoStage(this.currentStage - 1);
     }
 
-    activateBoss(){
-        if(this.isOnHighestStage) {
+    activateBoss() {
+        if (this.isOnHighestStage) {
             this.isBossActive = true;
             this.currentEnemy = this.getNewEnemy();
         }
