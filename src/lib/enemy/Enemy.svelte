@@ -7,7 +7,7 @@
 
     export let enemy: Enemy;
 
-    $: image = enemy.type === EnemyType.BOSS ? I.enemy.golem : I.enemy.slime;
+    $: image = enemy.type === EnemyType.BOSS ? I.enemy.slimeBoss : I.enemy.slime;
     // add an alpha component to the hex color code
     $: glowColor = `${getTierColor(enemy.tier)}80`;
 
