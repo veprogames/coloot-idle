@@ -1,6 +1,6 @@
 # Coloot - Idle Loot Collector
 
-![Game Screenshot](./screenshot.png)
+![Game Screenshot](./static/screenshot.png)
 
 Fight Monsters and find Loot to keep getting stronger! Level up Prestige Crystals and buy Artifacts.
 
