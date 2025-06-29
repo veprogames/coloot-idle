@@ -47,4 +47,8 @@
     div.stat img {
         height: 1.5em;
     }
+
+    img {
+        filter: drop-shadow(0 calc(1.5rem / 16 * 1.5) rgba(0, 0, 0, 0.5));
+    }
 </style>
