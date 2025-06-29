@@ -71,7 +71,7 @@ export default class Enemy implements SaverLoader {
             .div(this.hp.div(1e22).max(1).pow(0.034))
             .div(this.hp.div(1e100).max(1).pow(0.03))
             .mul(player.magicFind)
-            .mul(9 + 7 * Math.random());
+            .mul(10 + 6 * Math.random());
     }
 
     generateEquipment(): Equipment {

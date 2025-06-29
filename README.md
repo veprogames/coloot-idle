@@ -26,6 +26,8 @@ It would be nice if all mods stay free and open source.
 
 # Changelog
 
+## v1.0.4
+
 ## v1.0.3
 
 - Replaced AI images with self-drawn images
