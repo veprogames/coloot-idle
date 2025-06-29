@@ -28,27 +28,26 @@
 
     $: {
         const base = Math.floor(containerWidth / 64);
-        bagSlotsPerRow = [4, 6, 8, 12, 16].findLast(v => base >= v) ?? 4;
+        bagSlotsPerRow = [4, 6, 8, 12, 16].findLast((v) => base >= v) ?? 4;
     }
     $: bagWidth = `${bagSlotsPerRow * 64}px`;
     $: bagHeight = `${Math.min(6, Math.ceil(inventory.equipmentCapacity / bagSlotsPerRow)) * 64}px`;
 
     function equip(equipment: Equipment) {
-        if(player.canEquip(equipment)) {
+        if (player.canEquip(equipment)) {
             player.equipFromInventory(equipment);
-        }
-        else {
+        } else {
             player.scrapEquipment(equipment);
         }
     }
 
-    function onEquip(event: CustomEvent<Equipment>){
+    function onEquip(event: CustomEvent<Equipment>) {
         equip(event.detail);
     }
 
     function equipAll() {
-        for(const equipment of inventory.equipment) {
-           equip(equipment);
+        for (const equipment of inventory.equipment) {
+            equip(equipment);
         }
     }
 
@@ -58,14 +57,14 @@
 
     onMount(() => {
         autoEquipInterval = setInterval(() => {
-            if(autoEquip){
+            if (autoEquip) {
                 equipAll();
             }
         }, 10000);
     });
 
     onDestroy(() => {
-        if(autoEquipInterval) {
+        if (autoEquipInterval) {
             clearInterval(autoEquipInterval);
         }
     });
@@ -74,23 +73,38 @@
 <ArtifactShopDialog bind:this={dialog} shop={$game.artifactShop} />
 
 <div class="inventory" bind:clientWidth={containerWidth}>
-    <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-4 my-2">
-        <button on:click={() => tab = "equipment"} class="btn">Loot</button>
-        <UnlockableButton on:click={() => tab = "crystals"} condition={(game) => game.prestigeCrystalsUnlocked}>
+    <div
+        class="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-4 my-2"
+    >
+        <button on:click={() => (tab = "equipment")} class="btn">Loot</button>
+        <UnlockableButton
+            on:click={() => (tab = "crystals")}
+            condition={(game) => game.prestigeCrystalsUnlocked}
+        >
             <span slot="locked">Reach Level {CRYSTAL_BASE_REQUIRED_LEVEL}</span>
             <span>Crystals</span>
         </UnlockableButton>
-        <UnlockableButton on:click={() => tab = "artifacts"} condition={(game) => game.artifactShop.unlocked}>
-            <span slot="locked">Reach Level {ARTIFACTS_BASE_REQUIRED_LEVEL}</span>
+        <UnlockableButton
+            on:click={() => (tab = "artifacts")}
+            condition={(game) => game.artifactShop.unlocked}
+        >
+            <span slot="locked"
+                >Reach Level {ARTIFACTS_BASE_REQUIRED_LEVEL}</span
+            >
             <span>Artifacts</span>
         </UnlockableButton>
     </div>
     {#if tab === "equipment"}
         <div class="bag-actions" style:width={bagWidth}>
-            <h2>Loot ({inventory.equipment.length}/{inventory.equipmentCapacity})</h2>
+            <h2>
+                Loot ({inventory.equipment
+                    .length}/{inventory.equipmentCapacity})
+            </h2>
             <div class="flex justify-end gap-4">
                 <button on:click={equipAll} class="btn">Equip All</button>
-                <label class="flex justify-start items-center gap-2"><input bind:checked={autoEquip} type="checkbox"/> Auto</label>
+                <label class="flex justify-start items-center gap-2"
+                    ><input bind:checked={autoEquip} type="checkbox" /> Auto</label
+                >
             </div>
         </div>
         <div class="bag" style:width={bagWidth} style:height={bagHeight}>
@@ -105,7 +119,7 @@
         </div>
         <div class="bag" style:width={bagWidth} style:height={bagHeight}>
             {#each inventory.artifacts as artifact (artifact)}
-                <Artifact {artifact}/>
+                <Artifact {artifact} />
             {/each}
         </div>
     {:else if tab === "crystals"}
@@ -116,7 +130,7 @@
 <style lang="postcss">
     .inventory {
         /* same as lg: */
-        @media(min-width: 1024px) {
+        @media (min-width: 1024px) {
             grid-column: span 2;
         }
     }

@@ -6,7 +6,10 @@
     export let message: string;
 
     let dialog: HTMLDialogElement;
-    let dispatch = createEventDispatcher<{confirm: MouseEvent, click: MouseEvent}>();
+    let dispatch = createEventDispatcher<{
+        confirm: MouseEvent;
+        click: MouseEvent;
+    }>();
 
     function openDialog(event: MouseEvent) {
         dialog.showModal();
@@ -22,7 +25,7 @@
         dialog.close();
     }
 
-    export {clazz as class};
+    export { clazz as class };
 </script>
 
 <dialog bind:this={dialog}>
@@ -37,4 +40,6 @@
     </div>
 </dialog>
 
-<button {disabled} on:click={openDialog} class="btn btn-warn {clazz}"><slot/></button>
+<button {disabled} on:click={openDialog} class="btn btn-warn {clazz}"
+    ><slot /></button
+>

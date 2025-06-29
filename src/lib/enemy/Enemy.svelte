@@ -7,7 +7,8 @@
 
     export let enemy: Enemy;
 
-    $: image = enemy.type === EnemyType.BOSS ? I.enemy.slimeBoss : I.enemy.slime;
+    $: image =
+        enemy.type === EnemyType.BOSS ? I.enemy.slimeBoss : I.enemy.slime;
     // add an alpha component to the hex color code
     $: glowColor = `${getTierColor(enemy.tier)}`;
 
@@ -17,7 +18,13 @@
 
 <div class="flex flex-col items-center">
     <h2>{tierName} {enemyName}</h2>
-    <img class="mb-4 w-32" class:glow={enemy.tier > 0} style:--glow-color={glowColor} src={image} alt="Enemy" />
+    <img
+        class="mb-4 w-32"
+        class:glow={enemy.tier > 0}
+        style:--glow-color={glowColor}
+        src={image}
+        alt="Enemy"
+    />
     <Statbar value={enemy.hpPercentage}>{F(enemy.currentHp)}</Statbar>
 </div>
 

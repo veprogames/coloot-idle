@@ -19,17 +19,25 @@
             {crystal.data.description}
         </p>
         <p class="flex gap-2 items-center">
-            <img class="w-8 h-8 inline" src={crystal.data.statIcon} alt={crystal.data.description}/>
-            <span class="text-green-400 font-semibold text-xl">x{F(crystal.effect, true)}</span>
+            <img
+                class="w-8 h-8 inline"
+                src={crystal.data.statIcon}
+                alt={crystal.data.description}
+            />
+            <span class="text-green-400 font-semibold text-xl"
+                >x{F(crystal.effect, true)}</span
+            >
         </p>
     </div>
 
     {#if crystal.canInvest(player)}
         <button on:click={invest} class="btn btn-warn">
-            Invest (+{crystal.getNewLevels(player)}) <br/>
+            Invest (+{crystal.getNewLevels(player)}) <br />
             To: x{F(crystal.getEffect(crystal.getLevels(player.level)), true)}
         </button>
     {:else}
-        <button disabled class="btn">Reach<br/>Level {crystal.investedPlayerLevel + 1}</button>
+        <button disabled class="btn"
+            >Reach<br />Level {crystal.investedPlayerLevel + 1}</button
+        >
     {/if}
 </div>

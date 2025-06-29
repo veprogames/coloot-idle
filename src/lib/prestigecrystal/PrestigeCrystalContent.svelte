@@ -10,12 +10,13 @@
         <h2>Crystals</h2>
         <HelpButton>
             <p>
-                Invest your Level into Crystals, gaining a bosst, but losing your equipment and level.
+                Invest your Level into Crystals, gaining a bosst, but losing
+                your equipment and level.
             </p>
         </HelpButton>
     </div>
     <PrestigeCrystal crystal={$game.prestigeCrystals.power} />
     <PrestigeCrystal crystal={$game.prestigeCrystals.rarity} />
     <PrestigeCrystal crystal={$game.prestigeCrystals.magic} />
-    <GemPrestige artifactShop={$game.artifactShop}/>
+    <GemPrestige artifactShop={$game.artifactShop} />
 </div>
