@@ -28,6 +28,12 @@ It would be nice if all mods stay free and open source.
 
 ## v1.0.4
 
+- 2x Attack Speed
+- Add Auto Equip
+- Add Scientific Notation Option
+- Auto Switching to Boss happens earlier
+- UI Tweaks
+
 ## v1.0.3
 
 - Replaced AI images with self-drawn images
