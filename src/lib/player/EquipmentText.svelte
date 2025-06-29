@@ -24,3 +24,9 @@
     <img class="w-6 h-6" alt={typeName} src={image}/>
     <span>{F(equipment.stat)}</span>
 </div>
+
+<style>
+    img {
+        filter: drop-shadow(0 calc(1.5rem / 16 * 1.5) rgba(0, 0, 0, 0.5));
+    }
+</style>

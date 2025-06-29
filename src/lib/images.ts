@@ -21,7 +21,7 @@ import plains from "../assets/images/backgrounds/plains.png";
 import portal from "../assets/images/backgrounds/portal.png";
 
 import slime from "../assets/images/enemy/slime.png";
-import golem from "../assets/images/enemy/golem.png";
+import slimeBoss from "../assets/images/enemy/slime_boss.png";
 
 import accessory from "../assets/images/equipment/accessory.png";
 import armor from "../assets/images/equipment/armor.png";
@@ -59,7 +59,7 @@ export const I = {
     },
     enemy: {
         slime,
-        golem,
+        slimeBoss,
     },
     equipment: {
         accessory,
