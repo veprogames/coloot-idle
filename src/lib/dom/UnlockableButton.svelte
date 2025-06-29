@@ -10,10 +10,10 @@
 
     let unsubscribe: Unsubscriber;
 
-    const dispatch = createEventDispatcher<{click: MouseEvent}>()
+    const dispatch = createEventDispatcher<{ click: MouseEvent }>();
 
     function emitClick(mouseEvent: MouseEvent) {
-        if(fulfilled) {
+        if (fulfilled) {
             dispatch("click", mouseEvent);
         }
     }
@@ -32,7 +32,11 @@
     export { clazz as class };
 </script>
 
-<button on:click={(event) => emitClick(event)} disabled={!fulfilled} class="btn {clazz}">
+<button
+    on:click={(event) => emitClick(event)}
+    disabled={!fulfilled}
+    class="btn {clazz}"
+>
     {#if fulfilled}
         <slot></slot>
     {:else}

@@ -17,6 +17,11 @@
 <button on:click={() => dialog.showModal()} class="btn btn-blue">?</button>
 
 <style lang="postcss">
+    button {
+        padding-left: theme(spacing.4) !important;
+        padding-right: theme(spacing.4) !important;
+    }
+
     dialog div {
         max-height: 80vh;
     }

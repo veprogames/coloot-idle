@@ -3,6 +3,11 @@ import Decimal from "break_infinity.js";
 
 const LETTERS = "~abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+export enum NotationType {
+    Default,
+    Scientific,
+}
+
 export function formatLetters(n: DecimalSource) {
     const d = new Decimal(n);
     let o = Math.floor(d.e / 3);

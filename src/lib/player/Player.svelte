@@ -10,33 +10,39 @@
 </script>
 
 <section>
-    <div class="flex flex-wrap justify-between text-lg">
+    <div class="flex flex-wrap justify-center gap-8 pb-4 text-lg">
         <div class="flex flex-col justify-evenly items-start gap-1">
             <div class="stat" title="Damage">
-                <img src={I.stat.power} alt="Power"/>
+                <img src={I.stat.power} alt="Power" />
                 {F(player.power)}
             </div>
             <div class="stat" title="Rarity">
-                <img src={I.stat.rarity} alt="Magic Find"/>
+                <img src={I.stat.rarity} alt="Magic Find" />
                 x{F(player.rarityMultiplier, true)}
             </div>
-            <div class="stat" title="Magic Find (Multiplies Stats of found Equipment)">
-                <img src={I.stat.magicFind} alt="Magic Find"/>
+            <div
+                class="stat"
+                title="Magic Find (Multiplies Stats of found Equipment)"
+            >
+                <img src={I.stat.magicFind} alt="Magic Find" />
                 x{F(player.magicFind, true)}
             </div>
         </div>
         <div class="flex flex-col gap-1 items-end">
-            <EquipmentText equipment={player.weapon}/>
-            <EquipmentText equipment={player.armor}/>
-            <EquipmentText equipment={player.accessory}/>
+            <EquipmentText equipment={player.weapon} />
+            <EquipmentText equipment={player.armor} />
+            <EquipmentText equipment={player.accessory} />
         </div>
     </div>
-    <Statbar center width="18rem" value={player.hpPercentage}>HP: {F(player.currentHp)}/{F(player.hp)}</Statbar>
+    <Statbar center width="18rem" value={player.hpPercentage}
+        >HP: {F(player.currentHp)}/{F(player.hp)}</Statbar
+    >
     <p class="text-center" title="Level (Multiplies various stats)">
-        Level {(player.level).toLocaleString("en-US")}
+        Level {player.level.toLocaleString("en-US")}
     </p>
-    <Statbar center width="18rem" value={player.xpPercentage}>{F(player.xp)}/{F(player.xpRequired)}</Statbar>
-    <Inventory {player}/>
+    <Statbar center width="18rem" value={player.xpPercentage}
+        >{F(player.xp)}/{F(player.xpRequired)}</Statbar
+    >
 </section>
 
 <style lang="postcss">

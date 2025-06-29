@@ -69,7 +69,7 @@ export default class Arena implements SaverLoader {
             if (
                 player
                     .getOverkillForHealth(this.getBaseHp(this.currentStage))
-                    .gt(64)
+                    .gt(8)
             ) {
                 this.activateBoss();
             }

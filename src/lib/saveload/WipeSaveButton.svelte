@@ -8,7 +8,7 @@
     $: canReset = value.trim() === RESET_STRING;
 
     function wipe() {
-        if(canReset) {
+        if (canReset) {
             wipeGame();
             value = "";
         }
@@ -18,13 +18,17 @@
 <dialog bind:this={dialog}>
     <h2>WIPE SAVE</h2>
     <p>
-        This will reset absolutely everything! Are you sure?
-        Type <span class="text-green-400">{RESET_STRING}</span> into the text box below
-        and click "WIPE".
+        This will reset absolutely everything! Are you sure? Type <span
+            class="text-green-400">{RESET_STRING}</span
+        > into the text box below and click "WIPE".
     </p>
     <input type="text" bind:value />
-    <button disabled={!canReset} on:click={wipe} class="btn btn-crit">WIPE</button>
+    <button disabled={!canReset} on:click={wipe} class="btn btn-crit"
+        >WIPE</button
+    >
     <button on:click={() => dialog.close()} class="btn">Close</button>
 </dialog>
 
-<button on:click={() => dialog.showModal()} class="btn">Wipe Save</button>
+<button on:click={() => dialog.showModal()} class="btn btn-crit"
+    >Wipe Save</button
+>

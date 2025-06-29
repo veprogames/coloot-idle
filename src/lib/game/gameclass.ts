@@ -8,6 +8,7 @@ import {
     PrestigeCrystalRarity,
 } from "../prestigecrystal/prestigecrystal";
 import type { SaverLoader } from "../saveload/saveload";
+import { GameSettings } from "./gamesettings";
 
 export default class GameClass implements SaverLoader {
     player: Player = new Player();
@@ -18,6 +19,7 @@ export default class GameClass implements SaverLoader {
         magic: new PrestigeCrystalMagic(),
     };
     artifactShop: ArtifactShop = new ArtifactShop();
+    settings: GameSettings = new GameSettings();
 
     resetPrestigeCrystals() {
         for (const crystal of Object.values(this.prestigeCrystals)) {
@@ -39,6 +41,7 @@ export default class GameClass implements SaverLoader {
                 rarity: this.prestigeCrystals.rarity.save(),
                 magic: this.prestigeCrystals.magic.save(),
             },
+            settings: this.settings.save(),
         };
     }
 
@@ -49,5 +52,6 @@ export default class GameClass implements SaverLoader {
         this.prestigeCrystals.power.load(data.prestigeCrystals.power);
         this.prestigeCrystals.rarity.load(data.prestigeCrystals.rarity);
         this.prestigeCrystals.magic.load(data.prestigeCrystals.magic);
+        this.settings.load(data.settings ?? {});
     }
 }

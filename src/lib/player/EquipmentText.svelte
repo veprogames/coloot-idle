@@ -21,7 +21,7 @@
 </script>
 
 <div class="flex justify-end items-center gap-2" title={typeName}>
-    <img class="w-6 h-6" alt={typeName} src={image}/>
+    <img class="w-6 h-6" alt={typeName} src={image} />
     <span>{F(equipment.stat)}</span>
 </div>
 
