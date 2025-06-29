@@ -6,6 +6,7 @@
         loadGameFromString,
         saveGame,
     } from "../saveload/saveload";
+    import { NotationType } from "../format";
 
     let dialog: HTMLDialogElement;
     let exportCode: string = "";
@@ -32,12 +33,14 @@
     <div class="flex flex-wrap gap-4">
         <button
             class="btn"
-            on:click={() => ($game.settings.numberFormat = "default")}
+            on:click={() =>
+                ($game.settings.numberFormat = NotationType.Default)}
             >Default</button
         >
         <button
             class="btn"
-            on:click={() => ($game.settings.numberFormat = "scientific")}
+            on:click={() =>
+                ($game.settings.numberFormat = NotationType.Scientific)}
             >Scientific</button
         >
     </div>
