@@ -10,7 +10,7 @@
 </script>
 
 <section>
-    <div class="flex flex-wrap justify-between text-lg">
+    <div class="flex flex-wrap justify-center gap-8 pb-4 text-lg">
         <div class="flex flex-col justify-evenly items-start gap-1">
             <div class="stat" title="Damage">
                 <img src={I.stat.power} alt="Power"/>
@@ -36,7 +36,6 @@
         Level {(player.level).toLocaleString("en-US")}
     </p>
     <Statbar center width="18rem" value={player.xpPercentage}>{F(player.xp)}/{F(player.xpRequired)}</Statbar>
-    <Inventory {player}/>
 </section>
 
 <style lang="postcss">

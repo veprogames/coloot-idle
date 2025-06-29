@@ -7,6 +7,9 @@
     import { loadGame } from "./lib/saveload/saveload";
     import tickGame, { tickEnemy, tickPlayer, tickSave } from "./lib/tick";
     import CreditsButton from "./lib/credits/CreditsButton.svelte";
+    import Inventory from "./lib/player/Inventory.svelte";
+    import SaveManagementButton from "./lib/saveload/SaveManagementButton.svelte";
+    import PlayerHelpButton from "./lib/player/PlayerHelpButton.svelte";
 
     let prev = Date.now();
 
@@ -39,11 +42,14 @@
     <title>{$game.arena.stageName}</title>
 </svelte:head>
 
-<main class="p-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
+<main class="p-4 px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 mx-auto max-w-[1120px]">
     <Arena arena={$game.arena} />
     <Player player={$game.player} />
-    <div class="flex flex-wrap items-center gap-2">
+    <Inventory player={$game.player}/>
+    <div class="lg:fixed lg:right-0 lg:bottom-0 lg:p-4 lg:bg-black/40 flex justify-center flex-wrap items-center gap-2">
         <CreditsButton/>
+        <SaveManagementButton />
+        <PlayerHelpButton />
         <span>v1.0.4</span>
     </div>
 

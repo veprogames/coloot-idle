@@ -28,8 +28,8 @@
     $: inventory = player.inventory;
 
     $: {
-        const base = Math.min(8, Math.floor(containerWidth / 64));
-        bagSlotsPerRow = [4, 6, 8, 12].findLast(v => base >= v) ?? 4;
+        const base = Math.floor(containerWidth / 64);
+        bagSlotsPerRow = [4, 6, 8, 12, 16].findLast(v => base >= v) ?? 4;
     }
     $: bagWidth = `${bagSlotsPerRow * 64}px`;
     $: bagHeight = `${Math.min(6, Math.ceil(inventory.equipmentCapacity / bagSlotsPerRow)) * 64}px`;
@@ -74,7 +74,7 @@
 
 <ArtifactShopDialog bind:this={dialog} shop={$game.artifactShop} />
 
-<div bind:clientWidth={containerWidth}>
+<div class="inventory" bind:clientWidth={containerWidth}>
     <div class="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-4 my-2">
         <button on:click={() => tab = "equipment"} class="btn">Loot</button>
         <UnlockableButton on:click={() => tab = "crystals"} condition={(game) => game.prestigeCrystalsUnlocked}>
@@ -85,14 +85,14 @@
             <span slot="locked">Reach Level {ARTIFACTS_BASE_REQUIRED_LEVEL}</span>
             <span>Artifacts</span>
         </UnlockableButton>
-        <SaveManagementButton />
-        <PlayerHelpButton />
     </div>
     {#if tab === "equipment"}
         <div class="bag-actions" style:width={bagWidth}>
             <h2>Loot ({inventory.equipment.length}/{inventory.equipmentCapacity})</h2>
-            <button on:click={equipAll} class="btn">Equip All</button>
-            <label class="flex justify-start items-center gap-2"><input bind:checked={autoEquip} type="checkbox"/> Auto</label>
+            <div class="flex justify-end gap-4">
+                <button on:click={equipAll} class="btn">Equip All</button>
+                <label class="flex justify-start items-center gap-2"><input bind:checked={autoEquip} type="checkbox"/> Auto</label>
+            </div>
         </div>
         <div class="bag" style:width={bagWidth} style:height={bagHeight}>
             {#each inventory.equipment as equipment (equipment)}
@@ -115,6 +115,13 @@
 </div>
 
 <style lang="postcss">
+    .inventory {
+        /* same as lg: */
+        @media(min-width: 1024px) {
+            grid-column: span 2;
+        }
+    }
+
     .bag-actions {
         @apply flex justify-between items-center py-2 pb-4 gap-4 mx-auto;
     }
