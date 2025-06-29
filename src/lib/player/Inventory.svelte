@@ -7,7 +7,6 @@
     import type Equipment from "../equipment/equipment";
     import PrestigeCrystalContent from "../prestigecrystal/PrestigeCrystalContent.svelte";
     import { CRYSTAL_BASE_REQUIRED_LEVEL } from "../prestigecrystal/prestigecrystal";
-    import SaveManagementButton from "../saveload/SaveManagementButton.svelte";
     import { game } from "../stores";
     import EquipmentComponent from "./Equipment.svelte";
     import PlayerHelpButton from "./PlayerHelpButton.svelte";

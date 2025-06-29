@@ -27,4 +27,4 @@
     <button on:click={() => dialog.close()} class="btn">Close</button>
 </dialog>
 
-<button on:click={() => dialog.showModal()} class="btn">Wipe Save</button>
+<button on:click={() => dialog.showModal()} class="btn btn-crit">Wipe Save</button>

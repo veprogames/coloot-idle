@@ -1,6 +1,7 @@
 import type { DecimalSource } from "break_infinity.js";
 import Decimal from "break_infinity.js";
-import { formatLetters } from "./format";
+import { formatLetters, NotationType } from "./format";
+import { getGame } from "./singleton";
 
 const rarityColors: string[] = [
     "#6b7280",
@@ -35,7 +36,8 @@ export function clamp(v: number, min: number, max: number): number {
 }
 
 export function F(n: DecimalSource, long: boolean = false): string {
-    const scientific = false;
+    const scientific =
+        getGame().settings.numberFormat === NotationType.Scientific;
 
     const d = new Decimal(n);
 
@@ -46,7 +48,7 @@ export function F(n: DecimalSource, long: boolean = false): string {
     if (d.lt(10)) return d.toFixed(long ? 2 : 0);
     if (d.lt(1000)) return d.toFixed(0);
 
-    return scientific ? d.toExponential(2) : formatLetters(d);
+    return scientific ? d.toExponential(2).replace("+", "") : formatLetters(d);
 }
 
 export function capitalize(str: string) {

@@ -1,7 +1,7 @@
 <script lang="ts">
+    import WipeSaveButton from "../saveload/WipeSaveButton.svelte";
     import { game } from "../stores";
-    import WipeSaveButton from "./WipeSaveButton.svelte";
-    import { getSaveString, loadGameFromString, saveGame } from "./saveload";
+    import { getSaveString, loadGameFromString, saveGame } from "../saveload/saveload";
 
     let dialog: HTMLDialogElement;
     let exportCode: string = "";
@@ -24,6 +24,13 @@
 </script>
 
 <dialog bind:this={dialog}>
+    <h2>Options</h2>
+    <p>Number Format:</p>
+    <div class="flex flex-wrap gap-4">
+        <button class="btn" on:click={() => $game.settings.numberFormat = "default"}>Default</button>
+        <button class="btn" on:click={() => $game.settings.numberFormat = "scientific"}>Scientific</button>
+    </div>
+
     <h2>Save Management</h2>
     <button on:click={exportSave} class="btn">Export &darr;</button>
     <textarea bind:value={exportCode}></textarea>
@@ -38,4 +45,4 @@
     <button on:click={() => dialog.close()} class="btn">Close</button>
 </dialog>
 
-<button on:click={() => dialog.showModal()} class="btn">Save Management</button>
+<button on:click={() => dialog.showModal()} class="btn">Options</button>

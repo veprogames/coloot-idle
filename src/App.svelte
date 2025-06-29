@@ -8,8 +8,8 @@
     import tickGame, { tickEnemy, tickPlayer, tickSave } from "./lib/tick";
     import CreditsButton from "./lib/credits/CreditsButton.svelte";
     import Inventory from "./lib/player/Inventory.svelte";
-    import SaveManagementButton from "./lib/saveload/SaveManagementButton.svelte";
     import PlayerHelpButton from "./lib/player/PlayerHelpButton.svelte";
+    import OptionsButton from "./lib/dom/OptionsButton.svelte";
 
     let prev = Date.now();
 
@@ -48,7 +48,7 @@
     <Inventory player={$game.player}/>
     <div class="lg:fixed lg:right-0 lg:bottom-0 lg:p-4 lg:bg-black/40 flex justify-center flex-wrap items-center gap-2">
         <CreditsButton/>
-        <SaveManagementButton />
+        <OptionsButton />
         <PlayerHelpButton />
         <span>v1.0.4</span>
     </div>
