@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onDestroy, onMount } from "svelte";
     import Artifact from "../artifact/Artifact.svelte";
     import ArtifactShopDialog from "../artifact/ArtifactShopDialog.svelte";
     import { ARTIFACTS_BASE_REQUIRED_LEVEL } from "../artifact/artifactshop";
@@ -20,6 +21,9 @@
     let dialog: ArtifactShopDialog;
 
     let bagSlotsPerRow: number;
+
+    let autoEquip: boolean = false;
+    let autoEquipInterval: number;
 
     $: inventory = player.inventory;
 
@@ -52,6 +56,20 @@
     function openShop() {
         dialog.open();
     }
+
+    onMount(() => {
+        autoEquipInterval = setInterval(() => {
+            if(autoEquip){
+                equipAll();
+            }
+        }, 10000);
+    });
+
+    onDestroy(() => {
+        if(autoEquipInterval) {
+            clearInterval(autoEquipInterval);
+        }
+    });
 </script>
 
 <ArtifactShopDialog bind:this={dialog} shop={$game.artifactShop} />
@@ -74,6 +92,7 @@
         <div class="bag-actions" style:width={bagWidth}>
             <h2>Loot ({inventory.equipment.length}/{inventory.equipmentCapacity})</h2>
             <button on:click={equipAll} class="btn">Equip All</button>
+            <label class="flex justify-start items-center gap-2"><input bind:checked={autoEquip} type="checkbox"/> Auto</label>
         </div>
         <div class="bag" style:width={bagWidth} style:height={bagHeight}>
             {#each inventory.equipment as equipment (equipment)}
@@ -97,7 +116,7 @@
 
 <style lang="postcss">
     .bag-actions {
-        @apply flex justify-between items-center py-2 pb-4 mx-auto;
+        @apply flex justify-between items-center py-2 pb-4 gap-4 mx-auto;
     }
 
     .bag {
