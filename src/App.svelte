@@ -53,7 +53,7 @@
         <CreditsButton />
         <OptionsButton />
         <PlayerHelpButton />
-        <span>v1.0.4</span>
+        <span>v1.0.5</span>
     </div>
 
     <GameBackground arena={$game.arena} />

@@ -21,7 +21,6 @@
 
     let bagSlotsPerRow: number;
 
-    let autoEquip: boolean = false;
     let autoEquipInterval: number;
 
     $: inventory = player.inventory;
@@ -57,7 +56,7 @@
 
     onMount(() => {
         autoEquipInterval = setInterval(() => {
-            if (autoEquip) {
+            if ($game.settings.autoEquip) {
                 equipAll();
             }
         }, 10000);
@@ -103,7 +102,10 @@
             <div class="flex justify-end gap-4">
                 <button on:click={equipAll} class="btn">Equip All</button>
                 <label class="flex justify-start items-center gap-2"
-                    ><input bind:checked={autoEquip} type="checkbox" /> Auto</label
+                    ><input
+                        bind:checked={$game.settings.autoEquip}
+                        type="checkbox"
+                    /> Auto</label
                 >
             </div>
         </div>
